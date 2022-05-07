@@ -1,0 +1,54 @@
+{
+  "sourceRoot": "packages/util/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/util",
+        "main": "packages/util/src/index.ts",
+        "tsConfig": "packages/util/tsconfig.lib.json",
+        "assets": [
+          "packages/util/*.md",
+          {
+            "input": "./packages/util/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/util/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/util",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/util",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/util/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/util"],
+      "options": {
+        "jestConfig": "packages/util/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

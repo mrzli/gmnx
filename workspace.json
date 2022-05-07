@@ -2,6 +2,8 @@
   "version": 2,
   "projects": {
     "example-plugin": "packages/example-plugin",
-    "example-plugin-e2e": "e2e/example-plugin-e2e"
+    "example-plugin-e2e": "e2e/example-plugin-e2e",
+    "util": "packages/util",
+    "util-e2e": "e2e/util-e2e"
   }
 }

@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Cloc executor",
+  "description": "Counts lines of code in the workspace.",
+  "type": "object",
+  "properties": {
+    "ignoreDirs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ignoreFiles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["ignoreDirs", "ignoreFiles"]
+}
