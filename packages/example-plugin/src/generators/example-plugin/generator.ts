@@ -17,6 +17,26 @@ interface NormalizedSchema extends ExamplePluginGeneratorSchema {
   parsedTags: string[];
 }
 
+export default async function (
+  tree: Tree,
+  options: ExamplePluginGeneratorSchema
+) {
+  const normalizedOptions = normalizeOptions(tree, options);
+  addProjectConfiguration(tree, normalizedOptions.projectName, {
+    root: normalizedOptions.projectRoot,
+    projectType: 'library',
+    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    targets: {
+      build: {
+        executor: '@gmnx/example-plugin:build',
+      },
+    },
+    tags: normalizedOptions.parsedTags,
+  });
+  addFiles(tree, normalizedOptions);
+  await formatFiles(tree);
+}
+
 function normalizeOptions(
   tree: Tree,
   options: ExamplePluginGeneratorSchema
@@ -53,24 +73,4 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     options.projectRoot,
     templateOptions
   );
-}
-
-export default async function (
-  tree: Tree,
-  options: ExamplePluginGeneratorSchema
-) {
-  const normalizedOptions = normalizeOptions(tree, options);
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@gmnx/example-plugin:build',
-      },
-    },
-    tags: normalizedOptions.parsedTags,
-  });
-  addFiles(tree, normalizedOptions);
-  await formatFiles(tree);
 }
