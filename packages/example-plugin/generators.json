@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "example-plugin",
+  "version": "0.0.1",
+  "generators": {
+    "example-plugin": {
+      "factory": "./src/generators/example-plugin/generator",
+      "schema": "./src/generators/example-plugin/schema.json",
+      "description": "example-plugin generator"
+    }
+  }
+}
