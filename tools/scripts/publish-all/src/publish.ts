@@ -1,11 +1,16 @@
-import { getProjects, readCachedProjectGraph, Tree } from '@nrwl/devkit';
+import {
+  getProjects,
+  logger,
+  readCachedProjectGraph,
+  Tree,
+} from '@nrwl/devkit';
 import { exec, invariant } from './util';
 import { ProjectGraph } from 'nx/src/config/project-graph';
 
-export async function publishAllProjects(tree: Tree): Promise<void> {
+export function publishAllProjects(tree: Tree): void {
   const projects = getLibraryProjects(tree);
-  await buildProjects(projects);
-  await publishProjects(projects);
+  buildProjects(projects);
+  publishProjects(projects);
 }
 
 function getLibraryProjects(tree: Tree): readonly string[] {
@@ -21,24 +26,21 @@ function getMapValue<K, V>(map: Map<K, V>, key: K): V {
   return map.get(key)!;
 }
 
-async function buildProjects(projectNames: readonly string[]): Promise<void> {
+function buildProjects(projectNames: readonly string[]): void {
   for (const name of projectNames) {
-    await exec(`nx run ${name}:build`);
+    exec(`nx run ${name}:build`);
   }
 }
 
-async function publishProjects(projectNames: readonly string[]): Promise<void> {
+function publishProjects(projectNames: readonly string[]): void {
   const graph: ProjectGraph = readCachedProjectGraph();
 
   for (const name of projectNames) {
-    await publishProject(graph, name);
+    publishProject(graph, name);
   }
 }
 
-async function publishProject(
-  graph: ProjectGraph,
-  name: string
-): Promise<void> {
+function publishProject(graph: ProjectGraph, name: string): void {
   const project = graph.nodes[name];
   invariant(!!project, `Could not find project "${name}" in the workspace.`);
 
@@ -47,6 +49,10 @@ async function publishProject(
     outputPath,
     `Could not find "build.options.outputPath" of project "${name}".`
   );
-  console.log(outputPath);
-  await exec(`npm publish --access public ${outputPath}`);
+
+  logger.log();
+  logger.log(`Publishing folder: '${outputPath}'`);
+  logger.log();
+  exec(`npm publish --access public ${outputPath}`);
+  logger.log();
 }

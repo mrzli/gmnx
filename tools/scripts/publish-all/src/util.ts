@@ -1,17 +1,14 @@
-import * as child_process from 'child_process';
-import { promisify } from 'util';
-import { Tree } from '@nrwl/devkit';
+import { execSync } from 'child_process';
+import { logger, Tree } from '@nrwl/devkit';
 import { FsTree } from 'nx/src/generators/tree';
+import { ENCODING } from './constants';
 
 export function createWorkspaceTree(): Tree {
   return new FsTree('.', false);
 }
 
-export async function exec(command: string): Promise<string> {
-  const execAsync = promisify(child_process.exec);
-  const { stdout, stderr } = await execAsync(command);
-  invariant(stderr.length === 0, stderr);
-  return stdout;
+export function exec(command: string): string {
+  return execSync(command).toString(ENCODING);
 }
 
 export function createFindByFileNameCommand(
@@ -35,7 +32,7 @@ export function invariant(
   message: string
 ): asserts condition {
   if (!condition) {
-    console.error(message);
+    logger.error(message);
     process.exit(1);
   }
 }

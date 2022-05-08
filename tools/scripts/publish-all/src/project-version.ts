@@ -16,7 +16,7 @@ import { getMaxProjectVersion, projectVersionToString } from './version-utils';
 import { flushChanges } from 'nx/src/generators/tree';
 
 export async function bumpProjectVersion(tree: Tree): Promise<void> {
-  const packageJsonPaths = await getPackageJsonPaths(tree);
+  const packageJsonPaths = getPackageJsonPaths(tree);
   const nextVersion = getNextVersion(tree, packageJsonPaths);
 
   packageJsonPaths.forEach((p) => {
@@ -25,13 +25,13 @@ export async function bumpProjectVersion(tree: Tree): Promise<void> {
 
   await formatFiles(tree);
 
-  await flushChanges('.', tree.listChanges());
+  flushChanges('.', tree.listChanges());
 }
 
-async function getPackageJsonPaths(tree: Tree): Promise<readonly string[]> {
+function getPackageJsonPaths(tree: Tree): readonly string[] {
   const { libsDir } = getWorkspaceLayout(tree);
 
-  const findPackageJsonResults = await exec(
+  const findPackageJsonResults = exec(
     createFindByFileNameCommand(libsDir, 'package.json')
   );
 
