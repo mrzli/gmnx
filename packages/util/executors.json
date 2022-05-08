@@ -5,6 +5,11 @@
       "implementation": "./src/executors/cloc/executor",
       "schema": "./src/executors/cloc/schema.json",
       "description": "cloc executor"
+    },
+    "start-mongo": {
+      "implementation": "./src/executors/start-mongo/executor",
+      "schema": "./src/executors/start-mongo/schema.json",
+      "description": "start-mongo executor"
     }
   }
 }

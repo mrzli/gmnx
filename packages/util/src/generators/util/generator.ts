@@ -72,6 +72,10 @@ export default async function (
           ignoreFiles: ['package-lock.json'],
         },
       },
+      'start-mongo': {
+        executor: '@gmnx/util:start-mongo',
+        options: {},
+      },
     },
     tags: normalizedOptions.parsedTags,
   });

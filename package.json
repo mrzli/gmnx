@@ -8,6 +8,10 @@
     "test": "nx test"
   },
   "private": true,
+  "dependencies": {
+    "fs-extra": "10.1.0",
+    "tslib": "^2.3.0"
+  },
   "devDependencies": {
     "@nrwl/cli": "14.1.4",
     "@nrwl/devkit": "14.1.4",
@@ -17,6 +21,7 @@
     "@nrwl/linter": "14.1.4",
     "@nrwl/nx-plugin": "14.1.4",
     "@nrwl/workspace": "14.1.4",
+    "@types/fs-extra": "9.0.13",
     "@types/jest": "27.4.1",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "~5.18.0",
@@ -30,8 +35,5 @@
     "ts-node": "9.1.1",
     "tslib": "^2.0.0",
     "typescript": "~4.6.2"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0"
   }
 }

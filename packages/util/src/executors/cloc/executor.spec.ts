@@ -1,7 +1,10 @@
 import { ClocExecutorSchema } from './schema';
 import executor from './executor';
 
-const options: ClocExecutorSchema = {};
+const options: ClocExecutorSchema = {
+  ignoreDirs: [],
+  ignoreFiles: [],
+};
 
 describe('Cloc Executor', () => {
   it('can run', async () => {

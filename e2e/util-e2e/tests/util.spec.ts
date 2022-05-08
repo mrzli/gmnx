@@ -53,4 +53,13 @@ describe('util e2e', () => {
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 120000);
   });
+
+  describe('executor start-mongo', () => {
+    it('should execute start-mongo', async () => {
+      const project = uniq('util');
+      await runNxCommandAsync(`generate @gmnx/util:util ${project}`);
+      const result = await runNxCommandAsync(`start-mongo ${project}`);
+      expect(result.stdout).toContain('~/docker/mong2o:/data/db');
+    }, 120000);
+  });
 });
