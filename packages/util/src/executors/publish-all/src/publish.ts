@@ -30,7 +30,7 @@ function isPublishableLibraryProject(
   projects: Map<string, ProjectConfiguration>
 ): boolean {
   const projectConfig = getMapValue(projects, projectName);
-  if (projectConfig.projectType !== 'library') {
+  if (projectConfig.projectType === 'application') {
     return false;
   }
 
