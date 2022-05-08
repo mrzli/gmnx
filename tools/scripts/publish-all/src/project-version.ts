@@ -13,6 +13,7 @@ import {
 } from '@nrwl/devkit';
 import { PackageJson } from 'nx/src/utils/package-json';
 import { getMaxProjectVersion, projectVersionToString } from './version-utils';
+import { flushChanges } from 'nx/src/generators/tree';
 
 export async function bumpProjectVersion(tree: Tree): Promise<void> {
   const packageJsonPaths = await getPackageJsonPaths(tree);
@@ -23,6 +24,8 @@ export async function bumpProjectVersion(tree: Tree): Promise<void> {
   });
 
   await formatFiles(tree);
+
+  await flushChanges('.', tree.listChanges());
 }
 
 async function getPackageJsonPaths(tree: Tree): Promise<readonly string[]> {
@@ -56,8 +59,6 @@ function createPackageJsonVersionUpdater(
   return (data: PackageJson): PackageJson => {
     const updatedData: PackageJson = { ...data };
     updatedData.version = projectVersionToString(newVersion);
-    console.log(JSON.stringify(data));
-    console.log(JSON.stringify(updatedData));
     return updatedData;
   };
 }
