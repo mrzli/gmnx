@@ -10,10 +10,7 @@ export function createWorkspaceTree(): Tree {
 export async function exec(command: string): Promise<string> {
   const execAsync = promisify(child_process.exec);
   const { stdout, stderr } = await execAsync(command);
-  if (stderr.length > 0) {
-    throw new Error(stderr);
-  }
-
+  invariant(stderr.length === 0, stderr);
   return stdout;
 }
 
@@ -31,4 +28,14 @@ export function findFilesResultToArray(
     .split('\n')
     .map((line) => line.trim())
     .filter((line) => !!line);
+}
+
+export function invariant(
+  condition: boolean,
+  message: string
+): asserts condition {
+  if (!condition) {
+    console.error(message);
+    process.exit(1);
+  }
 }

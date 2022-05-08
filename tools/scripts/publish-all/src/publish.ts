@@ -1,46 +1,52 @@
-import {
-  createFindByFileNameCommand,
-  exec,
-  findFilesResultToArray,
-} from './util';
-import * as fs from 'fs-extra';
-import { ENCODING } from './constants';
-import { ProjectConfiguration } from 'nx/src/config/workspace-json-project-json';
-import {
-  readNxJson,
-  WorkspaceConfiguration,
-} from 'nx/src/generators/utils/project-configuration';
-import { getProjects, readWorkspaceConfiguration, Tree } from '@nrwl/devkit';
-import { NxJsonConfiguration } from 'nx/src/config/nx-json';
+import { getProjects, readCachedProjectGraph, Tree } from '@nrwl/devkit';
+import { exec, invariant } from './util';
+import { ProjectGraph } from 'nx/src/config/project-graph';
 
 export async function publishAllProjects(tree: Tree): Promise<void> {
-  const projects = getProjects(tree);
-  console.log(projects.keys());
-  console.log();
-  console.log();
-
-  const ws: WorkspaceConfiguration = readWorkspaceConfiguration(tree);
-  console.log(JSON.stringify(ws, null, 2));
-  console.log();
-  console.log();
-  const nx: NxJsonConfiguration | null = readNxJson(tree);
-  console.log(JSON.stringify(nx, null, 2));
-
-  // const findProjectJsonResults = await exec(
-  //   createFindByFileNameCommand('project.json')
-  // );
-  // const projectJsonFilePaths = findFilesResultToArray(findProjectJsonResults);
-  //
-  // console.log(JSON.stringify(projectJsonFilePaths));
-
-  // const getAllProjectsCommand = 'nx print-affected --all --select=projects';
-  // const getAllProjectsResult = await exec(getAllProjectsCommand);
-  // console.log(getAllProjectsResult);
+  const projects = getLibraryProjects(tree);
+  await buildProjects(projects);
+  await publishProjects(projects);
 }
 
-async function readProjectConfiguration(
-  filePath: string
-): Promise<ProjectConfiguration> {
-  const content = await fs.readFile(filePath, ENCODING);
-  return JSON.parse(content);
+function getLibraryProjects(tree: Tree): readonly string[] {
+  const projects = getProjects(tree);
+  const projectNames: readonly string[] = Array.from(projects.keys());
+  return projectNames.filter(
+    (name) => getMapValue(projects, name).projectType === 'library'
+  );
+}
+
+function getMapValue<K, V>(map: Map<K, V>, key: K): V {
+  invariant(map.has(key), `Missing key in map: '${key}'`);
+  return map.get(key)!;
+}
+
+async function buildProjects(projectNames: readonly string[]): Promise<void> {
+  for (const name of projectNames) {
+    await exec(`nx run ${name}:build`);
+  }
+}
+
+async function publishProjects(projectNames: readonly string[]): Promise<void> {
+  const graph: ProjectGraph = readCachedProjectGraph();
+
+  for (const name of projectNames) {
+    await publishProject(graph, name);
+  }
+}
+
+async function publishProject(
+  graph: ProjectGraph,
+  name: string
+): Promise<void> {
+  const project = graph.nodes[name];
+  invariant(!!project, `Could not find project "${name}" in the workspace.`);
+
+  const outputPath = project.data?.targets?.build?.options?.outputPath;
+  invariant(
+    outputPath,
+    `Could not find "build.options.outputPath" of project "${name}".`
+  );
+  console.log(outputPath);
+  await exec(`npm publish --access public ${outputPath}`);
 }
