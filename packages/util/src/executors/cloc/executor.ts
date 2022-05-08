@@ -1,12 +1,16 @@
 import * as child_process from 'child_process';
 import { promisify } from 'util';
 import { ClocExecutorSchema } from './schema';
+import {
+  ExecutorReturnValue,
+  processExecutorConsoleOutputs,
+} from '@gmnx/internal-util';
 
 const exec = promisify(child_process.exec);
 
 export default async function runExecutor(
   options: ClocExecutorSchema
-): Promise<{ success: boolean }> {
+): Promise<ExecutorReturnValue> {
   const { ignoreDirs, ignoreFiles } = options;
 
   const command: string = [
@@ -21,13 +25,6 @@ export default async function runExecutor(
     .filter((part) => part !== undefined)
     .join(' ');
 
-  const { stdout, stderr } = await exec(command);
-
-  console.log(stdout);
-  if (stderr.length > 0) {
-    console.error(stderr);
-  }
-
-  const success = !stderr;
-  return { success };
+  const outputs = await exec(command);
+  return processExecutorConsoleOutputs(outputs);
 }
