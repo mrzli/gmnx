@@ -10,6 +10,11 @@
       "implementation": "./src/executors/start-mongo/executor",
       "schema": "./src/executors/start-mongo/schema.json",
       "description": "start-mongo executor"
+    },
+    "stop-mongo": {
+      "implementation": "./src/executors/stop-mongo/executor",
+      "schema": "./src/executors/stop-mongo/schema.json",
+      "description": "stop-mongo executor"
     }
   }
 }

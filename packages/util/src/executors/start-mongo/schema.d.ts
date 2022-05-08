@@ -1,1 +1,3 @@
-export interface StartMongoExecutorSchema {} // eslint-disable-line
+export interface StartMongoExecutorSchema {
+  readonly containerName: string;
+}

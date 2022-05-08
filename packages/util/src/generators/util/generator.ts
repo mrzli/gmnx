@@ -74,7 +74,15 @@ export default async function (
       },
       'start-mongo': {
         executor: '@gmnx/util:start-mongo',
-        options: {},
+        options: {
+          containerName: 'mongo',
+        },
+      },
+      'stop-mongo': {
+        executor: '@gmnx/util:stop-mongo',
+        options: {
+          containerName: 'mongo',
+        },
       },
     },
     tags: normalizedOptions.parsedTags,

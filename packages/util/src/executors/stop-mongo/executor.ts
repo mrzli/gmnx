@@ -1,13 +1,13 @@
-import { StartMongoExecutorSchema } from './schema';
+import { StopMongoExecutorSchema } from './schema';
 import {
   ExecutorReturnValue,
   processExecutorConsoleOutputs,
 } from '@gmnx/internal-util';
-import { logger } from 'nx/src/utils/logger';
 import { exec, getMongoDockerComposePath } from '../../shared/util';
+import { logger } from 'nx/src/utils/logger';
 
 export default async function runExecutor(
-  options: StartMongoExecutorSchema
+  options: StopMongoExecutorSchema
 ): Promise<ExecutorReturnValue> {
   const { containerName } = options;
 
@@ -17,8 +17,7 @@ export default async function runExecutor(
     'docker compose',
     `-f "${dockerComposePath}"`,
     `-p ${containerName}`,
-    'up',
-    '-d',
+    'down',
   ].join(' ');
 
   logger.info('Executing command:');
