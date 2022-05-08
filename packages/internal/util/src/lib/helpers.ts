@@ -1,15 +1,11 @@
-import { ConsoleOutputs, ExecutorReturnValue } from './types';
+import { logger } from '@nrwl/devkit';
+import { ConsoleOutputs } from './types';
 
-export function processExecutorConsoleOutputs(
-  outputs: ConsoleOutputs
-): ExecutorReturnValue {
+export function processExecutorConsoleOutputs(outputs: ConsoleOutputs): void {
   const { stdout, stderr } = outputs;
 
-  console.log(stdout);
+  logger.log(stdout);
   if (stderr.length > 0) {
-    console.error(stderr);
+    logger.error(stderr);
   }
-
-  const success = !stderr;
-  return { success };
 }

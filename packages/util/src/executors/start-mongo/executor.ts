@@ -27,5 +27,6 @@ export default async function runExecutor(
   ].join(' ');
 
   const outputs = await exec(command);
-  return processExecutorConsoleOutputs(outputs);
+  processExecutorConsoleOutputs(outputs);
+  return { success: true };
 }
