@@ -1,6 +1,8 @@
+import * as path from 'path';
 import {
   getProjects,
   logger,
+  ProjectConfiguration,
   readCachedProjectGraph,
   Tree,
 } from '@nrwl/devkit';
@@ -8,17 +10,31 @@ import { exec, invariant } from './util';
 import { ProjectGraph } from 'nx/src/config/project-graph';
 
 export function publishAllProjects(tree: Tree): void {
-  const projects = getLibraryProjects(tree);
+  const projects = getPublishableLibraryProjects(tree);
   buildProjects(projects);
   publishProjects(projects);
 }
 
-function getLibraryProjects(tree: Tree): readonly string[] {
+function getPublishableLibraryProjects(tree: Tree): readonly string[] {
   const projects = getProjects(tree);
   const projectNames: readonly string[] = Array.from(projects.keys());
-  return projectNames.filter(
-    (name) => getMapValue(projects, name).projectType === 'library'
+
+  return projectNames.filter((name) =>
+    isPublishableLibraryProject(tree, name, projects)
   );
+}
+
+function isPublishableLibraryProject(
+  tree: Tree,
+  projectName: string,
+  projects: Map<string, ProjectConfiguration>
+): boolean {
+  const projectConfig = getMapValue(projects, projectName);
+  if (projectConfig.projectType !== 'library') {
+    return false;
+  }
+
+  return tree.exists(path.join(projectConfig.root, 'package.json'));
 }
 
 function getMapValue<K, V>(map: Map<K, V>, key: K): V {
