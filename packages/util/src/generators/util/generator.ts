@@ -52,6 +52,10 @@ export default async function (
           dataDir: '~/docker/mongo',
         },
       },
+      'publish-all': {
+        executor: '@gmnx/util:publish-all',
+        options: {},
+      },
     },
     tags: normalizedOptions.parsedTags,
   });

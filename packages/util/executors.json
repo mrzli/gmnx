@@ -15,6 +15,11 @@
       "implementation": "./src/executors/stop-mongo/executor",
       "schema": "./src/executors/stop-mongo/schema.json",
       "description": "stop-mongo executor"
+    },
+    "publish-all": {
+      "implementation": "./src/executors/publish-all/executor",
+      "schema": "./src/executors/publish-all/schema.json",
+      "description": "publish-all executor"
     }
   }
 }
