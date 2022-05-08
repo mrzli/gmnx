@@ -5,7 +5,10 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "publish-all:compile": "tsc --project ./tools/scripts/publish-all/tsconfig.json",
+    "publish-all:run": "node ./tools/scripts/publish-all/dist/index.js",
+    "publish-all": "npm run publish-all:compile && npm run publish-all:run"
   },
   "private": true,
   "dependencies": {
