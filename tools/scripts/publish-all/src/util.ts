@@ -1,5 +1,11 @@
 import * as child_process from 'child_process';
 import { promisify } from 'util';
+import { Tree } from '@nrwl/devkit';
+import { FsTree } from 'nx/src/generators/tree';
+
+export function createWorkspaceTree(): Tree {
+  return new FsTree('.', false);
+}
 
 export async function exec(command: string): Promise<string> {
   const execAsync = promisify(child_process.exec);
@@ -11,8 +17,11 @@ export async function exec(command: string): Promise<string> {
   return stdout;
 }
 
-export function createFindByFileNameCommand(fileName: string): string {
-  return `find ./packages -type f -name ${fileName}`;
+export function createFindByFileNameCommand(
+  libsDir: string,
+  fileName: string
+): string {
+  return ['find', `./${libsDir}`, '-type f', `-name ${fileName}`].join(' ');
 }
 
 export function findFilesResultToArray(

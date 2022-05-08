@@ -3,116 +3,61 @@ import {
   exec,
   findFilesResultToArray,
 } from './util';
-import { PathPackageJsonPair, ProjectVersion } from './types';
+import { ProjectVersion } from './types';
+import {
+  formatFiles,
+  getWorkspaceLayout,
+  readJson,
+  Tree,
+  updateJson,
+} from '@nrwl/devkit';
 import { PackageJson } from 'nx/src/utils/package-json';
-import * as fs from 'fs-extra';
-import { ENCODING, MINIMUM_VERSION, PROJECT_VERSION_REGEX } from './constants';
+import { getMaxProjectVersion, projectVersionToString } from './version-utils';
 
-export async function bumpProjectVersion(): Promise<void> {
+export async function bumpProjectVersion(tree: Tree): Promise<void> {
+  const packageJsonPaths = await getPackageJsonPaths(tree);
+  const nextVersion = getNextVersion(tree, packageJsonPaths);
+
+  packageJsonPaths.forEach((p) => {
+    updateJson(tree, p, createPackageJsonVersionUpdater(nextVersion));
+  });
+
+  await formatFiles(tree);
+}
+
+async function getPackageJsonPaths(tree: Tree): Promise<readonly string[]> {
+  const { libsDir } = getWorkspaceLayout(tree);
+
   const findPackageJsonResults = await exec(
-    createFindByFileNameCommand('package.json')
-  );
-  const packageJsonFilePaths = findFilesResultToArray(findPackageJsonResults);
-
-  const projectPackageJsons = await Promise.all(
-    packageJsonFilePaths.map((filePath) => readPackageJson(filePath))
+    createFindByFileNameCommand(libsDir, 'package.json')
   );
 
-  const maxCurrentVersion = getMaxVersion(projectPackageJsons);
-  const nextVersion: ProjectVersion = {
+  return findFilesResultToArray(findPackageJsonResults);
+}
+
+function getNextVersion(
+  tree: Tree,
+  packageJsonPaths: readonly string[]
+): ProjectVersion {
+  const projectPackageJsons: readonly PackageJson[] = packageJsonPaths.map(
+    (filePath) => readJson(tree, filePath)
+  );
+
+  const maxCurrentVersion = getMaxProjectVersion(projectPackageJsons);
+  return {
     ...maxCurrentVersion,
     patch: maxCurrentVersion.patch + 1,
   };
-
-  const updatedProjectPackageJsons = projectPackageJsons.map((packageJson) => {
-    const updateData: PackageJson = { ...packageJson.data };
-    updateData.version = projectVersionToString(nextVersion);
-    return {
-      ...packageJson,
-      data: updateData,
-    };
-  });
-
-  await Promise.all(updatedProjectPackageJsons.map(writePackageJson));
-
-  const prettifyPackageJsonsCommand = [
-    'prettier',
-    '--write',
-    packageJsonFilePaths.map((p) => `"${p}"`).join(' '),
-  ].join(' ');
-  await exec(prettifyPackageJsonsCommand);
 }
 
-async function readPackageJson(filePath: string): Promise<PathPackageJsonPair> {
-  const content = await fs.readFile(filePath, ENCODING);
-
-  return {
-    path: filePath,
-    data: JSON.parse(content),
+function createPackageJsonVersionUpdater(
+  newVersion: ProjectVersion
+): (value: PackageJson) => PackageJson {
+  return (data: PackageJson): PackageJson => {
+    const updatedData: PackageJson = { ...data };
+    updatedData.version = projectVersionToString(newVersion);
+    console.log(JSON.stringify(data));
+    console.log(JSON.stringify(updatedData));
+    return updatedData;
   };
-}
-
-async function writePackageJson(
-  packageJson: PathPackageJsonPair
-): Promise<void> {
-  const content = JSON.stringify(packageJson.data);
-  await fs.writeFile(packageJson.path, content, ENCODING);
-}
-
-function getMaxVersion(
-  packageJsons: readonly PathPackageJsonPair[]
-): ProjectVersion {
-  const projectVersions = packageJsons.map(getPackageJsonVersion);
-  return projectVersions.reduce(
-    (max, curr) => (isVersionGreater(curr, max) ? curr : max),
-    MINIMUM_VERSION
-  );
-}
-
-function getPackageJsonVersion(
-  packageJson: PathPackageJsonPair
-): ProjectVersion {
-  const versionString = packageJson.data.version;
-  const versionMatch = versionString.match(PROJECT_VERSION_REGEX);
-  if (!versionMatch) {
-    throw new Error(
-      `Invalid version in file '${packageJson.path}': '${versionString}'`
-    );
-  }
-
-  return {
-    major: Number.parseInt(versionMatch[1]),
-    minor: Number.parseInt(versionMatch[2]),
-    patch: Number.parseInt(versionMatch[3]),
-  };
-}
-
-function isVersionGreater(
-  version: ProjectVersion,
-  compareAgainst: ProjectVersion
-): boolean {
-  return compareProjectVersions(version, compareAgainst) > 0;
-}
-
-function compareProjectVersions(
-  v1: ProjectVersion,
-  v2: ProjectVersion
-): number {
-  const compareMajor = compareNumbers(v1.major, v2.major);
-  if (compareMajor !== 0) {
-    return compareMajor;
-  }
-  const compareMinor = compareNumbers(v1.minor, v2.minor);
-  if (compareMinor !== 0) {
-    return compareMinor;
-  }
-  return compareNumbers(v1.patch, v2.patch);
-}
-
-function compareNumbers(n1: number, n2: number): number {
-  return Math.sign(n1 - n2);
-}
-
-function projectVersionToString(version: ProjectVersion): string {
-  return `${version.major}.${version.minor}.${version.patch}`;
 }

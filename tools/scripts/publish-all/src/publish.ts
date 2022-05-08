@@ -6,19 +6,32 @@ import {
 import * as fs from 'fs-extra';
 import { ENCODING } from './constants';
 import { ProjectConfiguration } from 'nx/src/config/workspace-json-project-json';
-import { FsTree } from 'nx/src/generators/tree';
+import {
+  readNxJson,
+  WorkspaceConfiguration,
+} from 'nx/src/generators/utils/project-configuration';
+import { getProjects, readWorkspaceConfiguration, Tree } from '@nrwl/devkit';
+import { NxJsonConfiguration } from 'nx/src/config/nx-json';
 
-export async function publishAllProjects(): Promise<void> {
-  const tree = new FsTree('.', false);
-  const ws = tree.read('./workspace.json', ENCODING);
-  console.log(ws);
+export async function publishAllProjects(tree: Tree): Promise<void> {
+  const projects = getProjects(tree);
+  console.log(projects.keys());
+  console.log();
+  console.log();
 
-  const findProjectJsonResults = await exec(
-    createFindByFileNameCommand('project.json')
-  );
-  const projectJsonFilePaths = findFilesResultToArray(findProjectJsonResults);
+  const ws: WorkspaceConfiguration = readWorkspaceConfiguration(tree);
+  console.log(JSON.stringify(ws, null, 2));
+  console.log();
+  console.log();
+  const nx: NxJsonConfiguration | null = readNxJson(tree);
+  console.log(JSON.stringify(nx, null, 2));
 
-  console.log(JSON.stringify(projectJsonFilePaths));
+  // const findProjectJsonResults = await exec(
+  //   createFindByFileNameCommand('project.json')
+  // );
+  // const projectJsonFilePaths = findFilesResultToArray(findProjectJsonResults);
+  //
+  // console.log(JSON.stringify(projectJsonFilePaths));
 
   // const getAllProjectsCommand = 'nx print-affected --all --select=projects';
   // const getAllProjectsResult = await exec(getAllProjectsCommand);
