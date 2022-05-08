@@ -7,9 +7,23 @@
   "properties": {
     "containerName": {
       "type": "string"
+    },
+    "mongoVersion": {
+      "type": "string"
+    },
+    "port": {
+      "type": "integer",
+      "minimum": 1024,
+      "maximum": 65535
+    },
+    "dataDir": {
+      "type": "string"
     }
   },
   "required": [
-    "containerName"
+    "containerName",
+    "mongoVersion",
+    "port",
+    "dataDir"
   ]
 }

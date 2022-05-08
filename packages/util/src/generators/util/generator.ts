@@ -76,12 +76,18 @@ export default async function (
         executor: '@gmnx/util:start-mongo',
         options: {
           containerName: 'mongo',
+          mongoVersion: '5.0.8',
+          port: 27017,
+          dataDir: '~/docker/mongo',
         },
       },
       'stop-mongo': {
         executor: '@gmnx/util:stop-mongo',
         options: {
           containerName: 'mongo',
+          mongoVersion: '5.0.8',
+          port: 27017,
+          dataDir: '~/docker/mongo',
         },
       },
     },

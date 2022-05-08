@@ -9,11 +9,14 @@ import { logger } from 'nx/src/utils/logger';
 export default async function runExecutor(
   options: StopMongoExecutorSchema
 ): Promise<ExecutorReturnValue> {
-  const { containerName } = options;
+  const { containerName, mongoVersion, port, dataDir } = options;
 
   const dockerComposePath = getMongoDockerComposePath();
 
   const command = [
+    `MONGO_VERSION=${mongoVersion}`,
+    `MONGO_PORT=${port}`,
+    `MONGO_DATA_DIR=${dataDir}`,
     'docker compose',
     `-f "${dockerComposePath}"`,
     `-p ${containerName}`,
