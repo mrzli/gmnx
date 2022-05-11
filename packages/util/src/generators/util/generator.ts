@@ -1,13 +1,13 @@
 import {
   addProjectConfiguration,
   formatFiles,
-  generateFiles,
+  // generateFiles,
   getWorkspaceLayout,
   names,
-  offsetFromRoot,
+  // offsetFromRoot,
   Tree,
 } from '@nrwl/devkit';
-import * as path from 'path';
+// import * as path from 'path';
 import { UtilGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends UtilGeneratorSchema {
@@ -59,7 +59,7 @@ export default async function (
     },
     tags: normalizedOptions.parsedTags,
   });
-  addFiles(tree, normalizedOptions);
+  // addFiles(tree, normalizedOptions);
   await formatFiles(tree);
 }
 
@@ -86,17 +86,17 @@ function normalizeOptions(
   };
 }
 
-function addFiles(tree: Tree, options: NormalizedSchema): void {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files'),
-    options.projectRoot,
-    templateOptions
-  );
-}
+// function addFiles(tree: Tree, options: NormalizedSchema): void {
+//   const templateOptions = {
+//     ...options,
+//     ...names(options.name),
+//     offsetFromRoot: offsetFromRoot(options.projectRoot),
+//     template: '',
+//   };
+//   generateFiles(
+//     tree,
+//     path.join(__dirname, 'files'),
+//     options.projectRoot,
+//     templateOptions
+//   );
+// }
