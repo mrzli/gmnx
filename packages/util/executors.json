@@ -20,6 +20,16 @@
       "implementation": "./src/executors/publish-all/executor",
       "schema": "./src/executors/publish-all/schema.json",
       "description": "publish-all executor"
+    },
+    "postgres-start": {
+      "implementation": "./src/executors/postgres-start/executor",
+      "schema": "./src/executors/postgres-start/schema.json",
+      "description": "postgres-start executor"
+    },
+    "postgres-stop": {
+      "implementation": "./src/executors/postgres-stop/executor",
+      "schema": "./src/executors/postgres-stop/schema.json",
+      "description": "postgres-stop executor"
     }
   }
 }
