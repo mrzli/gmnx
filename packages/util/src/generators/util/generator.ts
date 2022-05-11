@@ -9,6 +9,10 @@ import {
 } from '@nrwl/devkit';
 // import * as path from 'path';
 import { UtilGeneratorSchema } from './schema';
+import { ClocExecutorSchema } from '../../executors/cloc/schema';
+import { PublishAllExecutorSchema } from '../../executors/publish-all/schema';
+import { MongoStartExecutorSchema } from '../../executors/mongo-start/schema';
+import { MongoStopExecutorSchema } from '../../executors/mongo-stop/schema';
 
 interface NormalizedSchema extends UtilGeneratorSchema {
   projectName: string;
@@ -22,6 +26,34 @@ export default async function (
   options: UtilGeneratorSchema
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
+
+  const clocOptions: ClocExecutorSchema = {
+    ignoreDirs: ['.idea', '.vscode', 'node_modules', 'dist'],
+    ignoreFiles: ['package-lock.json'],
+  };
+
+  const mongoOptions: MongoStartExecutorSchema & MongoStopExecutorSchema = {
+    containerName: 'mongo',
+    mongoVersion: '5.0.8',
+    port: 27017,
+    dataDir: '~/docker/mongo',
+  };
+
+  const mongoStartOptions: MongoStartExecutorSchema = {
+    containerName: mongoOptions.containerName,
+    mongoVersion: mongoOptions.mongoVersion,
+    port: mongoOptions.port,
+    dataDir: mongoOptions.dataDir,
+  };
+  const mongoStopOptions: MongoStopExecutorSchema = {
+    containerName: mongoOptions.containerName,
+    mongoVersion: mongoOptions.mongoVersion,
+    port: mongoOptions.port,
+    dataDir: mongoOptions.dataDir,
+  };
+
+  const publishAllOptions: PublishAllExecutorSchema = {};
+
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
     projectType: 'library',
@@ -29,32 +61,19 @@ export default async function (
     targets: {
       cloc: {
         executor: '@gmnx/util:cloc',
-        options: {
-          ignoreDirs: ['.idea', '.vscode', 'node_modules', 'dist'],
-          ignoreFiles: ['package-lock.json'],
-        },
+        options: clocOptions,
       },
       'mongo-start': {
         executor: '@gmnx/util:mongo-start',
-        options: {
-          containerName: 'mongo',
-          mongoVersion: '5.0.8',
-          port: 27017,
-          dataDir: '~/docker/mongo',
-        },
+        options: mongoStartOptions,
       },
       'mongo-stop': {
         executor: '@gmnx/util:mongo-stop',
-        options: {
-          containerName: 'mongo',
-          mongoVersion: '5.0.8',
-          port: 27017,
-          dataDir: '~/docker/mongo',
-        },
+        options: mongoStopOptions,
       },
       'publish-all': {
         executor: '@gmnx/util:publish-all',
-        options: {},
+        options: publishAllOptions,
       },
     },
     tags: normalizedOptions.parsedTags,

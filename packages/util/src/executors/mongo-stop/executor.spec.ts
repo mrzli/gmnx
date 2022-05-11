@@ -1,7 +1,7 @@
-import { StopMongoExecutorSchema } from './schema';
+import { MongoStopExecutorSchema } from './schema';
 import executor from './executor';
 
-const options: StopMongoExecutorSchema = {};
+const options: MongoStopExecutorSchema = {};
 
 describe('StopMongo Executor', () => {
   it('can run', async () => {

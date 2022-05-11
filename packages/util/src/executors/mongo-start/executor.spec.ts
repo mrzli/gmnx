@@ -1,7 +1,7 @@
-import { StartMongoExecutorSchema } from './schema';
+import { MongoStartExecutorSchema } from './schema';
 import executor from './executor';
 
-const options: StartMongoExecutorSchema = {};
+const options: MongoStartExecutorSchema = {};
 
 describe('StartMongo Executor', () => {
   it('can run', async () => {

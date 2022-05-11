@@ -1,4 +1,4 @@
-import { StopMongoExecutorSchema } from './schema';
+import { MongoStopExecutorSchema } from './schema';
 import {
   ExecutorReturnValue,
   processExecutorConsoleOutputs,
@@ -7,7 +7,7 @@ import { exec, getMongoDockerComposePath } from '../../shared/util';
 import { logger } from 'nx/src/utils/logger';
 
 export default async function runExecutor(
-  options: StopMongoExecutorSchema
+  options: MongoStopExecutorSchema
 ): Promise<ExecutorReturnValue> {
   const { containerName, mongoVersion, port, dataDir } = options;
 
