@@ -54,11 +54,11 @@ describe('util e2e', () => {
     }, 120000);
   });
 
-  describe('executor start-mongo', () => {
-    it('should execute start-mongo', async () => {
+  describe('executor mongo-start', () => {
+    it('should execute mongo-start', async () => {
       const project = uniq('util');
       await runNxCommandAsync(`generate @gmnx/util:util ${project}`);
-      const result = await runNxCommandAsync(`start-mongo ${project}`);
+      const result = await runNxCommandAsync(`mongo-start ${project}`);
       expect(result.stdout).toContain('~/docker/mong2o:/data/db');
     }, 120000);
   });

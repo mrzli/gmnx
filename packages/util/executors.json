@@ -6,15 +6,15 @@
       "schema": "./src/executors/cloc/schema.json",
       "description": "cloc executor"
     },
-    "start-mongo": {
-      "implementation": "./src/executors/start-mongo/executor",
-      "schema": "./src/executors/start-mongo/schema.json",
-      "description": "start-mongo executor"
+    "mongo-start": {
+      "implementation": "./src/executors/mongo-start/executor",
+      "schema": "./src/executors/mongo-start/schema.json",
+      "description": "mongo-start executor"
     },
-    "stop-mongo": {
-      "implementation": "./src/executors/stop-mongo/executor",
-      "schema": "./src/executors/stop-mongo/schema.json",
-      "description": "stop-mongo executor"
+    "mongo-stop": {
+      "implementation": "./src/executors/mongo-stop/executor",
+      "schema": "./src/executors/mongo-stop/schema.json",
+      "description": "mongo-stop executor"
     },
     "publish-all": {
       "implementation": "./src/executors/publish-all/executor",

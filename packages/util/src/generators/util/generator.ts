@@ -34,8 +34,8 @@ export default async function (
           ignoreFiles: ['package-lock.json'],
         },
       },
-      'start-mongo': {
-        executor: '@gmnx/util:start-mongo',
+      'mongo-start': {
+        executor: '@gmnx/util:mongo-start',
         options: {
           containerName: 'mongo',
           mongoVersion: '5.0.8',
@@ -43,8 +43,8 @@ export default async function (
           dataDir: '~/docker/mongo',
         },
       },
-      'stop-mongo': {
-        executor: '@gmnx/util:stop-mongo',
+      'mongo-stop': {
+        executor: '@gmnx/util:mongo-stop',
         options: {
           containerName: 'mongo',
           mongoVersion: '5.0.8',
