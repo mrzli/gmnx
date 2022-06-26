@@ -6,5 +6,6 @@
     "internal-util": "packages/internal/util",
     "util": "packages/util",
     "util-e2e": "e2e/util-e2e"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
