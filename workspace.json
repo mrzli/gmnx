@@ -4,6 +4,8 @@
     "example-plugin": "packages/example-plugin",
     "example-plugin-e2e": "e2e/example-plugin-e2e",
     "internal-util": "packages/internal/util",
+    "project": "packages/project",
+    "project-e2e": "e2e/project-e2e",
     "util": "packages/util",
     "util-e2e": "e2e/util-e2e"
   },

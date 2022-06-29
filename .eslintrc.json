@@ -31,9 +31,7 @@
             "allowExpressions": true
           }
         ],
-        "@typescript-eslint/explicit-member-accessibility": [
-          "error"
-        ],
+        "@typescript-eslint/explicit-member-accessibility": ["error"],
         "@typescript-eslint/no-unused-vars": [
           "warn",
           {
@@ -45,6 +43,11 @@
     {
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/javascript"],
+      "rules": {}
+    },
+    {
+      "files": "*.json",
+      "parser": "jsonc-eslint-parser",
       "rules": {}
     }
   ]
