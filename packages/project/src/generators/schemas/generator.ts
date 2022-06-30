@@ -1,7 +1,6 @@
 import { getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
 import * as path from 'path';
 import { SchemasGeneratorSchema } from './schema';
-import { DATA_MODEL_PROJECT_SUFFIX } from '../../shared/constants';
 import {
   deleteFilesWithExtension,
   readText,
@@ -42,7 +41,7 @@ function normalizeOptions(
   tree: Tree,
   options: SchemasGeneratorSchema
 ): NormalizedSchema {
-  const name = names(options.name).fileName + DATA_MODEL_PROJECT_SUFFIX;
+  const name = names(options.name).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
     : name;
