@@ -27,7 +27,7 @@ export default async function (
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
     projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    sourceRoot: `${normalizedOptions.projectRoot}/assets`,
     tags: normalizedOptions.parsedTags,
   };
 
@@ -44,7 +44,7 @@ function normalizeOptions(
   tree: Tree,
   options: DataModelGeneratorSchema
 ): NormalizedSchema {
-  const name = names(options.name).fileName;
+  const name = names(options.name).fileName + '-data-model';
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
     : name;
