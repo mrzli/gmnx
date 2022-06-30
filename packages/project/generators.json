@@ -12,6 +12,11 @@
       "factory": "./src/generators/data-model/generator",
       "schema": "./src/generators/data-model/schema.json",
       "description": "data-model generator"
+    },
+    "schemas": {
+      "factory": "./src/generators/schemas/generator",
+      "schema": "./src/generators/schemas/schema.json",
+      "description": "schemas generator"
     }
   }
 }

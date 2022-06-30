@@ -1,5 +1,5 @@
 export interface DataModelGeneratorSchema {
-    name: string;
-    tags?: string;
-    directory?: string;
+  readonly name: string;
+  readonly tags?: string;
+  readonly directory?: string;
 }

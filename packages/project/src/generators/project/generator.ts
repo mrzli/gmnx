@@ -11,10 +11,10 @@ import * as path from 'path';
 import { ProjectGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends ProjectGeneratorSchema {
-  projectName: string;
-  projectRoot: string;
-  projectDirectory: string;
-  parsedTags: string[];
+  readonly projectName: string;
+  readonly projectRoot: string;
+  readonly projectDirectory: string;
+  readonly parsedTags: string[];
 }
 
 function normalizeOptions(
