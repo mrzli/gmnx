@@ -19,11 +19,15 @@ interface NormalizedSchema extends DataModelGeneratorSchema {
   readonly parsedTags: string[];
 }
 
-export default async function (
+export async function generateDataModel(
   tree: Tree,
   options: DataModelGeneratorSchema
 ): Promise<void> {
+  console.log(0);
+
   const normalizedOptions = normalizeOptions(tree, options);
+
+  console.log(1);
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
@@ -37,7 +41,13 @@ export default async function (
     normalizedOptions.projectName,
     projectConfiguration
   );
+
+  console.log(2);
+
   addFiles(tree, normalizedOptions);
+
+  console.log(3);
+
   await formatFiles(tree);
 }
 
@@ -78,3 +88,5 @@ function addFiles(tree: Tree, options: NormalizedSchema): void {
     templateOptions
   );
 }
+
+export default generateDataModel;

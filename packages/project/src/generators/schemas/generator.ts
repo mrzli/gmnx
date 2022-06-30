@@ -16,7 +16,7 @@ interface NormalizedSchema extends SchemasGeneratorSchema {
   readonly projectDirectory: string;
 }
 
-export default async function (
+export async function generateSchema(
   tree: Tree,
   options: SchemasGeneratorSchema
 ): Promise<void> {
@@ -56,3 +56,5 @@ function normalizeOptions(
     projectDirectory,
   };
 }
+
+export default generateSchema;
