@@ -77,7 +77,7 @@ export async function generateProject(
 function cleanSharedLib(tree: Tree, options: JsLibSchema): void {
   const projectRoot = getLibProjectRoot(tree, options);
   tree.delete(path.join(projectRoot, 'src/lib'));
-  tree.write(path.join(projectRoot, 'index.ts'), '');
+  tree.write(path.join(projectRoot, 'src/index.ts'), '');
 }
 
 interface BaseOptions {
