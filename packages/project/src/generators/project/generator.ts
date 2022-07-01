@@ -54,7 +54,7 @@ export async function generateProject(
 
   // @nrwl/node:application
   const nodeAppSchema: NodeAppSchema = {
-    name: appBaseName + '-be',
+    name: appBaseName + '-cli',
     tags: `app:${appBaseName},scope:backend,type:app`,
   };
   await generateNodeApp(tree, nodeAppSchema);
