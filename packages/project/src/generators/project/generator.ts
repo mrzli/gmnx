@@ -46,6 +46,7 @@ export async function generateProject(
   // @nrwl/nest:application
   const nestAppSchema: NestAppSchema = {
     name: appBaseName + '-be',
+    tags: `app:${appBaseName},scope:backend,type:app`,
   };
   await generateNestApp(tree, nestAppSchema);
 }
