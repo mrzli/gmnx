@@ -1,10 +1,12 @@
 import { Tree } from '@nrwl/devkit';
-import { applicationGenerator as generateReactApp } from '@nrwl/react';
-import { Schema as ReactAppSchema } from '@nrwl/react/src/generators/application/schema';
-import { applicationGenerator as generateNestApp } from '@nrwl/nest';
-import { ApplicationGeneratorOptions as NestAppSchema } from '@nrwl/nest/src/generators/application/schema';
+import { libraryGenerator as generateJsLib } from '@nrwl/js';
+import { LibraryGeneratorSchema as JsLibSchema } from '@nrwl/js/src/utils/schema';
 import { applicationGenerator as generateNodeApp } from '@nrwl/node';
 import { Schema as NodeAppSchema } from '@nrwl/node/src/generators/application/schema';
+import { applicationGenerator as generateNestApp } from '@nrwl/nest';
+import { ApplicationGeneratorOptions as NestAppSchema } from '@nrwl/nest/src/generators/application/schema';
+import { applicationGenerator as generateReactApp } from '@nrwl/react';
+import { Schema as ReactAppSchema } from '@nrwl/react/src/generators/application/schema';
 import { ProjectGeneratorSchema } from './schema';
 import generateDataModel from '../data-model/generator';
 import generateSchemas from '../schemas/generator';
@@ -33,6 +35,27 @@ export async function generateProject(
   };
   await generateSchemas(tree, schemasSchema);
 
+  // @nrwl/js:library
+  const jsLibSchema: JsLibSchema = {
+    name: appBaseName + '-shared',
+    tags: `app:${appBaseName},scope:shared,type:util`,
+  };
+  await generateJsLib(tree, jsLibSchema);
+
+  // @nrwl/node:application
+  const nodeAppSchema: NodeAppSchema = {
+    name: appBaseName + '-cli',
+    tags: `app:${appBaseName},scope:backend,type:app`,
+  };
+  await generateNodeApp(tree, nodeAppSchema);
+
+  // @nrwl/nest:application
+  const nestAppSchema: NestAppSchema = {
+    name: appBaseName + '-be',
+    tags: `app:${appBaseName},scope:backend,type:app`,
+  };
+  await generateNestApp(tree, nestAppSchema);
+
   // @nrwl/react:application
   const reactAppSchema: ReactAppSchema = {
     name: appBaseName + '-web',
@@ -44,20 +67,6 @@ export async function generateProject(
     tags: `app:${appBaseName},scope:web,type:app`,
   };
   await generateReactApp(tree, reactAppSchema);
-
-  // @nrwl/nest:application
-  const nestAppSchema: NestAppSchema = {
-    name: appBaseName + '-be',
-    tags: `app:${appBaseName},scope:backend,type:app`,
-  };
-  await generateNestApp(tree, nestAppSchema);
-
-  // @nrwl/node:application
-  const nodeAppSchema: NodeAppSchema = {
-    name: appBaseName + '-cli',
-    tags: `app:${appBaseName},scope:backend,type:app`,
-  };
-  await generateNodeApp(tree, nodeAppSchema);
 }
 
 export default generateProject;
