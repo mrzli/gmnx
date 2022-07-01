@@ -1,4 +1,4 @@
-import { Tree } from '@nrwl/devkit';
+import { getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
 import { libraryGenerator as generateJsLib } from '@nrwl/js';
 import { LibraryGeneratorSchema as JsLibSchema } from '@nrwl/js/src/utils/schema';
 import { applicationGenerator as generateNodeApp } from '@nrwl/node';
@@ -13,6 +13,7 @@ import generateSchemas from '../schemas/generator';
 import { DataModelGeneratorSchema } from '../data-model/schema';
 import { SchemasGeneratorSchema } from '../schemas/schema';
 import { Linter } from '@nrwl/linter';
+import * as path from 'path';
 
 const DATA_MODEL_PROJECT_SUFFIX = '-data-model';
 
@@ -38,13 +39,16 @@ export async function generateProject(
   // @nrwl/js:library
   const jsLibSchema: JsLibSchema = {
     name: appBaseName + '-shared',
+    directory: options.directory,
     tags: `app:${appBaseName},scope:shared,type:util`,
   };
   await generateJsLib(tree, jsLibSchema);
+  cleanSharedLib(tree, jsLibSchema);
 
   // @nrwl/node:application
   const nodeAppSchema: NodeAppSchema = {
     name: appBaseName + '-cli',
+    directory: options.directory,
     tags: `app:${appBaseName},scope:backend,type:app`,
   };
   await generateNodeApp(tree, nodeAppSchema);
@@ -52,6 +56,7 @@ export async function generateProject(
   // @nrwl/nest:application
   const nestAppSchema: NestAppSchema = {
     name: appBaseName + '-be',
+    directory: options.directory,
     tags: `app:${appBaseName},scope:backend,type:app`,
   };
   await generateNestApp(tree, nestAppSchema);
@@ -67,6 +72,25 @@ export async function generateProject(
     tags: `app:${appBaseName},scope:web,type:app`,
   };
   await generateReactApp(tree, reactAppSchema);
+}
+
+function cleanSharedLib(tree: Tree, options: JsLibSchema): void {
+  const projectRoot = getLibProjectRoot(tree, options);
+  tree.delete(path.join(projectRoot, 'src/lib'));
+  tree.write(path.join(projectRoot, 'index.ts'), '');
+}
+
+interface BaseOptions {
+  readonly name: string;
+  readonly directory?: string;
+}
+
+function getLibProjectRoot(tree: Tree, options: BaseOptions): string {
+  const name = names(options.name).fileName;
+  const projectDirectory = options.directory
+    ? `${names(options.directory).fileName}/${name}`
+    : name;
+  return `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
 }
 
 export default generateProject;
