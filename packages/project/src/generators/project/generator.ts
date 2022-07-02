@@ -22,6 +22,8 @@ import {
 } from '../../shared/constants';
 import { SharedLibraryCodeGeneratorSchema } from '../shared-library-code/schema';
 import generateSharedLibraryCode from '../shared-library-code/generator';
+import { BackendAppCodeGeneratorSchema } from '../backend-app-code/schema';
+import generateBackendAppCode from '../backend-app-code/generator';
 
 export async function generateProject(
   tree: Tree,
@@ -72,6 +74,12 @@ export async function generateProject(
     tags: `app:${appBaseName},scope:backend,type:app`,
   };
   await generateNestApp(tree, nestAppSchema);
+
+  const backendAppCodeSchema: BackendAppCodeGeneratorSchema = {
+    name: appBaseName,
+    directory: options.directory,
+  };
+  await generateBackendAppCode(tree, backendAppCodeSchema);
 
   // @nrwl/react:application
   const reactAppSchema: ReactAppSchema = {

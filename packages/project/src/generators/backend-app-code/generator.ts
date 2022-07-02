@@ -1,20 +1,23 @@
-import {
-  addProjectConfiguration,
-  formatFiles,
-  generateFiles,
-  getWorkspaceLayout,
-  names,
-  offsetFromRoot,
-  Tree,
-} from '@nrwl/devkit';
+import { getWorkspaceLayout, Tree } from '@nrwl/devkit';
 import * as path from 'path';
+import { readText, writeTexts } from '@gmnx/internal-util';
+import {
+  PROJECT_SUFFIX_APP_BACKEND,
+  PROJECT_SUFFIX_LIB_DATA_MODEL,
+  PROJECT_SUFFIX_LIB_SHARED,
+} from '../../shared/constants';
+import { getProjectRoot, readSchemas } from '../../shared/util';
 import { BackendAppCodeGeneratorSchema } from './schema';
+import {
+  schemaToBackendAppCode,
+  SchemaToBackendAppCodeInitialFiles,
+  SchemaToBackendAppCodeInput,
+} from '@gmjs/data-manipulation';
 
 interface NormalizedSchema extends BackendAppCodeGeneratorSchema {
-  projectName: string;
-  projectRoot: string;
-  projectDirectory: string;
-  parsedTags: string[];
+  readonly npmScope: string;
+  readonly dataModelProjectRoot: string;
+  readonly backendAppProjectRoot: string;
 }
 
 export async function generateBackendAppCode(
@@ -22,57 +25,73 @@ export async function generateBackendAppCode(
   options: BackendAppCodeGeneratorSchema
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@gmnx/project:build',
-      },
-    },
-    tags: normalizedOptions.parsedTags,
-  });
-  addFiles(tree, normalizedOptions);
-  await formatFiles(tree);
+  const input = createSchemaToBackendAppInput(tree, normalizedOptions);
+  const sharedLibraryCode = schemaToBackendAppCode(input);
+  writeTexts(
+    tree,
+    path.join(normalizedOptions.backendAppProjectRoot, 'src'),
+    sharedLibraryCode
+  );
 }
 
 function normalizeOptions(
   tree: Tree,
   options: BackendAppCodeGeneratorSchema
 ): NormalizedSchema {
-  const name = names(options.name).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
-
   return {
     ...options,
-    projectName,
-    projectRoot,
-    projectDirectory,
-    parsedTags,
+    npmScope: getWorkspaceLayout(tree).npmScope,
+    dataModelProjectRoot: getProjectRoot(
+      tree,
+      options,
+      false,
+      PROJECT_SUFFIX_LIB_DATA_MODEL
+    ),
+    backendAppProjectRoot: getProjectRoot(
+      tree,
+      options,
+      true,
+      PROJECT_SUFFIX_APP_BACKEND
+    ),
   };
 }
 
-function addFiles(tree: Tree, options: NormalizedSchema): void {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
-  generateFiles(
+function createSchemaToBackendAppInput(
+  tree: Tree,
+  normalizedOptions: NormalizedSchema
+): SchemaToBackendAppCodeInput {
+  const schemas = readSchemas(
     tree,
-    path.join(__dirname, 'files'),
-    options.projectRoot,
-    templateOptions
+    path.join(normalizedOptions.dataModelProjectRoot, 'assets/schemas')
   );
+
+  const initialFiles: SchemaToBackendAppCodeInitialFiles = {
+    appModule: readText(
+      tree,
+      path.join(
+        normalizedOptions.backendAppProjectRoot,
+        'src/app/app.module.ts'
+      )
+    ),
+  };
+
+  return {
+    schemas,
+    initialFiles,
+    options: {
+      libsMonorepo: {
+        npmScope: 'gmjs',
+        utilProjectName: 'util',
+        nestUtilProjectName: 'nest-util',
+      },
+      appsMonorepo: {
+        npmScope: normalizedOptions.npmScope,
+        sharedProjectName: normalizedOptions.name + PROJECT_SUFFIX_LIB_SHARED,
+      },
+      dbPrefix: 'db',
+      appPrefix: '',
+    },
+  };
 }
 
 export default generateBackendAppCode;

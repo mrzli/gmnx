@@ -1,4 +1,4 @@
-import { getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
+import { Tree } from '@nrwl/devkit';
 import * as path from 'path';
 import { SharedLibraryCodeGeneratorSchema } from './schema';
 import {
@@ -9,12 +9,11 @@ import {
   SchemaToSharedLibraryCodeInitialFiles,
   SchemaToSharedLibraryCodeInput,
 } from '@gmjs/data-manipulation/src/lib/schema/to-shared-library-code/schema-to-shared-library-code-input';
-import { readSchemas } from '../../shared/util';
+import { getProjectRoot, readSchemas } from '../../shared/util';
 import { readText, writeTexts } from '@gmnx/internal-util';
 import { schemaToSharedLibraryCode } from '@gmjs/data-manipulation/src/lib/schema/to-shared-library-code/schema-to-shared-library-code';
 
 interface NormalizedSchema extends SharedLibraryCodeGeneratorSchema {
-  readonly npmScope: string;
   readonly dataModelProjectRoot: string;
   readonly sharedLibraryProjectRoot: string;
 }
@@ -24,7 +23,7 @@ export async function generateSharedLibraryCode(
   options: SharedLibraryCodeGeneratorSchema
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
-  const input = createSchemaToSharedInput(tree, normalizedOptions);
+  const input = createSchemaToSharedLibraryInput(tree, normalizedOptions);
   const sharedLibraryCode = schemaToSharedLibraryCode(input);
   writeTexts(
     tree,
@@ -39,39 +38,22 @@ function normalizeOptions(
 ): NormalizedSchema {
   return {
     ...options,
-    npmScope: getWorkspaceLayout(tree).npmScope,
     dataModelProjectRoot: getProjectRoot(
       tree,
       options,
+      false,
       PROJECT_SUFFIX_LIB_DATA_MODEL
     ),
     sharedLibraryProjectRoot: getProjectRoot(
       tree,
       options,
+      false,
       PROJECT_SUFFIX_LIB_SHARED
     ),
   };
 }
 
-function getProjectRoot(
-  tree: Tree,
-  options: SharedLibraryCodeGeneratorSchema,
-  projectSuffix: string
-): string {
-  const workspaceLayout = getWorkspaceLayout(tree);
-  const name = names(options.name + projectSuffix).fileName;
-  const projectDirectory = getProjectDirectory(options.directory, name);
-  return `${workspaceLayout.libsDir}/${projectDirectory}`;
-}
-
-function getProjectDirectory(
-  directory: string | undefined,
-  name: string
-): string {
-  return directory ? `${names(directory).fileName}/${name}` : name;
-}
-
-function createSchemaToSharedInput(
+function createSchemaToSharedLibraryInput(
   tree: Tree,
   normalizedOptions: NormalizedSchema
 ): SchemaToSharedLibraryCodeInput {
