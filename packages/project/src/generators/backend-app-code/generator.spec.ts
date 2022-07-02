@@ -4,7 +4,7 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import generator from './generator';
 import { BackendAppCodeGeneratorSchema } from './schema';
 
-describe('backend-app-code generator', () => {
+describe.skip('backend-app-code generator', () => {
   let appTree: Tree;
   const options: BackendAppCodeGeneratorSchema = { name: 'test' };
 
@@ -16,5 +16,5 @@ describe('backend-app-code generator', () => {
     await generator(appTree, options);
     const config = readProjectConfiguration(appTree, 'test');
     expect(config).toBeDefined();
-  })
+  });
 });

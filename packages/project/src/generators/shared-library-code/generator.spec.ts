@@ -4,7 +4,7 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import generator from './generator';
 import { SharedLibraryCodeGeneratorSchema } from './schema';
 
-describe('shared-library-code generator', () => {
+describe.skip('shared-library-code generator', () => {
   let appTree: Tree;
   const options: SharedLibraryCodeGeneratorSchema = { name: 'test' };
 
@@ -16,5 +16,5 @@ describe('shared-library-code generator', () => {
     await generator(appTree, options);
     const config = readProjectConfiguration(appTree, 'test');
     expect(config).toBeDefined();
-  })
+  });
 });

@@ -4,7 +4,7 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import generator from './generator';
 import { SchemasGeneratorSchema } from './schema';
 
-describe('schemas generator', () => {
+describe.skip('schemas generator', () => {
   let appTree: Tree;
   const options: SchemasGeneratorSchema = { name: 'test' };
 
@@ -16,5 +16,5 @@ describe('schemas generator', () => {
     await generator(appTree, options);
     const config = readProjectConfiguration(appTree, 'test');
     expect(config).toBeDefined();
-  })
+  });
 });

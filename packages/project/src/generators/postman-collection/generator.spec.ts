@@ -4,7 +4,7 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import generator from './generator';
 import { PostmanCollectionGeneratorSchema } from './schema';
 
-describe('postman-collection generator', () => {
+describe.skip('postman-collection generator', () => {
   let appTree: Tree;
   const options: PostmanCollectionGeneratorSchema = { name: 'test' };
 
@@ -16,5 +16,5 @@ describe('postman-collection generator', () => {
     await generator(appTree, options);
     const config = readProjectConfiguration(appTree, 'test');
     expect(config).toBeDefined();
-  })
+  });
 });
