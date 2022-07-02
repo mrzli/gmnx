@@ -18,7 +18,6 @@ import {
   PROJECT_SUFFIX_APP_BACKEND,
   PROJECT_SUFFIX_APP_CLI,
   PROJECT_SUFFIX_APP_WEB,
-  PROJECT_SUFFIX_DATA_MODEL,
   PROJECT_SUFFIX_LIB_SHARED,
 } from '../../shared/constants';
 
@@ -29,14 +28,14 @@ export async function generateProject(
   const appBaseName = options.name;
 
   const dataModelSchema: DataModelGeneratorSchema = {
-    name: appBaseName + PROJECT_SUFFIX_DATA_MODEL,
+    name: appBaseName,
     directory: options.directory,
     tags: `app:${appBaseName},scope:backend,type:util`,
   };
   await generateDataModel(tree, dataModelSchema);
 
   const schemasSchema: SchemasGeneratorSchema = {
-    name: appBaseName + PROJECT_SUFFIX_DATA_MODEL,
+    name: appBaseName,
     directory: options.directory,
   };
   await generateSchemas(tree, schemasSchema);

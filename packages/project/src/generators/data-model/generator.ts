@@ -10,6 +10,7 @@ import {
 } from '@nrwl/devkit';
 import * as path from 'path';
 import { DataModelGeneratorSchema } from './schema';
+import { PROJECT_SUFFIX_DATA_MODEL } from '../../shared/constants';
 
 interface NormalizedSchema extends DataModelGeneratorSchema {
   readonly projectName: string;
@@ -45,7 +46,7 @@ function normalizeOptions(
   tree: Tree,
   options: DataModelGeneratorSchema
 ): NormalizedSchema {
-  const name = names(options.name).fileName;
+  const name = names(options.name + PROJECT_SUFFIX_DATA_MODEL).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
     : name;

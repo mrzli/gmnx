@@ -8,6 +8,7 @@ import {
 } from '@gmnx/internal-util';
 import { dataModelToSchema } from '@gmjs/data-manipulation';
 import { kebabCase } from '@gmjs/lib-util';
+import { PROJECT_SUFFIX_DATA_MODEL } from '../../shared/constants';
 
 interface NormalizedSchema extends SchemasGeneratorSchema {
   readonly projectName: string;
@@ -41,7 +42,7 @@ function normalizeOptions(
   tree: Tree,
   options: SchemasGeneratorSchema
 ): NormalizedSchema {
-  const name = names(options.name).fileName;
+  const name = names(options.name + PROJECT_SUFFIX_DATA_MODEL).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
     : name;
