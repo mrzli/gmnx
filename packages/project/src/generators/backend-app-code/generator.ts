@@ -14,10 +14,33 @@ interface NormalizedSchema extends BackendAppCodeGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
-  parsedTags: string[]
+  parsedTags: string[];
 }
 
-function normalizeOptions(tree: Tree, options: BackendAppCodeGeneratorSchema): NormalizedSchema {
+export async function generateBackendAppCode(
+  tree: Tree,
+  options: BackendAppCodeGeneratorSchema
+): Promise<void> {
+  const normalizedOptions = normalizeOptions(tree, options);
+  addProjectConfiguration(tree, normalizedOptions.projectName, {
+    root: normalizedOptions.projectRoot,
+    projectType: 'library',
+    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    targets: {
+      build: {
+        executor: '@gmnx/project:build',
+      },
+    },
+    tags: normalizedOptions.parsedTags,
+  });
+  addFiles(tree, normalizedOptions);
+  await formatFiles(tree);
+}
+
+function normalizeOptions(
+  tree: Tree,
+  options: BackendAppCodeGeneratorSchema
+): NormalizedSchema {
   const name = names(options.name).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
@@ -37,33 +60,19 @@ function normalizeOptions(tree: Tree, options: BackendAppCodeGeneratorSchema): N
   };
 }
 
-function addFiles(tree: Tree, options: NormalizedSchema) {
-    const templateOptions = {
-      ...options,
-      ...names(options.name),
-      offsetFromRoot: offsetFromRoot(options.projectRoot),
-      template: ''
-    };
-    generateFiles(tree, path.join(__dirname, 'files'), options.projectRoot, templateOptions);
+function addFiles(tree: Tree, options: NormalizedSchema): void {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    tree,
+    path.join(__dirname, 'files'),
+    options.projectRoot,
+    templateOptions
+  );
 }
 
-export default async function (tree: Tree, options: BackendAppCodeGeneratorSchema) {
-  const normalizedOptions = normalizeOptions(tree, options);
-  addProjectConfiguration(
-    tree,
-    normalizedOptions.projectName,
-    {
-      root: normalizedOptions.projectRoot,
-      projectType: 'library',
-      sourceRoot: `${normalizedOptions.projectRoot}/src`,
-      targets: {
-        build: {
-          executor: "@gmnx/project:build",
-        },
-      },
-      tags: normalizedOptions.parsedTags,
-    }
-  );
-  addFiles(tree, normalizedOptions);
-  await formatFiles(tree);
-}
+export default generateBackendAppCode;
