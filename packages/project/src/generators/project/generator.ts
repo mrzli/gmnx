@@ -20,6 +20,8 @@ import {
   PROJECT_SUFFIX_APP_WEB,
   PROJECT_SUFFIX_LIB_SHARED,
 } from '../../shared/constants';
+import { SharedLibraryCodeGeneratorSchema } from '../shared-library-code/schema';
+import generateSharedLibraryCode from '../shared-library-code/generator';
 
 export async function generateProject(
   tree: Tree,
@@ -48,6 +50,12 @@ export async function generateProject(
   };
   await generateJsLib(tree, jsLibSchema);
   cleanSharedLib(tree, jsLibSchema);
+
+  const sharedLibraryCodeSchema: SharedLibraryCodeGeneratorSchema = {
+    name: appBaseName,
+    directory: options.directory,
+  };
+  await generateSharedLibraryCode(tree, sharedLibraryCodeSchema);
 
   // @nrwl/node:application
   const nodeAppSchema: NodeAppSchema = {

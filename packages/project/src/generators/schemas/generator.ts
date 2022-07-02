@@ -2,13 +2,13 @@ import { getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
 import * as path from 'path';
 import { SchemasGeneratorSchema } from './schema';
 import {
-  deleteFilesWithExtension,
+  deleteFilesByExtension,
   readText,
   writeJson,
 } from '@gmnx/internal-util';
 import { dataModelToSchema } from '@gmjs/data-manipulation';
 import { kebabCase } from '@gmjs/lib-util';
-import { PROJECT_SUFFIX_DATA_MODEL } from '../../shared/constants';
+import { PROJECT_SUFFIX_LIB_DATA_MODEL } from '../../shared/constants';
 
 interface NormalizedSchema extends SchemasGeneratorSchema {
   readonly projectName: string;
@@ -29,7 +29,7 @@ export async function generateSchemas(
   const schemas = dataModelToSchema(dataModelYamlContent);
 
   const schemasDir = path.join(normalizedOptions.projectRoot, 'assets/schemas');
-  deleteFilesWithExtension(tree, schemasDir, 'json');
+  deleteFilesByExtension(tree, schemasDir, 'json');
 
   for (const mongoSchema of schemas) {
     const schemaFileName = `${kebabCase(mongoSchema.title)}.json`;
@@ -42,7 +42,7 @@ function normalizeOptions(
   tree: Tree,
   options: SchemasGeneratorSchema
 ): NormalizedSchema {
-  const name = names(options.name + PROJECT_SUFFIX_DATA_MODEL).fileName;
+  const name = names(options.name + PROJECT_SUFFIX_LIB_DATA_MODEL).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
     : name;

@@ -1,8 +1,8 @@
 import { Tree } from '@nrwl/devkit';
 import { ENCODING_UTF8 } from './constants';
-import { AnyValue, invariant, isNotNullish } from '@gmjs/util';
+import { AnyValue, Fn1, invariant, isNotNullish } from '@gmjs/util';
 import { jsonToPretty } from '@gmjs/lib-util';
-import { pathExtension } from '@gmjs/fs-util';
+import { PathContentPair, pathExtension } from '@gmjs/fs-util';
 import * as path from 'path';
 
 export function readText(tree: Tree, filePath: string): string {
@@ -11,9 +11,35 @@ export function readText(tree: Tree, filePath: string): string {
   return content;
 }
 
-export interface PathContentPair {
-  readonly path: string;
-  readonly content: string;
+export function readTextsByExtension(
+  tree: Tree,
+  dirPath: string,
+  extension: string
+): readonly PathContentPair[] {
+  return readTextsByPredicate(
+    tree,
+    dirPath,
+    createExtensionPredicate(extension)
+  );
+}
+
+export function readTextsByPredicate(
+  tree: Tree,
+  dirPath: string,
+  predicate: (filePath: string) => boolean
+): readonly PathContentPair[] {
+  const results: PathContentPair[] = [];
+
+  const fsNames = tree.children(dirPath);
+  for (const fsName of fsNames) {
+    const filePath = path.join(dirPath, fsName);
+    if (tree.isFile(filePath) && predicate(filePath)) {
+      const content = readText(tree, filePath);
+      results.push({ path: filePath, content });
+    }
+  }
+
+  return results;
 }
 
 export function writeText(tree: Tree, filePath: string, content: string): void {
@@ -22,10 +48,11 @@ export function writeText(tree: Tree, filePath: string, content: string): void {
 
 export function writeTexts(
   tree: Tree,
-  pathsAndContents: readonly PathContentPair[]
+  dirPath: string,
+  files: readonly PathContentPair[]
 ): void {
-  for (const pathAndContent of pathsAndContents) {
-    writeText(tree, pathAndContent.path, pathAndContent.content);
+  for (const file of files) {
+    writeText(tree, path.join(dirPath, file.path), file.content);
   }
 }
 
@@ -34,19 +61,29 @@ export function writeJson(tree: Tree, filePath: string, data: AnyValue): void {
   tree.write(filePath, content);
 }
 
-export function deleteFilesWithExtension(
+export function deleteFilesByExtension(
   tree: Tree,
   dirPath: string,
   extension: string
 ): void {
+  deleteFilesByPredicate(tree, dirPath, createExtensionPredicate(extension));
+}
+
+export function deleteFilesByPredicate(
+  tree: Tree,
+  dirPath: string,
+  predicate: (filePath: string) => boolean
+): void {
   const fsNames = tree.children(dirPath);
   for (const fsName of fsNames) {
     const filePath = path.join(dirPath, fsName);
-    if (
-      tree.isFile(filePath) &&
-      pathExtension(filePath).toLowerCase() === extension.toLowerCase()
-    ) {
+    if (tree.isFile(filePath) && predicate(filePath)) {
       tree.delete(filePath);
     }
   }
+}
+
+function createExtensionPredicate(extension: string): Fn1<string, boolean> {
+  return (filePath: string) =>
+    pathExtension(filePath).toLowerCase() === extension.toLowerCase();
 }

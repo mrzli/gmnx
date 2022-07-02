@@ -1,20 +1,22 @@
-import {
-  addProjectConfiguration,
-  formatFiles,
-  generateFiles,
-  getWorkspaceLayout,
-  names,
-  offsetFromRoot,
-  Tree,
-} from '@nrwl/devkit';
+import { getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
 import * as path from 'path';
 import { SharedLibraryCodeGeneratorSchema } from './schema';
+import {
+  PROJECT_SUFFIX_LIB_DATA_MODEL,
+  PROJECT_SUFFIX_LIB_SHARED,
+} from '../../shared/constants';
+import {
+  SchemaToSharedLibraryCodeInitialFiles,
+  SchemaToSharedLibraryCodeInput,
+} from '@gmjs/data-manipulation/src/lib/schema/to-shared-library-code/schema-to-shared-library-code-input';
+import { readSchemas } from '../../shared/util';
+import { readText, writeTexts } from '@gmnx/internal-util';
+import { schemaToSharedLibraryCode } from '@gmjs/data-manipulation/src/lib/schema/to-shared-library-code/schema-to-shared-library-code';
 
 interface NormalizedSchema extends SharedLibraryCodeGeneratorSchema {
   readonly npmScope: string;
-  readonly projectName: string;
-  readonly projectRoot: string;
-  readonly projectDirectory: string;
+  readonly dataModelProjectRoot: string;
+  readonly sharedLibraryProjectRoot: string;
 }
 
 export async function generateSharedLibraryCode(
@@ -22,85 +24,84 @@ export async function generateSharedLibraryCode(
   options: SharedLibraryCodeGeneratorSchema
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
-
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@gmnx/project:build',
-      },
-    },
-  });
-  addFiles(tree, normalizedOptions);
-  await formatFiles(tree);
+  const input = createSchemaToSharedInput(tree, normalizedOptions);
+  const sharedLibraryCode = schemaToSharedLibraryCode(input);
+  writeTexts(
+    tree,
+    path.join(normalizedOptions.sharedLibraryProjectRoot, 'src'),
+    sharedLibraryCode
+  );
 }
 
 function normalizeOptions(
   tree: Tree,
   options: SharedLibraryCodeGeneratorSchema
 ): NormalizedSchema {
-  const workspaceLayout = getWorkspaceLayout(tree);
-  const npmScope = workspaceLayout.npmScope;
-
-  const name = names(options.name).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = `${workspaceLayout.libsDir}/${projectDirectory}`;
-
   return {
     ...options,
-    projectName,
-    projectRoot,
-    projectDirectory,
-    npmScope,
+    npmScope: getWorkspaceLayout(tree).npmScope,
+    dataModelProjectRoot: getProjectRoot(
+      tree,
+      options,
+      PROJECT_SUFFIX_LIB_DATA_MODEL
+    ),
+    sharedLibraryProjectRoot: getProjectRoot(
+      tree,
+      options,
+      PROJECT_SUFFIX_LIB_SHARED
+    ),
   };
 }
 
-// function createSchemaToSharedInput(
-//   tree: Tree,
-//   normalizedOptions: NormalizedSchema
-// ): SchemaToSharedLibraryCodeInput {
-//   const schemas = readJsonSync<readonly MongoJsonSchemaTypeObject[]>(
-//     path.join(testDir, 'input/schemas.json')
-//   );
-//   const initialFiles: SchemaToSharedLibraryCodeInitialFiles = {
-//     index: readText(tree, path.join()),
-//   };
-//
-//   return {
-//     schemas,
-//     initialFiles,
-//     options: {
-//       mongoInterfacesDir: 'lib/mongo',
-//       dbInterfaceOptions: {
-//         dir: 'db',
-//         prefix: 'db',
-//       },
-//       appInterfaceOptions: {
-//         dir: 'app',
-//         prefix: 'app',
-//       },
-//     },
-//   };
-// }
+function getProjectRoot(
+  tree: Tree,
+  options: SharedLibraryCodeGeneratorSchema,
+  projectSuffix: string
+): string {
+  const workspaceLayout = getWorkspaceLayout(tree);
+  const name = names(options.name + projectSuffix).fileName;
+  const projectDirectory = getProjectDirectory(options.directory, name);
+  return `${workspaceLayout.libsDir}/${projectDirectory}`;
+}
 
-function addFiles(tree: Tree, options: NormalizedSchema): void {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
-  generateFiles(
+function getProjectDirectory(
+  directory: string | undefined,
+  name: string
+): string {
+  return directory ? `${names(directory).fileName}/${name}` : name;
+}
+
+function createSchemaToSharedInput(
+  tree: Tree,
+  normalizedOptions: NormalizedSchema
+): SchemaToSharedLibraryCodeInput {
+  const schemas = readSchemas(
     tree,
-    path.join(__dirname, 'files'),
-    options.projectRoot,
-    templateOptions
+    path.join(normalizedOptions.dataModelProjectRoot, 'assets/schemas')
   );
+
+  const initialFiles: SchemaToSharedLibraryCodeInitialFiles = {
+    index: readText(
+      tree,
+      path.join(normalizedOptions.sharedLibraryProjectRoot, 'src/index.ts')
+    ),
+  };
+
+  return {
+    schemas,
+    initialFiles,
+    options: {
+      mongoInterfacesDir: 'lib/mongo',
+      dbInterfaceOptions: {
+        dir: 'db',
+        prefix: 'db',
+      },
+      appInterfaceOptions: {
+        dir: 'app',
+        prefix: '',
+      },
+    },
+  };
 }
 
 export default generateSharedLibraryCode;
