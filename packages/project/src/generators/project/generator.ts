@@ -24,6 +24,8 @@ import { SharedLibraryCodeGeneratorSchema } from '../shared-library-code/schema'
 import generateSharedLibraryCode from '../shared-library-code/generator';
 import { BackendAppCodeGeneratorSchema } from '../backend-app-code/schema';
 import generateBackendAppCode from '../backend-app-code/generator';
+import generatePostmanCollection from '../postman-collection/generator';
+import { PostmanCollectionGeneratorSchema } from '../postman-collection/schema';
 
 export async function generateProject(
   tree: Tree,
@@ -74,6 +76,12 @@ export async function generateProject(
     tags: `app:${appBaseName},scope:backend,type:app`,
   };
   await generateNestApp(tree, nestAppSchema);
+
+  const postmanCollectionSchema: PostmanCollectionGeneratorSchema = {
+    name: appBaseName,
+    directory: options.directory,
+  };
+  await generatePostmanCollection(tree, postmanCollectionSchema);
 
   const backendAppCodeSchema: BackendAppCodeGeneratorSchema = {
     name: appBaseName,
