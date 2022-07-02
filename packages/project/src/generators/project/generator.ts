@@ -8,9 +8,7 @@ import { ApplicationGeneratorOptions as NestAppSchema } from '@nrwl/nest/src/gen
 import { applicationGenerator as generateReactApp } from '@nrwl/react';
 import { Schema as ReactAppSchema } from '@nrwl/react/src/generators/application/schema';
 import { ProjectGeneratorSchema } from './schema';
-import generateDataModel from '../data-model/generator';
 import generateSchemas from '../schemas/generator';
-import { DataModelGeneratorSchema } from '../data-model/schema';
 import { SchemasGeneratorSchema } from '../schemas/schema';
 import { Linter } from '@nrwl/linter';
 import * as path from 'path';
@@ -33,12 +31,12 @@ export async function generateProject(
 ): Promise<void> {
   const appBaseName = options.name;
 
-  const dataModelSchema: DataModelGeneratorSchema = {
-    name: appBaseName,
-    directory: options.directory,
-    tags: `app:${appBaseName},scope:backend,type:util`,
-  };
-  await generateDataModel(tree, dataModelSchema);
+  // const dataModelSchema: DataModelGeneratorSchema = {
+  //   name: appBaseName,
+  //   directory: options.directory,
+  //   tags: `app:${appBaseName},scope:backend,type:util`,
+  // };
+  // await generateDataModel(tree, dataModelSchema);
 
   const schemasSchema: SchemasGeneratorSchema = {
     name: appBaseName,
