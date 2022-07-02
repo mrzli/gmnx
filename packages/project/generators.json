@@ -17,6 +17,16 @@
       "factory": "./src/generators/schemas/generator",
       "schema": "./src/generators/schemas/schema.json",
       "description": "schemas generator"
+    },
+    "shared-library-code": {
+      "factory": "./src/generators/shared-library-code/generator",
+      "schema": "./src/generators/shared-library-code/schema.json",
+      "description": "shared-library-code generator"
+    },
+    "backend-app-code": {
+      "factory": "./src/generators/backend-app-code/generator",
+      "schema": "./src/generators/backend-app-code/schema.json",
+      "description": "backend-app-code generator"
     }
   }
 }
