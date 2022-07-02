@@ -14,8 +14,13 @@ import { DataModelGeneratorSchema } from '../data-model/schema';
 import { SchemasGeneratorSchema } from '../schemas/schema';
 import { Linter } from '@nrwl/linter';
 import * as path from 'path';
-
-const DATA_MODEL_PROJECT_SUFFIX = '-data-model';
+import {
+  PROJECT_SUFFIX_APP_BACKEND,
+  PROJECT_SUFFIX_APP_CLI,
+  PROJECT_SUFFIX_APP_WEB,
+  PROJECT_SUFFIX_DATA_MODEL,
+  PROJECT_SUFFIX_LIB_SHARED,
+} from '../../shared/constants';
 
 export async function generateProject(
   tree: Tree,
@@ -24,21 +29,21 @@ export async function generateProject(
   const appBaseName = options.name;
 
   const dataModelSchema: DataModelGeneratorSchema = {
-    name: appBaseName + DATA_MODEL_PROJECT_SUFFIX,
+    name: appBaseName + PROJECT_SUFFIX_DATA_MODEL,
     directory: options.directory,
     tags: `app:${appBaseName},scope:backend,type:util`,
   };
   await generateDataModel(tree, dataModelSchema);
 
   const schemasSchema: SchemasGeneratorSchema = {
-    name: appBaseName + DATA_MODEL_PROJECT_SUFFIX,
+    name: appBaseName + PROJECT_SUFFIX_DATA_MODEL,
     directory: options.directory,
   };
   await generateSchemas(tree, schemasSchema);
 
   // @nrwl/js:library
   const jsLibSchema: JsLibSchema = {
-    name: appBaseName + '-shared',
+    name: appBaseName + PROJECT_SUFFIX_LIB_SHARED,
     directory: options.directory,
     tags: `app:${appBaseName},scope:shared,type:util`,
   };
@@ -47,7 +52,7 @@ export async function generateProject(
 
   // @nrwl/node:application
   const nodeAppSchema: NodeAppSchema = {
-    name: appBaseName + '-cli',
+    name: appBaseName + PROJECT_SUFFIX_APP_CLI,
     directory: options.directory,
     tags: `app:${appBaseName},scope:backend,type:app`,
   };
@@ -55,7 +60,7 @@ export async function generateProject(
 
   // @nrwl/nest:application
   const nestAppSchema: NestAppSchema = {
-    name: appBaseName + '-be',
+    name: appBaseName + PROJECT_SUFFIX_APP_BACKEND,
     directory: options.directory,
     tags: `app:${appBaseName},scope:backend,type:app`,
   };
@@ -63,7 +68,7 @@ export async function generateProject(
 
   // @nrwl/react:application
   const reactAppSchema: ReactAppSchema = {
-    name: appBaseName + '-web',
+    name: appBaseName + PROJECT_SUFFIX_APP_WEB,
     linter: Linter.EsLint,
     skipFormat: false,
     style: 'scss',

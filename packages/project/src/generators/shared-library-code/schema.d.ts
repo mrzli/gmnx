@@ -1,5 +1,4 @@
 export interface SharedLibraryCodeGeneratorSchema {
-    name: string;
-    tags?: string;
-    directory?: string;
+  readonly name: string;
+  readonly directory?: string;
 }

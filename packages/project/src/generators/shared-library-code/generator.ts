@@ -11,10 +11,10 @@ import * as path from 'path';
 import { SharedLibraryCodeGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends SharedLibraryCodeGeneratorSchema {
-  projectName: string;
-  projectRoot: string;
-  projectDirectory: string;
-  parsedTags: string[];
+  readonly npmScope: string;
+  readonly projectName: string;
+  readonly projectRoot: string;
+  readonly projectDirectory: string;
 }
 
 export async function generateSharedLibraryCode(
@@ -22,6 +22,7 @@ export async function generateSharedLibraryCode(
   options: SharedLibraryCodeGeneratorSchema
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
+
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
     projectType: 'library',
@@ -31,7 +32,6 @@ export async function generateSharedLibraryCode(
         executor: '@gmnx/project:build',
       },
     },
-    tags: normalizedOptions.parsedTags,
   });
   addFiles(tree, normalizedOptions);
   await formatFiles(tree);
@@ -41,24 +41,52 @@ function normalizeOptions(
   tree: Tree,
   options: SharedLibraryCodeGeneratorSchema
 ): NormalizedSchema {
+  const workspaceLayout = getWorkspaceLayout(tree);
+  const npmScope = workspaceLayout.npmScope;
+
   const name = names(options.name).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
     : name;
   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
+  const projectRoot = `${workspaceLayout.libsDir}/${projectDirectory}`;
 
   return {
     ...options,
     projectName,
     projectRoot,
     projectDirectory,
-    parsedTags,
+    npmScope,
   };
 }
+
+// function createSchemaToSharedInput(
+//   tree: Tree,
+//   normalizedOptions: NormalizedSchema
+// ): SchemaToSharedLibraryCodeInput {
+//   const schemas = readJsonSync<readonly MongoJsonSchemaTypeObject[]>(
+//     path.join(testDir, 'input/schemas.json')
+//   );
+//   const initialFiles: SchemaToSharedLibraryCodeInitialFiles = {
+//     index: readText(tree, path.join()),
+//   };
+//
+//   return {
+//     schemas,
+//     initialFiles,
+//     options: {
+//       mongoInterfacesDir: 'lib/mongo',
+//       dbInterfaceOptions: {
+//         dir: 'db',
+//         prefix: 'db',
+//       },
+//       appInterfaceOptions: {
+//         dir: 'app',
+//         prefix: 'app',
+//       },
+//     },
+//   };
+// }
 
 function addFiles(tree: Tree, options: NormalizedSchema): void {
   const templateOptions = {
