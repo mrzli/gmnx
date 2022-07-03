@@ -1,4 +1,4 @@
-import { getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
+import { Tree } from '@nrwl/devkit';
 import * as path from 'path';
 import { SchemasGeneratorSchema } from './schema';
 import {
@@ -9,6 +9,7 @@ import {
 import { dataModelToSchema } from '@gmjs/data-manipulation';
 import { kebabCase } from '@gmjs/lib-util';
 import { PROJECT_SUFFIX_LIB_DATA_MODEL } from '../../shared/constants';
+import { getProjectValues } from '../../shared/util';
 
 interface NormalizedSchema extends SchemasGeneratorSchema {
   readonly projectName: string;
@@ -42,18 +43,18 @@ function normalizeOptions(
   tree: Tree,
   options: SchemasGeneratorSchema
 ): NormalizedSchema {
-  const name = names(options.name + PROJECT_SUFFIX_LIB_DATA_MODEL).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
+  const { directory, name, root } = getProjectValues(
+    tree,
+    options,
+    false,
+    PROJECT_SUFFIX_LIB_DATA_MODEL
+  );
 
   return {
     ...options,
-    projectName,
-    projectRoot,
-    projectDirectory,
+    projectName: name,
+    projectRoot: root,
+    projectDirectory: directory,
   };
 }
 

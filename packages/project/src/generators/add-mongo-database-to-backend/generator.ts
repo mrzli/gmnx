@@ -1,12 +1,16 @@
 import { names, Tree } from '@nrwl/devkit';
 import { AddMongoDatabaseToBackendGeneratorSchema } from './schema';
-import { getProjectRoot } from '../../shared/util';
+import {
+  getProjectName,
+  getProjectNameWithoutDir,
+  getProjectRoot,
+} from '../../shared/util';
 import * as path from 'path';
 import { readText, writeText } from '@gmnx/internal-util';
 import { PROJECT_SUFFIX_APP_BACKEND } from '../../shared/constants';
 import {
   addMongoDatabaseToBackend,
-  AddMongoDatabaseToBackendInput
+  AddMongoDatabaseToBackendInput,
 } from '@gmjs/data-manipulation';
 
 interface NormalizedSchema extends AddMongoDatabaseToBackendGeneratorSchema {
@@ -30,7 +34,7 @@ function normalizeOptions(
 ): NormalizedSchema {
   return {
     ...options,
-    baseName: names(options.name).fileName,
+    baseName: getProjectNameWithoutDir(options.name),
     backendAppProjectRoot: getProjectRoot(
       tree,
       options,

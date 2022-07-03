@@ -1,4 +1,4 @@
-import { getWorkspaceLayout, Tree } from '@nrwl/devkit';
+import { Tree } from '@nrwl/devkit';
 import * as path from 'path';
 import { readText, writeTexts } from '@gmnx/internal-util';
 import {
@@ -6,7 +6,7 @@ import {
   PROJECT_SUFFIX_LIB_DATA_MODEL,
   PROJECT_SUFFIX_LIB_SHARED,
 } from '../../shared/constants';
-import { getProjectRoot, readSchemas } from '../../shared/util';
+import { getNpmScope, getProjectRoot, readSchemas } from '../../shared/util';
 import { BackendAppCodeGeneratorSchema } from './schema';
 import {
   schemaToBackendAppCode,
@@ -40,7 +40,7 @@ function normalizeOptions(
 ): NormalizedSchema {
   return {
     ...options,
-    npmScope: getWorkspaceLayout(tree).npmScope,
+    npmScope: getNpmScope(tree),
     dataModelProjectRoot: getProjectRoot(
       tree,
       options,

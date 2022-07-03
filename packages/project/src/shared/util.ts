@@ -70,13 +70,13 @@ export function getProjectDirectory(
   projectSuffix?: string
 ): string {
   projectSuffix ??= '';
-  const nameLastPart = getProjectNameLastPart(options.name + projectSuffix);
+  const nameWithoutDir = getProjectNameWithoutDir(options.name + projectSuffix);
   return options.directory
-    ? `${names(options.directory).fileName}/${nameLastPart}`
-    : nameLastPart;
+    ? `${names(options.directory).fileName}/${nameWithoutDir}`
+    : nameWithoutDir;
 }
 
-function getProjectNameLastPart(inputName: string): string {
+export function getProjectNameWithoutDir(inputName: string): string {
   return names(inputName).fileName;
 }
 
@@ -98,4 +98,8 @@ function packagesDirAndProjectDirectoryToProjectRoot(
 
 export function tagsToParsedTags(tags: string | undefined): string[] {
   return tags ? tags.split(',').map((s) => s.trim()) : [];
+}
+
+export function getNpmScope(tree: Tree): string {
+  return getWorkspaceLayout(tree).npmScope;
 }

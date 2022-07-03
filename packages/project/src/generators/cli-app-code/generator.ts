@@ -11,7 +11,11 @@ import {
   schemaToCliAppCode,
   SchemaToCliAppCodeInput,
 } from '@gmjs/data-manipulation';
-import { getProjectRoot, readSchemas } from '../../shared/util';
+import {
+  getProjectNameWithoutDir,
+  getProjectRoot,
+  readSchemas,
+} from '../../shared/util';
 import {
   PROJECT_SUFFIX_APP_CLI,
   PROJECT_SUFFIX_LIB_DATA_MODEL,
@@ -52,7 +56,7 @@ function normalizeOptions(
     ...options,
     npmScope: workspaceLayout.npmScope,
     libsDir: workspaceLayout.libsDir,
-    baseName: names(options.name).fileName,
+    baseName: getProjectNameWithoutDir(options.name),
     dataModelProjectRoot: getProjectRoot(
       tree,
       options,

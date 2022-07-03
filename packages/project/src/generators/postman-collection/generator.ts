@@ -1,13 +1,17 @@
-import { names, Tree } from '@nrwl/devkit';
+import { Tree } from '@nrwl/devkit';
 import { PostmanCollectionGeneratorSchema } from './schema';
-import { getProjectRoot, readSchemas } from '../../shared/util';
+import {
+  getProjectNameWithoutDir,
+  getProjectRoot,
+  readSchemas,
+} from '../../shared/util';
 import * as path from 'path';
 import { writeJson } from '@gmnx/internal-util';
 import { PROJECT_SUFFIX_LIB_DATA_MODEL } from '../../shared/constants';
 import { pascalCase } from '@gmjs/lib-util';
 import {
   schemaToPostmanCollection,
-  SchemaToPostmanCollectionInput
+  SchemaToPostmanCollectionInput,
 } from '@gmjs/data-manipulation';
 
 interface NormalizedSchema extends PostmanCollectionGeneratorSchema {
@@ -35,7 +39,7 @@ function normalizeOptions(
 ): NormalizedSchema {
   return {
     ...options,
-    baseName: names(options.name).fileName,
+    baseName: getProjectNameWithoutDir(options.name),
     dataModelProjectRoot: getProjectRoot(
       tree,
       options,

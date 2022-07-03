@@ -2,7 +2,6 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
-  getWorkspaceLayout,
   names,
   offsetFromRoot,
   ProjectConfiguration,
@@ -11,6 +10,7 @@ import {
 import * as path from 'path';
 import { DataModelGeneratorSchema } from './schema';
 import { PROJECT_SUFFIX_LIB_DATA_MODEL } from '../../shared/constants';
+import { getProjectValues, tagsToParsedTags } from '../../shared/util';
 
 interface NormalizedSchema extends DataModelGeneratorSchema {
   readonly projectName: string;
@@ -46,22 +46,19 @@ function normalizeOptions(
   tree: Tree,
   options: DataModelGeneratorSchema
 ): NormalizedSchema {
-  const name = names(options.name + PROJECT_SUFFIX_LIB_DATA_MODEL).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
+  const { directory, name, root } = getProjectValues(
+    tree,
+    options,
+    false,
+    PROJECT_SUFFIX_LIB_DATA_MODEL
+  );
 
   return {
     ...options,
-    projectName,
-    projectRoot,
-    projectDirectory,
-    parsedTags,
+    projectName: name,
+    projectRoot: root,
+    projectDirectory: directory,
+    parsedTags: tagsToParsedTags(options.tags),
   };
 }
 
