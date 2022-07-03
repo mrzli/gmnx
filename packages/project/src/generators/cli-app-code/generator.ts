@@ -1,6 +1,5 @@
 import {
   getWorkspaceLayout,
-  names,
   readProjectConfiguration,
   Tree,
   updateProjectConfiguration as updateProjectConfigurationInternal,
@@ -14,6 +13,7 @@ import {
 import {
   getProjectNameWithoutDir,
   getProjectRoot,
+  getProjectValues,
   readSchemas,
 } from '../../shared/util';
 import {
@@ -29,6 +29,7 @@ interface NormalizedSchema extends CliAppCodeGeneratorSchema {
   readonly baseName: string;
   readonly dataModelProjectRoot: string;
   readonly cliAppProjectRoot: string;
+  readonly cliAppProjectName: string;
 }
 
 export async function generateCliAppCode(
@@ -43,7 +44,7 @@ export async function generateCliAppCode(
     path.join(normalizedOptions.cliAppProjectRoot, 'src'),
     cliAppCode
   );
-  updateProjectConfiguration(tree);
+  updateProjectConfiguration(tree, normalizedOptions.cliAppProjectName);
 }
 
 function normalizeOptions(
@@ -51,6 +52,12 @@ function normalizeOptions(
   options: CliAppCodeGeneratorSchema
 ): NormalizedSchema {
   const workspaceLayout = getWorkspaceLayout(tree);
+  const { name: cliAppProjectName, root: cliAppProjectRoot } = getProjectValues(
+    tree,
+    options,
+    true,
+    PROJECT_SUFFIX_APP_CLI
+  );
 
   return {
     ...options,
@@ -63,12 +70,8 @@ function normalizeOptions(
       false,
       PROJECT_SUFFIX_LIB_DATA_MODEL
     ),
-    cliAppProjectRoot: getProjectRoot(
-      tree,
-      options,
-      true,
-      PROJECT_SUFFIX_APP_CLI
-    ),
+    cliAppProjectRoot,
+    cliAppProjectName,
   };
 }
 
@@ -100,9 +103,39 @@ function createSchemaToCliAppInput(
   };
 }
 
-function updateProjectConfiguration(tree: Tree): void {
-  // const projectConfiguration = readProjectConfiguration(tree, '');
-  // updateProjectConfigurationInternal()
+function updateProjectConfiguration(tree: Tree, projectName: string): void {
+  const projectConfiguration = readProjectConfiguration(tree, projectName);
+  projectConfiguration.targets = {
+    ...projectConfiguration.targets,
+    create: {
+      executor: '@nrwl/node:node',
+      options: {
+        buildTarget: 'expenses-cli-old:build',
+        watch: false,
+        inspect: false,
+        args: ['create-db'],
+      },
+    },
+    drop: {
+      executor: '@nrwl/node:node',
+      options: {
+        buildTarget: 'expenses-cli-old:build',
+        watch: false,
+        inspect: false,
+        args: ['drop-db'],
+      },
+    },
+    seed: {
+      executor: '@nrwl/node:node',
+      options: {
+        buildTarget: 'expenses-cli-old:build',
+        watch: false,
+        inspect: false,
+        args: ['seed-db'],
+      },
+    },
+  };
+  updateProjectConfigurationInternal(tree, projectName, projectConfiguration);
 }
 
 export default generateCliAppCode;
