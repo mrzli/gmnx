@@ -75,17 +75,17 @@ export async function generateProject(
   };
   await generateNestApp(tree, nestAppSchema);
 
-  const postmanCollectionSchema: PostmanCollectionGeneratorSchema = {
-    name: appBaseName,
-    directory: options.directory,
-  };
-  await generatePostmanCollection(tree, postmanCollectionSchema);
-
   const backendAppCodeSchema: BackendAppCodeGeneratorSchema = {
     name: appBaseName,
     directory: options.directory,
   };
   await generateBackendAppCode(tree, backendAppCodeSchema);
+
+  const postmanCollectionSchema: PostmanCollectionGeneratorSchema = {
+    name: appBaseName,
+    directory: options.directory,
+  };
+  await generatePostmanCollection(tree, postmanCollectionSchema);
 
   // @nrwl/react:application
   const reactAppSchema: ReactAppSchema = {
