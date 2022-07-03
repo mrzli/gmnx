@@ -12,11 +12,11 @@
   },
   "private": true,
   "dependencies": {
-    "@gmjs/data-manipulation": "0.0.44",
-    "@gmjs/fs-util": "0.0.44",
-    "@gmjs/lib-util": "0.0.44",
-    "@gmjs/mongo-util": "0.0.44",
-    "@gmjs/util": "0.0.44",
+    "@gmjs/data-manipulation": "0.0.45",
+    "@gmjs/fs-util": "0.0.45",
+    "@gmjs/lib-util": "0.0.45",
+    "@gmjs/mongo-util": "0.0.45",
+    "@gmjs/util": "0.0.45",
     "@swc/helpers": "~0.3.3",
     "fs-extra": "10.1.0",
     "tslib": "^2.3.0"
