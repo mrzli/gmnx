@@ -1,6 +1,6 @@
 import { Tree } from '@nrwl/devkit';
 import { ENCODING_UTF8 } from './constants';
-import { AnyValue, Fn1, invariant, isNotNullish } from '@gmjs/util';
+import { AnyValue, invariant, isNotNullish } from '@gmjs/util';
 import { jsonToPretty } from '@gmjs/lib-util';
 import { PathContentPair, pathExtension } from '@gmjs/fs-util';
 import * as path from 'path';
@@ -83,7 +83,7 @@ export function deleteFilesByPredicate(
   }
 }
 
-function createExtensionPredicate(extension: string): Fn1<string, boolean> {
+function createExtensionPredicate(extension: string): (filePath: string) => boolean {
   return (filePath: string) =>
     pathExtension(filePath).toLowerCase() === extension.toLowerCase();
 }
