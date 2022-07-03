@@ -2,7 +2,10 @@ import { Tree } from '@nrwl/devkit';
 import { ENCODING_UTF8 } from './constants';
 import { AnyValue, invariant, isNotNullish } from '@gmjs/util';
 import { jsonToPretty } from '@gmjs/lib-util';
-import { PathContentPair, pathExtension } from '@gmjs/fs-util';
+import {
+  createExtensionPredicate,
+  PathContentPair,
+} from '@gmjs/fs-util';
 import * as path from 'path';
 
 export function readText(tree: Tree, filePath: string): string {
@@ -81,9 +84,4 @@ export function deleteFilesByPredicate(
       tree.delete(filePath);
     }
   }
-}
-
-function createExtensionPredicate(extension: string): (filePath: string) => boolean {
-  return (filePath: string) =>
-    pathExtension(filePath).toLowerCase() === extension.toLowerCase();
 }
