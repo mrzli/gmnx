@@ -5,13 +5,12 @@ import {
   PROJECT_SUFFIX_LIB_DATA_MODEL,
   PROJECT_SUFFIX_LIB_SHARED,
 } from '../../shared/constants';
-import {
-  SchemaToSharedLibraryCodeInitialFiles,
-  SchemaToSharedLibraryCodeInput,
-} from '@gmjs/data-manipulation/src/lib/schema/to-shared-library-code/schema-to-shared-library-code-input';
 import { getProjectRoot, readSchemas } from '../../shared/util';
 import { readText, writeTexts } from '@gmnx/internal-util';
-import { schemaToSharedLibraryCode } from '@gmjs/data-manipulation/src/lib/schema/to-shared-library-code/schema-to-shared-library-code';
+import {
+  schemaToSharedLibraryCode, SchemaToSharedLibraryCodeInitialFiles,
+  SchemaToSharedLibraryCodeInput
+} from '@gmjs/data-manipulation';
 
 interface NormalizedSchema extends SharedLibraryCodeGeneratorSchema {
   readonly dataModelProjectRoot: string;

@@ -3,10 +3,12 @@ import { PostmanCollectionGeneratorSchema } from './schema';
 import { getProjectRoot, readSchemas } from '../../shared/util';
 import * as path from 'path';
 import { writeJson } from '@gmnx/internal-util';
-import { SchemaToPostmanCollectionInput } from '@gmjs/data-manipulation/src/lib/schema/to-postman-collection/schema-to-postman-collection-input';
 import { PROJECT_SUFFIX_LIB_DATA_MODEL } from '../../shared/constants';
 import { pascalCase } from '@gmjs/lib-util';
-import { schemaToPostmanCollection } from '@gmjs/data-manipulation/src/lib/schema/to-postman-collection/schema-to-postman-collection';
+import {
+  schemaToPostmanCollection,
+  SchemaToPostmanCollectionInput
+} from '@gmjs/data-manipulation';
 
 interface NormalizedSchema extends PostmanCollectionGeneratorSchema {
   readonly baseName: string;

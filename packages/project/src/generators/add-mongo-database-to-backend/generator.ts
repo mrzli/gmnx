@@ -4,8 +4,10 @@ import { getProjectRoot } from '../../shared/util';
 import * as path from 'path';
 import { readText, writeText } from '@gmnx/internal-util';
 import { PROJECT_SUFFIX_APP_BACKEND } from '../../shared/constants';
-import { AddMongoDatabaseToBackendInput } from '@gmjs/data-manipulation/src/lib/code/add-mongo-database-to-backend/add-mongo-database-to-backend-input';
-import { addMongoDatabaseToBackend } from '@gmjs/data-manipulation/src/lib/code/add-mongo-database-to-backend/add-mongo-database-to-backend';
+import {
+  addMongoDatabaseToBackend,
+  AddMongoDatabaseToBackendInput
+} from '@gmjs/data-manipulation';
 
 interface NormalizedSchema extends AddMongoDatabaseToBackendGeneratorSchema {
   readonly baseName: string;

@@ -1,9 +1,8 @@
 import { Tree } from '@nrwl/devkit';
-import { ENCODING_UTF8 } from './constants';
 import { AnyValue, invariant, isNotNullish } from '@gmjs/util';
 import { jsonToPretty } from '@gmjs/lib-util';
 import {
-  createExtensionPredicate,
+  createExtensionPredicate, ENCODING_UTF8, FileSelectionPredicate,
   PathContentPair,
 } from '@gmjs/fs-util';
 import * as path from 'path';
@@ -29,7 +28,7 @@ export function readTextsByExtension(
 export function readTextsByPredicate(
   tree: Tree,
   dirPath: string,
-  predicate: (filePath: string) => boolean
+  predicate: FileSelectionPredicate
 ): readonly PathContentPair[] {
   const results: PathContentPair[] = [];
 
@@ -75,7 +74,7 @@ export function deleteFilesByExtension(
 export function deleteFilesByPredicate(
   tree: Tree,
   dirPath: string,
-  predicate: (filePath: string) => boolean
+  predicate: FileSelectionPredicate
 ): void {
   const fsNames = tree.children(dirPath);
   for (const fsName of fsNames) {
