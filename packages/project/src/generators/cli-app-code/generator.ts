@@ -104,13 +104,15 @@ function createSchemaToCliAppInput(
 }
 
 function updateProjectConfiguration(tree: Tree, projectName: string): void {
+  const buildTarget = `${projectName}:build`;
+
   const projectConfiguration = readProjectConfiguration(tree, projectName);
   projectConfiguration.targets = {
     ...projectConfiguration.targets,
     create: {
       executor: '@nrwl/node:node',
       options: {
-        buildTarget: 'expenses-cli-old:build',
+        buildTarget,
         watch: false,
         inspect: false,
         args: ['create-db'],
@@ -119,7 +121,7 @@ function updateProjectConfiguration(tree: Tree, projectName: string): void {
     drop: {
       executor: '@nrwl/node:node',
       options: {
-        buildTarget: 'expenses-cli-old:build',
+        buildTarget,
         watch: false,
         inspect: false,
         args: ['drop-db'],
@@ -128,7 +130,7 @@ function updateProjectConfiguration(tree: Tree, projectName: string): void {
     seed: {
       executor: '@nrwl/node:node',
       options: {
-        buildTarget: 'expenses-cli-old:build',
+        buildTarget,
         watch: false,
         inspect: false,
         args: ['seed-db'],
