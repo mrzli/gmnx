@@ -74,7 +74,7 @@ function addDataModelYamlFile(
   );
   writeText(
     tree,
-    path.join(normalizedOptions.projectRoot, 'assets/data-model.yaml'),
+    path.join(normalizedOptions.projectRoot, 'assets/yaml/data-model.yaml'),
     dataModelYamlContent
   );
 }
