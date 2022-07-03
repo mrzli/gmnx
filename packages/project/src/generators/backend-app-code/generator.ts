@@ -26,11 +26,11 @@ export async function generateBackendAppCode(
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
   const input = createSchemaToBackendAppInput(tree, normalizedOptions);
-  const sharedLibraryCode = schemaToBackendAppCode(input);
+  const backendAppCode = schemaToBackendAppCode(input);
   writeTexts(
     tree,
     path.join(normalizedOptions.backendAppProjectRoot, 'src'),
-    sharedLibraryCode
+    backendAppCode
   );
 }
 

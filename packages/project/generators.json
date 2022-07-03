@@ -37,6 +37,11 @@
       "factory": "./src/generators/add-mongo-database-to-backend/generator",
       "schema": "./src/generators/add-mongo-database-to-backend/schema.json",
       "description": "add-mongo-database-to-backend generator"
+    },
+    "cli-app-code": {
+      "factory": "./src/generators/cli-app-code/generator",
+      "schema": "./src/generators/cli-app-code/schema.json",
+      "description": "cli-app-code generator"
     }
   }
 }
