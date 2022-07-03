@@ -1,5 +1,9 @@
 import {
   addProjectConfiguration,
+  formatFiles,
+  generateFiles,
+  names,
+  offsetFromRoot,
   ProjectConfiguration,
   Tree,
 } from '@nrwl/devkit';
@@ -40,6 +44,9 @@ export async function generateDataModel(
     projectConfiguration
   );
 
+  addFiles(tree, normalizedOptions);
+  await formatFiles(tree);
+
   addDataModelYamlFile(tree, normalizedOptions);
 }
 
@@ -62,6 +69,21 @@ function normalizeOptions(
     projectDirectory: directory,
     parsedTags: tagsToParsedTags(options.tags),
   };
+}
+
+function addFiles(tree: Tree, options: NormalizedSchema): void {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    tree,
+    path.join(__dirname, 'files'),
+    options.projectRoot,
+    templateOptions
+  );
 }
 
 function addDataModelYamlFile(
