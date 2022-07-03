@@ -32,6 +32,11 @@
       "factory": "./src/generators/postman-collection/generator",
       "schema": "./src/generators/postman-collection/schema.json",
       "description": "postman-collection generator"
+    },
+    "add-mongo-database-to-backend": {
+      "factory": "./src/generators/add-mongo-database-to-backend/generator",
+      "schema": "./src/generators/add-mongo-database-to-backend/schema.json",
+      "description": "add-mongo-database-to-backend generator"
     }
   }
 }

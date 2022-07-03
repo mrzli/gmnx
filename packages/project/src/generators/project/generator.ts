@@ -24,6 +24,8 @@ import { BackendAppCodeGeneratorSchema } from '../backend-app-code/schema';
 import generateBackendAppCode from '../backend-app-code/generator';
 import generatePostmanCollection from '../postman-collection/generator';
 import { PostmanCollectionGeneratorSchema } from '../postman-collection/schema';
+import generateAddMongoDatabaseToBackend from '../add-mongo-database-to-backend/generator';
+import { AddMongoDatabaseToBackendGeneratorSchema } from '../add-mongo-database-to-backend/schema';
 
 export async function generateProject(
   tree: Tree,
@@ -74,6 +76,16 @@ export async function generateProject(
     tags: `app:${appBaseName},scope:backend,type:app`,
   };
   await generateNestApp(tree, nestAppSchema);
+
+  const addMongoDatabaseToBackendSchema: AddMongoDatabaseToBackendGeneratorSchema =
+    {
+      name: appBaseName,
+      directory: options.directory,
+    };
+  await generateAddMongoDatabaseToBackend(
+    tree,
+    addMongoDatabaseToBackendSchema
+  );
 
   const backendAppCodeSchema: BackendAppCodeGeneratorSchema = {
     name: appBaseName,
