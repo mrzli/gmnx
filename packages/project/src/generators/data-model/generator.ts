@@ -70,7 +70,7 @@ function addDataModelYamlFile(
 ): void {
   const dataModelYamlContent = readText(
     tree,
-    `index/${normalizedOptions.baseName}-data-model.yaml`
+    `input/${normalizedOptions.baseName}-data-model.yaml`
   );
   writeText(
     tree,
