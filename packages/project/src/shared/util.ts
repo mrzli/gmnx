@@ -1,8 +1,8 @@
 import { getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
-import { MongoJsonSchemaTypeObject } from '@gmjs/data-manipulation';
 import { readTextsByExtension } from '@gmnx/internal-util';
 import { textToJson } from '@gmjs/lib-util';
 import { SharedLibraryCodeGeneratorSchema } from '../generators/shared-library-code/schema';
+import { MongoJsonSchemaTypeObject } from '@gmjs/mongo-util';
 
 export function readSchemas(
   tree: Tree,
