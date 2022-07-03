@@ -1,20 +1,12 @@
 import { getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
 import { libraryGenerator as generateJsLib } from '@nrwl/js';
-import {
-  LibraryGeneratorSchema as JsLibSchema
-} from '@nrwl/js/src/utils/schema';
+import { LibraryGeneratorSchema as JsLibSchema } from '@nrwl/js/src/utils/schema';
 import { applicationGenerator as generateNodeApp } from '@nrwl/node';
-import {
-  Schema as NodeAppSchema
-} from '@nrwl/node/src/generators/application/schema';
+import { Schema as NodeAppSchema } from '@nrwl/node/src/generators/application/schema';
 import { applicationGenerator as generateNestApp } from '@nrwl/nest';
-import {
-  ApplicationGeneratorOptions as NestAppSchema
-} from '@nrwl/nest/src/generators/application/schema';
+import { ApplicationGeneratorOptions as NestAppSchema } from '@nrwl/nest/src/generators/application/schema';
 import { applicationGenerator as generateReactApp } from '@nrwl/react';
-import {
-  Schema as ReactAppSchema
-} from '@nrwl/react/src/generators/application/schema';
+import { Schema as ReactAppSchema } from '@nrwl/react/src/generators/application/schema';
 import { ProjectGeneratorSchema } from './schema';
 import generateSchemas from '../schemas/generator';
 import { SchemasGeneratorSchema } from '../schemas/schema';
@@ -26,21 +18,18 @@ import {
   PROJECT_SUFFIX_APP_WEB,
   PROJECT_SUFFIX_LIB_SHARED,
 } from '../../shared/constants';
-import {
-  SharedLibraryCodeGeneratorSchema
-} from '../shared-library-code/schema';
+import { SharedLibraryCodeGeneratorSchema } from '../shared-library-code/schema';
 import generateSharedLibraryCode from '../shared-library-code/generator';
 import { BackendAppCodeGeneratorSchema } from '../backend-app-code/schema';
 import generateBackendAppCode from '../backend-app-code/generator';
 import generatePostmanCollection from '../postman-collection/generator';
 import { PostmanCollectionGeneratorSchema } from '../postman-collection/schema';
-import generateAddMongoDatabaseToBackend
-  from '../add-mongo-database-to-backend/generator';
-import {
-  AddMongoDatabaseToBackendGeneratorSchema
-} from '../add-mongo-database-to-backend/schema';
+import generateAddMongoDatabaseToBackend from '../add-mongo-database-to-backend/generator';
+import { AddMongoDatabaseToBackendGeneratorSchema } from '../add-mongo-database-to-backend/schema';
 import { CliAppCodeGeneratorSchema } from '../cli-app-code/schema';
 import generateCliAppCode from '../cli-app-code/generator';
+import { DataModelGeneratorSchema } from '../data-model/schema';
+import generateDataModel from '../data-model/generator';
 
 export async function generateProject(
   tree: Tree,
@@ -48,12 +37,12 @@ export async function generateProject(
 ): Promise<void> {
   const appBaseName = options.name;
 
-  // const dataModelSchema: DataModelGeneratorSchema = {
-  //   name: appBaseName,
-  //   directory: options.directory,
-  //   tags: `app:${appBaseName},scope:backend,type:util`,
-  // };
-  // await generateDataModel(tree, dataModelSchema);
+  const dataModelSchema: DataModelGeneratorSchema = {
+    name: appBaseName,
+    directory: options.directory,
+    tags: `app:${appBaseName},scope:backend,type:util`,
+  };
+  await generateDataModel(tree, dataModelSchema);
 
   const schemasSchema: SchemasGeneratorSchema = {
     name: appBaseName,
