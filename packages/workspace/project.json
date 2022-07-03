@@ -1,0 +1,19 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/workspace/src",
+  "targets": {
+    "cloc": {
+      "executor": "@gmnx/util:cloc",
+      "options": {
+        "ignoreDirs": [".idea", ".vscode", "node_modules", "dist"],
+        "ignoreFiles": ["package-lock.json"]
+      }
+    },
+    "publish-all": {
+      "executor": "@gmnx/util:publish-all",
+      "options": {}
+    }
+  },
+  "tags": []
+}
