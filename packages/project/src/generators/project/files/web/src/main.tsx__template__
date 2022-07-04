@@ -1,4 +1,4 @@
-import { startApp } from './app-setup/app-setup.tsx__template__';
+import { startApp } from './app-setup/app-setup';
 import { App } from './app/components/App';
 
 startApp(<App />);
