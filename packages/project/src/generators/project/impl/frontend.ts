@@ -28,7 +28,7 @@ export async function generateFrontend(
 }
 
 function cleanProject(tree: Tree, options: ReactAppSchema): void {
-  const projectRoot = getProjectRoot(tree, options, false, undefined);
+  const projectRoot = getProjectRoot(tree, options, true, undefined);
   tree.delete(path.join(projectRoot, 'src/main.tsx'));
   tree.delete(path.join(projectRoot, 'src/app'));
 }
