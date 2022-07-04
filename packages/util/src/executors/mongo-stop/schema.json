@@ -20,10 +20,5 @@
       "type": "string"
     }
   },
-  "required": [
-    "containerName",
-    "mongoVersion",
-    "port",
-    "dataDir"
-  ]
+  "required": ["containerName", "mongoVersion", "port", "dataDir"]
 }

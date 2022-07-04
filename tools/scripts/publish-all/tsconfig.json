@@ -2,5 +2,5 @@
   "compilerOptions": {
     "outDir": "dist",
     "strict": true
-  },
+  }
 }
