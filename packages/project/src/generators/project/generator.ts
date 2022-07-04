@@ -70,6 +70,7 @@ export async function generateProject(
     name: appBaseName + PROJECT_SUFFIX_APP_CLI,
     directory: options.directory,
     tags: `app:${appBaseName},scope:backend,type:app`,
+    frontendProject: appBaseName + PROJECT_SUFFIX_APP_WEB,
   };
   await generateNodeApp(tree, nodeAppSchema);
 
