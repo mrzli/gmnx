@@ -1,5 +1,5 @@
 import { Tree } from '@nrwl/devkit';
-import * as path from 'path';
+import path from 'path';
 import { SchemasGeneratorSchema } from './schema';
 import {
   deleteFilesByExtension,

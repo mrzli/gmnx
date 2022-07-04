@@ -1,5 +1,5 @@
 import { Tree } from '@nrwl/devkit';
-import * as path from 'path';
+import path from 'path';
 import { SharedLibraryCodeGeneratorSchema } from './schema';
 import {
   PROJECT_SUFFIX_LIB_DATA_MODEL,
@@ -8,8 +8,9 @@ import {
 import { getProjectRoot, readSchemas } from '../../shared/util';
 import { readText, writeTexts } from '@gmnx/internal-util';
 import {
-  schemaToSharedLibraryCode, SchemaToSharedLibraryCodeInitialFiles,
-  SchemaToSharedLibraryCodeInput
+  schemaToSharedLibraryCode,
+  SchemaToSharedLibraryCodeInitialFiles,
+  SchemaToSharedLibraryCodeInput,
 } from '@gmjs/data-manipulation';
 
 interface NormalizedSchema extends SharedLibraryCodeGeneratorSchema {

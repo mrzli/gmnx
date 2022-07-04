@@ -1,4 +1,4 @@
-import * as child_process from 'child_process';
+import child_process from 'child_process';
 import { promisify } from 'util';
 import { ClocExecutorSchema } from './schema';
 import {

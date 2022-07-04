@@ -5,7 +5,7 @@ import {
   getProjectRoot,
   readSchemas,
 } from '../../shared/util';
-import * as path from 'path';
+import path from 'path';
 import { writeJson } from '@gmnx/internal-util';
 import { PROJECT_SUFFIX_LIB_DATA_MODEL } from '../../shared/constants';
 import { pascalCase } from '@gmjs/lib-util';

@@ -5,7 +5,7 @@ import {
   getProjectNameWithoutDir,
   getProjectRoot,
 } from '../../shared/util';
-import * as path from 'path';
+import path from 'path';
 import { readText, writeText } from '@gmnx/internal-util';
 import { PROJECT_SUFFIX_APP_BACKEND } from '../../shared/constants';
 import {

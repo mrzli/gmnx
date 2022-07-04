@@ -1,5 +1,5 @@
 import { Tree } from '@nrwl/devkit';
-import * as path from 'path';
+import path from 'path';
 import { readText, writeTexts } from '@gmnx/internal-util';
 import {
   PROJECT_SUFFIX_APP_BACKEND,

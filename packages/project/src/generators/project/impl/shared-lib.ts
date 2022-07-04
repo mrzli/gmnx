@@ -4,7 +4,7 @@ import { LibraryGeneratorSchema as JsLibSchema } from '@nrwl/js/src/utils/schema
 import { PROJECT_SUFFIX_LIB_SHARED } from '../../../shared/constants';
 import { libraryGenerator as generateJsLib } from '@nrwl/js/src/generators/library/library';
 import { getProjectRoot } from '../../../shared/util';
-import * as path from 'path';
+import path from 'path';
 import { SharedLibraryCodeGeneratorSchema } from '../../shared-library-code/schema';
 import { generateSharedLibraryCode } from '../../shared-library-code/generator';
 

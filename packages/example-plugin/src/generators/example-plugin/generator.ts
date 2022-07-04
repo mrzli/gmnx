@@ -7,7 +7,7 @@ import {
   offsetFromRoot,
   Tree,
 } from '@nrwl/devkit';
-import * as path from 'path';
+import path from 'path';
 import { ExamplePluginGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends ExamplePluginGeneratorSchema {

@@ -2,10 +2,12 @@ import { Tree } from '@nrwl/devkit';
 import { AnyValue, invariant, isNotNullish } from '@gmjs/util';
 import { jsonToPretty } from '@gmjs/lib-util';
 import {
-  createExtensionPredicate, ENCODING_UTF8, FileSelectionPredicate,
+  createExtensionPredicate,
+  ENCODING_UTF8,
+  FileSelectionPredicate,
   PathContentPair,
 } from '@gmjs/fs-util';
-import * as path from 'path';
+import path from 'path';
 
 export function readText(tree: Tree, filePath: string): string {
   const content = tree.read(filePath, ENCODING_UTF8);

@@ -1,5 +1,5 @@
-import * as child_process from 'child_process';
-import * as path from 'path';
+import child_process from 'child_process';
+import path from 'path';
 import { promisify } from 'util';
 
 export function getMongoDockerComposePath(): string {

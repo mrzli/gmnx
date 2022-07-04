@@ -4,7 +4,7 @@ import {
   Tree,
   updateProjectConfiguration as updateProjectConfigurationInternal,
 } from '@nrwl/devkit';
-import * as path from 'path';
+import path from 'path';
 import { CliAppCodeGeneratorSchema } from './schema';
 import {
   schemaToCliAppCode,

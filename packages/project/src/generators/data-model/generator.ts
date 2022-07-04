@@ -7,7 +7,7 @@ import {
   ProjectConfiguration,
   Tree,
 } from '@nrwl/devkit';
-import * as path from 'path';
+import path from 'path';
 import { DataModelGeneratorSchema } from './schema';
 import { PROJECT_SUFFIX_LIB_DATA_MODEL } from '../../shared/constants';
 import {
