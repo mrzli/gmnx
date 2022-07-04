@@ -1,4 +1,10 @@
-import { Tree } from '@nrwl/devkit';
+import {
+  formatFiles,
+  generateFiles,
+  names,
+  offsetFromRoot,
+  Tree,
+} from '@nrwl/devkit';
 import { ProjectGeneratorSchema } from '../schema';
 import { Schema as ReactAppSchema } from '@nrwl/react/src/generators/application/schema';
 import { PROJECT_SUFFIX_APP_WEB } from '../../../shared/constants';
@@ -7,7 +13,7 @@ import { applicationGenerator as generateReactApp } from '@nrwl/react/src/genera
 import { getProjectRoot } from '../../../shared/util';
 import path from 'path';
 
-export async function generateFrontend(
+export async function generateWeb(
   tree: Tree,
   options: ProjectGeneratorSchema
 ): Promise<void> {
@@ -25,10 +31,20 @@ export async function generateFrontend(
   await generateReactApp(tree, reactAppSchema);
 
   cleanProject(tree, reactAppSchema);
+
+  addFiles(tree, reactAppSchema);
+  await formatFiles(tree);
 }
 
 function cleanProject(tree: Tree, options: ReactAppSchema): void {
   const projectRoot = getProjectRoot(tree, options, true, undefined);
   tree.delete(path.join(projectRoot, 'src/main.tsx'));
   tree.delete(path.join(projectRoot, 'src/app'));
+}
+
+function addFiles(tree: Tree, options: ReactAppSchema): void {
+  const projectRoot = getProjectRoot(tree, options, true, undefined);
+  generateFiles(tree, path.join(__dirname, '../files/web'), projectRoot, {
+    template: '',
+  });
 }

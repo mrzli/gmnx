@@ -1,6 +1,6 @@
 import { Tree } from '@nrwl/devkit';
 import { ProjectGeneratorSchema } from './schema';
-import { generateFrontend } from './impl/frontend';
+import { generateWeb } from './impl/web';
 import { generateSharedLib } from './impl/shared-lib';
 import { generateBackend } from './impl/backend';
 import { generateCli } from './impl/cli';
@@ -13,7 +13,7 @@ export async function generateProject(
 ): Promise<void> {
   await generateDataModel(tree, options);
   await generateSharedLib(tree, options);
-  await generateFrontend(tree, options);
+  await generateWeb(tree, options);
   await generateBackend(tree, options);
   await generateCli(tree, options);
   await generatePostmanCollection(tree, options);
