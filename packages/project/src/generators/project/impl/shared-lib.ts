@@ -19,7 +19,7 @@ export async function generateSharedLib(
     tags: `app:${options.name},scope:shared,type:util`,
   };
   await generateJsLib(tree, jsLibSchema);
-  cleanSharedLib(tree, jsLibSchema);
+  cleanProject(tree, jsLibSchema);
 
   const sharedLibraryCodeSchema: SharedLibraryCodeGeneratorSchema = {
     name: options.name,
@@ -28,7 +28,7 @@ export async function generateSharedLib(
   await generateSharedLibraryCode(tree, sharedLibraryCodeSchema);
 }
 
-function cleanSharedLib(tree: Tree, options: JsLibSchema): void {
+function cleanProject(tree: Tree, options: JsLibSchema): void {
   const projectRoot = getProjectRoot(tree, options, false, undefined);
   tree.delete(path.join(projectRoot, 'src/lib'));
   tree.write(path.join(projectRoot, 'src/index.ts'), '');
