@@ -1,10 +1,4 @@
-import {
-  formatFiles,
-  generateFiles,
-  names,
-  offsetFromRoot,
-  Tree,
-} from '@nrwl/devkit';
+import { formatFiles, generateFiles, Tree } from '@nrwl/devkit';
 import { ProjectGeneratorSchema } from '../schema';
 import { Schema as ReactAppSchema } from '@nrwl/react/src/generators/application/schema';
 import { PROJECT_SUFFIX_APP_WEB } from '../../../shared/constants';
