@@ -1,6 +1,6 @@
 import { Tree } from '@nrwl/devkit';
 import { AnyValue, invariant, isNotNullish } from '@gmjs/util';
-import { jsonToPretty } from '@gmjs/lib-util';
+import { jsonToPretty, textToJson } from '@gmjs/lib-util';
 import {
   createExtensionPredicate,
   ENCODING_UTF8,
@@ -8,6 +8,7 @@ import {
   PathContentPair,
 } from '@gmjs/fs-util';
 import path from 'path';
+import { MongoJsonSchemaTypeObject } from '@gmjs/mongo-util';
 
 export function readText(tree: Tree, filePath: string): string {
   const content = tree.read(filePath, ENCODING_UTF8);
@@ -85,4 +86,13 @@ export function deleteFilesByPredicate(
       tree.delete(filePath);
     }
   }
+}
+
+export function readSchemas(
+  tree: Tree,
+  dirPath: string
+): readonly MongoJsonSchemaTypeObject[] {
+  return readTextsByExtension(tree, dirPath, 'json').map((file) =>
+    textToJson<MongoJsonSchemaTypeObject>(file.content)
+  );
 }

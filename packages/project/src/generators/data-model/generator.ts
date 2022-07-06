@@ -13,9 +13,10 @@ import { PROJECT_SUFFIX_LIB_DATA_MODEL } from '../../shared/constants';
 import {
   getProjectNameWithoutDir,
   getProjectValues,
+  readText,
   tagsToParsedTags,
-} from '../../shared/util';
-import { readText, writeText } from '@gmnx/internal-util';
+  writeText,
+} from '@gmnx/internal-util';
 
 interface NormalizedSchema extends DataModelGeneratorSchema {
   readonly baseName: string;

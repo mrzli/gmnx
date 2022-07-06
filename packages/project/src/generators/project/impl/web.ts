@@ -4,7 +4,7 @@ import { Schema as ReactAppSchema } from '@nrwl/react/src/generators/application
 import { PROJECT_SUFFIX_APP_WEB } from '../../../shared/constants';
 import { Linter } from '@nrwl/linter';
 import { applicationGenerator as generateReactApp } from '@nrwl/react/src/generators/application/application';
-import { getProjectRoot } from '../../../shared/util';
+import { getProjectRoot } from '@gmnx/internal-util';
 import path from 'path';
 
 export async function generateWeb(

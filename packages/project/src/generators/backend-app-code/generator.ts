@@ -1,12 +1,17 @@
 import { Tree } from '@nrwl/devkit';
 import path from 'path';
-import { readText, writeTexts } from '@gmnx/internal-util';
+import {
+  getNpmScope,
+  getProjectRoot,
+  readSchemas,
+  readText,
+  writeTexts,
+} from '@gmnx/internal-util';
 import {
   PROJECT_SUFFIX_APP_BACKEND,
   PROJECT_SUFFIX_LIB_DATA_MODEL,
   PROJECT_SUFFIX_LIB_SHARED,
 } from '../../shared/constants';
-import { getNpmScope, getProjectRoot, readSchemas } from '../../shared/util';
 import { BackendAppCodeGeneratorSchema } from './schema';
 import {
   schemaToBackendAppCode,

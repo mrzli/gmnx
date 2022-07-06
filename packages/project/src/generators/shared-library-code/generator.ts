@@ -5,8 +5,12 @@ import {
   PROJECT_SUFFIX_LIB_DATA_MODEL,
   PROJECT_SUFFIX_LIB_SHARED,
 } from '../../shared/constants';
-import { getProjectRoot, readSchemas } from '../../shared/util';
-import { readText, writeTexts } from '@gmnx/internal-util';
+import {
+  getProjectRoot,
+  readSchemas,
+  readText,
+  writeTexts,
+} from '@gmnx/internal-util';
 import {
   schemaToSharedLibraryCode,
   SchemaToSharedLibraryCodeInitialFiles,

@@ -3,13 +3,13 @@ import path from 'path';
 import { SchemasGeneratorSchema } from './schema';
 import {
   deleteFilesByExtension,
+  getProjectValues,
   readText,
   writeJson,
 } from '@gmnx/internal-util';
 import { dataModelToSchema } from '@gmjs/data-manipulation';
 import { kebabCase } from '@gmjs/lib-util';
 import { PROJECT_SUFFIX_LIB_DATA_MODEL } from '../../shared/constants';
-import { getProjectValues } from '../../shared/util';
 
 interface NormalizedSchema extends SchemasGeneratorSchema {
   readonly projectName: string;

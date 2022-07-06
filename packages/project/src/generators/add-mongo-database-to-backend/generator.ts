@@ -1,12 +1,12 @@
-import { names, Tree } from '@nrwl/devkit';
+import { Tree } from '@nrwl/devkit';
 import { AddMongoDatabaseToBackendGeneratorSchema } from './schema';
 import {
-  getProjectName,
   getProjectNameWithoutDir,
   getProjectRoot,
-} from '../../shared/util';
+  readText,
+  writeText,
+} from '@gmnx/internal-util';
 import path from 'path';
-import { readText, writeText } from '@gmnx/internal-util';
 import { PROJECT_SUFFIX_APP_BACKEND } from '../../shared/constants';
 import {
   addMongoDatabaseToBackend,

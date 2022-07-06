@@ -15,13 +15,13 @@ import {
   getProjectRoot,
   getProjectValues,
   readSchemas,
-} from '../../shared/util';
+  writeTexts,
+} from '@gmnx/internal-util';
 import {
   PROJECT_SUFFIX_APP_CLI,
   PROJECT_SUFFIX_LIB_DATA_MODEL,
   PROJECT_SUFFIX_LIB_SHARED,
 } from '../../shared/constants';
-import { writeTexts } from '@gmnx/internal-util';
 
 interface NormalizedSchema extends CliAppCodeGeneratorSchema {
   readonly npmScope: string;
