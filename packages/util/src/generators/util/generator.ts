@@ -1,11 +1,7 @@
-import {
-  addProjectConfiguration,
-  getWorkspaceLayout,
-  names,
-  Tree,
-} from '@nrwl/devkit';
+import { addProjectConfiguration, Tree } from '@nrwl/devkit';
 import { UtilGeneratorSchema } from './schema';
 import { getProjectConfiguration } from './src/project-configuration';
+import { getProjectValues } from '@gmnx/internal-util';
 
 export interface NormalizedSchema extends UtilGeneratorSchema {
   readonly projectName: string;
@@ -34,17 +30,12 @@ function normalizeOptions(
   tree: Tree,
   options: UtilGeneratorSchema
 ): NormalizedSchema {
-  const name = names(options.name).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
+  const { directory, name, root } = getProjectValues(tree, options, false);
 
   return {
     ...options,
-    projectName,
-    projectRoot,
-    projectDirectory,
+    projectName: name,
+    projectRoot: root,
+    projectDirectory: directory,
   };
 }
