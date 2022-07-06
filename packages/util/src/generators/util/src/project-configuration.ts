@@ -5,17 +5,9 @@ import { MongoStopExecutorSchema } from '../../../executors/mongo-stop/schema';
 import { PostgresStartExecutorSchema } from '../../../executors/postgres-start/schema';
 import { PostgresStopExecutorSchema } from '../../../executors/postgres-stop/schema';
 import { PublishAllExecutorSchema } from '../../../executors/publish-all/schema';
-import { UtilGeneratorSchema } from '../schema';
-
-export interface NormalizedSchema extends UtilGeneratorSchema {
-  projectName: string;
-  projectRoot: string;
-  projectDirectory: string;
-  parsedTags: string[];
-}
 
 export function getProjectConfiguration(
-  normalizedOptions: NormalizedSchema
+  projectRoot: string
 ): ProjectConfiguration {
   const clocOptions: ClocExecutorSchema = {
     ignoreDirs: ['.idea', '.vscode', 'node_modules', 'dist'],
@@ -72,9 +64,9 @@ export function getProjectConfiguration(
   const publishAllOptions: PublishAllExecutorSchema = {};
 
   return {
-    root: normalizedOptions.projectRoot,
+    root: projectRoot,
     projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    sourceRoot: `${projectRoot}/src`,
     targets: {
       cloc: {
         executor: '@gmnx/util:cloc',
@@ -101,6 +93,5 @@ export function getProjectConfiguration(
         options: publishAllOptions,
       },
     },
-    tags: normalizedOptions.parsedTags,
   };
 }
