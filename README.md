@@ -29,7 +29,7 @@ If the above does not work, just use:
 npm run publish-all
 ```
 
-*It can happen that the `publish-all` executor does not work if you previously published a defective version and updated `package.json` to use that new version of `@gmnx/util`.*
+_It can happen that the `publish-all` executor does not work if you previously published a defective version and updated `package.json` to use that new version of `@gmnx/util`._
 
 ## Using `gmnx` Plugins
 
