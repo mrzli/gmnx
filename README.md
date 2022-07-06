@@ -18,7 +18,7 @@ nx g @nrwl/nx-plugin:executor --project projectname executorname
 If `workspace` project is set up in this workspace, and `publish-all` works properly, you can use any of the below:
 
 ```zsh
-wpublish
+wpublish # example alias that can be setup in shell rc file
 nx publish-all workspace
 nx run workspace:publish-all
 ```
@@ -155,3 +155,29 @@ nx g @gmnx/project:project project-name
 Description:
 
 - Generates a default project. More precisely, a list of projects: data model, shared library, cli, backend, web. Project is generated based on data model specified in `input/<project-name>-data-model.yaml`.
+
+## Example Usage
+
+- Example of generating a new monorepo from scratch, and the creating a project.
+
+- Generate monorepo.
+  - Run `npx create-nx-workspace --preset=apps` inside the parent folder.
+  - Enter monorepo name.
+- Install required dependencies.
+  - `npm install -D @gmnx/util @gmnx/project`.
+  - `npm install -D @nrwl/react @nrwl/nest`.
+- Setup `workspace` project.
+  - `nx g @gmnx/util:util workspace`.
+- Setup project generation prerequisites.
+  - Add `/input/` and `/output/` to `.gitignore`.
+  - Create and fill in `/input/example-data-model.yaml` file.
+  - Commit changes.
+- Create an example project.
+  - `nx g @gmnx/project:project example`.
+  - `npm install` to install any dependencies added by the project generator.
+- Running the project.
+  - Run Mongo container: `nx mongo-start workspace`.
+  - Drop existing database: `nx drop example-cli`.
+  - Create database: `nx create example-cli`.
+  - TODO
+- TODO
