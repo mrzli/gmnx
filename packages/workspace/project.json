@@ -6,14 +6,46 @@
     "cloc": {
       "executor": "@gmnx/util:cloc",
       "options": {
-        "ignoreDirs": [".idea", ".vscode", "node_modules", "dist"],
-        "ignoreFiles": ["package-lock.json"]
+        "ignoreDirs": [
+          ".idea",
+          ".vscode",
+          "node_modules",
+          "dist"
+        ],
+        "ignoreFiles": [
+          "package-lock.json"
+        ]
       }
     },
     "publish-all": {
       "executor": "@gmnx/util:publish-all",
       "options": {}
+    },
+    "update-gmjs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm install @gmjs/data-manipulation@latest @gmjs/fs-util@latest @gmjs/lib-util@latest @gmjs/mongo-util@latest @gmjs/nest-util@latest @gmjs/util@latest -f",
+          "npm install -D @gmjs/test-util@latest -f"
+        ],
+        "parallel": false
+      }
+    },
+    "update-gmnx": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm install -D @gmnx/util@latest @gmnx/project@latest -f"
+      }
+    },
+    "update-gmall": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run workspace:update-gmjs",
+          "nx run workspace:update-gmnx"
+        ],
+        "parallel": false
+      }
     }
-  },
-  "tags": []
+  }
 }
