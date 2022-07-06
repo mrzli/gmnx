@@ -16,6 +16,7 @@ export default async function (
   const normalizedOptions = normalizeOptions(tree, options);
 
   const projectConfiguration = getProjectConfiguration(
+    normalizedOptions.projectName,
     normalizedOptions.projectRoot
   );
 

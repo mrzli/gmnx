@@ -5,8 +5,23 @@ import { MongoStopExecutorSchema } from '../../../executors/mongo-stop/schema';
 import { PostgresStartExecutorSchema } from '../../../executors/postgres-start/schema';
 import { PostgresStopExecutorSchema } from '../../../executors/postgres-stop/schema';
 import { PublishAllExecutorSchema } from '../../../executors/publish-all/schema';
+import { isNotNullish } from '@gmjs/util';
+
+const GMJS_RUNTIME_DEPENDENCIES: readonly string[] = [
+  'data-manipulation',
+  'fs-util',
+  'lib-util',
+  'mongo-util',
+  'nest-util',
+  'util',
+];
+
+const GMJS_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['test-util'];
+
+const GMNX_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['util', 'project'];
 
 export function getProjectConfiguration(
+  projectName: string,
   projectRoot: string
 ): ProjectConfiguration {
   const clocOptions: ClocExecutorSchema = {
@@ -92,6 +107,77 @@ export function getProjectConfiguration(
         executor: '@gmnx/util:publish-all',
         options: publishAllOptions,
       },
+      'update-gmjs': {
+        executor: 'nx:run-commands',
+        options: {
+          commands: [
+            getInstallDependenciesCommand(
+              GMJS_RUNTIME_DEPENDENCIES,
+              false,
+              'gmjs',
+              'latest'
+            ),
+            getInstallDependenciesCommand(
+              GMJS_DEVELOPMENT_DEPENDENCIES,
+              true,
+              'gmjs',
+              'latest'
+            ),
+          ],
+          parallel: false,
+        },
+      },
+      'update-gmnx': {
+        executor: 'nx:run-commands',
+        options: {
+          command: getInstallDependenciesCommand(
+            GMNX_DEVELOPMENT_DEPENDENCIES,
+            true,
+            'gmnx',
+            'latest'
+          ),
+        },
+      },
+      'update-gmall': {
+        executor: 'nx:run-commands',
+        options: {
+          commands: [
+            `nx run ${projectName}:update-gmjs`,
+            `nx run ${projectName}:update-gmnx`,
+          ],
+          parallel: false,
+        },
+      },
     },
   };
+}
+
+function getInstallDependenciesCommand(
+  deps: readonly string[],
+  isDevelopment: boolean,
+  scope?: string,
+  version?: string
+): string {
+  return [
+    'npm install',
+    isDevelopment ? '-D' : undefined,
+    ...deps.map((dep) => getDependencyString(dep, scope, version)),
+    '-f',
+  ]
+    .filter(isNotNullish)
+    .join(' ');
+}
+
+function getDependencyString(
+  dep: string,
+  scope?: string,
+  version?: string
+): string {
+  return [
+    scope ? `@${scope}/` : undefined,
+    dep,
+    version ? `@${version}` : undefined,
+  ]
+    .filter(isNotNullish)
+    .join('');
 }
