@@ -12,7 +12,7 @@ export async function generateProject(
   tree: Tree,
   options: ProjectGeneratorSchema
 ): Promise<void> {
-  await installPackages();
+  await installPackages(tree);
   await generateDataModel(tree, options);
   await generateSharedLib(tree, options);
   await generateWeb(tree, options);
