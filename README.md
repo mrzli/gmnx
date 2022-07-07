@@ -140,6 +140,45 @@ Description:
 - Build all publishable projects.
 - Publish all publishable projects.
 
+`update-gmjs`
+
+Example usage:
+
+```zsh
+nx update-gmjs:workspace
+nx run workspace:update-gmjs
+```
+
+Description:
+
+- Install or update all packages from `gmjs` repository (utility library).
+
+`update-gmnx`
+
+Example usage:
+
+```zsh
+nx update-gmnx:workspace
+nx run workspace:update-gmnx
+```
+
+Description:
+
+- Install or update all packages from `gmnx` repository (custom nx generators and executors).
+
+`update-gmall`
+
+Example usage:
+
+```zsh
+nx update-gmall:workspace
+nx run workspace:update-gmall
+```
+
+Description:
+
+- Install all packages from both `gmjs` and `gmnx` repositories.
+
 ### `@gmnx/project`
 
 #### Generators
