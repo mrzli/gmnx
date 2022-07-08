@@ -7,6 +7,7 @@ import { generateCli } from './impl/cli';
 import { generateDataModel } from './impl/data-model';
 import { generatePostmanCollection } from './impl/postman';
 import { installPackages } from './impl/packages';
+import { finalization } from './impl/finalization';
 
 export async function generateProject(
   tree: Tree,
@@ -19,6 +20,7 @@ export async function generateProject(
   await generateBackend(tree, options);
   await generateCli(tree, options);
   await generatePostmanCollection(tree, options);
+  await finalization();
 }
 
 export default generateProject;
