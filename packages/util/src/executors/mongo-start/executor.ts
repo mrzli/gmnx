@@ -1,10 +1,11 @@
 import { MongoStartExecutorSchema } from './schema';
 import {
+  execCommand,
   ExecutorReturnValue,
   processExecutorConsoleOutputs,
 } from '@gmnx/internal-util';
 import { logger } from 'nx/src/utils/logger';
-import { exec, getMongoDockerComposePath } from '../../shared/util';
+import { getMongoDockerComposePath } from '../../shared/util';
 
 export default async function runExecutor(
   options: MongoStartExecutorSchema
@@ -27,7 +28,7 @@ export default async function runExecutor(
   logger.info('Executing command:');
   logger.info(command);
 
-  const outputs = await exec(command);
+  const outputs = await execCommand(command);
   processExecutorConsoleOutputs(outputs);
   return { success: true };
 }

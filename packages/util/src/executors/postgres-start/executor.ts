@@ -1,7 +1,8 @@
 import { PostgresStartExecutorSchema } from './schema';
-import { exec, getPostgresDockerComposePath } from '../../shared/util';
+import { getPostgresDockerComposePath } from '../../shared/util';
 import { logger } from 'nx/src/utils/logger';
 import {
+  execCommand,
   ExecutorReturnValue,
   processExecutorConsoleOutputs,
 } from '@gmnx/internal-util';
@@ -30,7 +31,7 @@ export default async function runExecutor(
   logger.info('Executing command:');
   logger.info(command);
 
-  const outputs = await exec(command);
+  const outputs = await execCommand(command);
   processExecutorConsoleOutputs(outputs);
   return { success: true };
 }
