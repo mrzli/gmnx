@@ -88,6 +88,12 @@ export function deleteFilesByPredicate(
   }
 }
 
+export function deleteFiles(tree: Tree, filePaths: readonly string[]): void {
+  for (const filePath of filePaths) {
+    tree.delete(filePath);
+  }
+}
+
 export function readSchemas(
   tree: Tree,
   dirPath: string

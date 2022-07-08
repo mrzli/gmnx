@@ -1,21 +1,38 @@
-import { formatFiles, generateFiles, Tree } from '@nrwl/devkit';
+import {
+  addDependenciesToPackageJson,
+  generateFiles,
+  Tree,
+} from '@nrwl/devkit';
 import { ProjectGeneratorSchema } from '../schema';
 import { Schema as ReactAppSchema } from '@nrwl/react/src/generators/application/schema';
 import { PROJECT_SUFFIX_APP_WEB } from '../../../shared/constants';
 import { Linter } from '@nrwl/linter';
-import { applicationGenerator as generateReactApp } from '@nrwl/react/src/generators/application/application';
+import { applicationGenerator as generateReactAppInternal } from '@nrwl/react/src/generators/application/application';
 import {
-  execCommand,
+  deleteFiles,
   getProjectRoot as getProjectRootInternal,
   readText,
   writeText,
 } from '@gmnx/internal-util';
 import path from 'path';
+import {
+  VERSION_AUTOPREFIXER,
+  VERSION_POSTCSS,
+  VERSION_TAILWINDCSS,
+} from './shared/package-versions';
 
 export async function generateWeb(
   tree: Tree,
-  options: ProjectGeneratorSchema,
-  dryRun: boolean
+  options: ProjectGeneratorSchema
+): Promise<void> {
+  await generateReactApp(tree, options);
+  cleanProject(tree, options);
+  await setupTailwind(tree, options);
+}
+
+async function generateReactApp(
+  tree: Tree,
+  options: ProjectGeneratorSchema
 ): Promise<void> {
   // @nrwl/react:application
   const reactAppSchema: ReactAppSchema = {
@@ -28,49 +45,39 @@ export async function generateWeb(
     unitTestRunner: 'jest',
     tags: `app:${options.name},scope:web,type:app`,
   };
-  await generateReactApp(tree, reactAppSchema);
-
-  cleanProject(tree, reactAppSchema);
-
-  addFiles(tree, reactAppSchema);
-
-  await setupTailwind(tree, reactAppSchema, dryRun);
-
-  await formatFiles(tree);
+  await generateReactAppInternal(tree, reactAppSchema);
 }
 
-function cleanProject(tree: Tree, options: ReactAppSchema): void {
+function cleanProject(tree: Tree, options: ProjectGeneratorSchema): void {
   const projectRoot = getProjectRoot(tree, options);
-  tree.delete(path.join(projectRoot, 'src/main.tsx'));
-  tree.delete(path.join(projectRoot, 'src/app'));
-}
+  deleteFiles(
+    tree,
+    ['src/main.tsx', 'src/app'].map((p) => path.join(projectRoot, p))
+  );
 
-function addFiles(tree: Tree, options: ReactAppSchema): void {
-  const projectRoot = getProjectRoot(tree, options);
-  generateFiles(tree, path.join(__dirname, '../files/web'), projectRoot, {
+  generateFiles(tree, path.join(__dirname, '../files/web/clean'), projectRoot, {
     template: '',
   });
 }
 
-function getProjectRoot(tree: Tree, options: ReactAppSchema): string {
-  return getProjectRootInternal(tree, options, true, undefined);
+function getProjectRoot(tree: Tree, options: ProjectGeneratorSchema): string {
+  return getProjectRootInternal(tree, options, true, PROJECT_SUFFIX_APP_WEB);
 }
 
 async function setupTailwind(
   tree: Tree,
-  options: ReactAppSchema,
-  dryRun: boolean
+  options: ProjectGeneratorSchema
 ): Promise<void> {
-  if (dryRun) {
-    return;
-  }
-
   const projectRoot = getProjectRoot(tree, options);
 
-  await execCommand(
-    'npm install -D tailwindcss@latest postcss@latest autoprefixer@latest'
+  generateFiles(
+    tree,
+    path.join(__dirname, '../files/web/tailwind'),
+    projectRoot,
+    {
+      template: '',
+    }
   );
-  await execCommand(`cd ${projectRoot} & npx tailwindcss init -p`);
 
   const stylesFilePath = path.join(projectRoot, 'src/styles.scss');
   const stylesFile = readText(tree, stylesFilePath);
@@ -84,4 +91,14 @@ async function setupTailwind(
   );
 
   writeText(tree, stylesFilePath, updatedStylesFile);
+
+  await addDependenciesToPackageJson(
+    tree,
+    {},
+    {
+      tailwindcss: VERSION_TAILWINDCSS,
+      postcss: VERSION_POSTCSS,
+      autoprefixer: VERSION_AUTOPREFIXER,
+    }
+  );
 }

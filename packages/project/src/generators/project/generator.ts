@@ -13,7 +13,7 @@ export async function generateProject(
   tree: Tree,
   options: ProjectGeneratorSchema
 ): Promise<void> {
-  const dryRun = process.argv.includes('--dry-run');
+  // const dryRun = process.argv.includes('--dry-run');
 
   await installPackages(tree);
   await generateDataModel(tree, options);
@@ -22,7 +22,7 @@ export async function generateProject(
   await generateBackend(tree, options);
   await generateCli(tree, options);
   await generatePostmanCollection(tree, options);
-  await finalization(dryRun);
+  await finalization(tree);
 }
 
 export default generateProject;

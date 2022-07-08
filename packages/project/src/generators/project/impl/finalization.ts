@@ -1,7 +1,5 @@
-import { execCommand } from '@gmnx/internal-util';
+import { formatFiles, Tree } from '@nrwl/devkit';
 
-export async function finalization(dryRun: boolean): Promise<void> {
-  if (!dryRun) {
-    await execCommand('npm install -f');
-  }
+export async function finalization(tree: Tree): Promise<void> {
+  await formatFiles(tree);
 }
