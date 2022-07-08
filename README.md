@@ -219,5 +219,8 @@ Description:
   - Run Mongo container: `nx mongo-start workspace`.
   - Drop existing database: `nx drop example-cli`.
   - Create database: `nx create example-cli`.
-  - TODO
-- TODO
+  - Seed database.
+    - Edit `example-cli/src/app/mongo/seed-db.ts`.
+      - At least make it pass validation.
+      - On top of that, change data in any way you need.
+    - Run: `nx seed example-cli`.
