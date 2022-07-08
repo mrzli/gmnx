@@ -2,11 +2,13 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import generator from './generator';
-import { AddMongoDatabaseToBackendGeneratorSchema } from './schema';
+import { MongoDatabaseToBackendCodeAdditionGeneratorSchema } from './schema';
 
-describe.skip('add-mongo-database-to-backend generator', () => {
+describe.skip('mongo-database-to-backend-code-addition generator', () => {
   let appTree: Tree;
-  const options: AddMongoDatabaseToBackendGeneratorSchema = { name: 'test' };
+  const options: MongoDatabaseToBackendCodeAdditionGeneratorSchema = {
+    name: 'test',
+  };
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();

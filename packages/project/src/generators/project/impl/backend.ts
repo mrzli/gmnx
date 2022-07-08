@@ -6,8 +6,8 @@ import {
   PROJECT_SUFFIX_APP_WEB,
 } from '../../../shared/constants';
 import { applicationGenerator as generateNestApp } from '@nrwl/nest/src/generators/application/application';
-import { AddMongoDatabaseToBackendGeneratorSchema } from '../../add-mongo-database-to-backend/schema';
-import generateAddMongoDatabaseToBackend from '../../add-mongo-database-to-backend/generator';
+import { MongoDatabaseToBackendCodeAdditionGeneratorSchema } from '../../mongo-database-to-backend-code-addition/schema';
+import generateMongoDatabaseToBackendCodeAddition from '../../mongo-database-to-backend-code-addition/generator';
 import { BackendAppCodeGeneratorSchema } from '../../backend-app-code/schema';
 import { generateBackendAppCode } from '../../backend-app-code/generator';
 
@@ -24,12 +24,12 @@ export async function generateBackend(
   };
   await generateNestApp(tree, nestAppSchema);
 
-  const addMongoDatabaseToBackendSchema: AddMongoDatabaseToBackendGeneratorSchema =
+  const addMongoDatabaseToBackendSchema: MongoDatabaseToBackendCodeAdditionGeneratorSchema =
     {
       name: options.name,
       directory: options.directory,
     };
-  await generateAddMongoDatabaseToBackend(
+  await generateMongoDatabaseToBackendCodeAddition(
     tree,
     addMongoDatabaseToBackendSchema
   );

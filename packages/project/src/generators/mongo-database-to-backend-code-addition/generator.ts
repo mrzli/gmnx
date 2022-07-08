@@ -1,5 +1,5 @@
 import { Tree } from '@nrwl/devkit';
-import { AddMongoDatabaseToBackendGeneratorSchema } from './schema';
+import { MongoDatabaseToBackendCodeAdditionGeneratorSchema } from './schema';
 import {
   getProjectNameWithoutDir,
   getProjectRoot,
@@ -13,14 +13,15 @@ import {
   AddMongoDatabaseToBackendInput,
 } from '@gmjs/data-manipulation';
 
-interface NormalizedSchema extends AddMongoDatabaseToBackendGeneratorSchema {
+interface NormalizedSchema
+  extends MongoDatabaseToBackendCodeAdditionGeneratorSchema {
   readonly baseName: string;
   readonly backendAppProjectRoot: string;
 }
 
-export async function generateAddMongoDatabaseToBackend(
+export async function generateMongoDatabaseToBackendCodeAddition(
   tree: Tree,
-  options: AddMongoDatabaseToBackendGeneratorSchema
+  options: MongoDatabaseToBackendCodeAdditionGeneratorSchema
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
   const input = createAddMongoDatabaseToBackendInput(tree, normalizedOptions);
@@ -30,7 +31,7 @@ export async function generateAddMongoDatabaseToBackend(
 
 function normalizeOptions(
   tree: Tree,
-  options: AddMongoDatabaseToBackendGeneratorSchema
+  options: MongoDatabaseToBackendCodeAdditionGeneratorSchema
 ): NormalizedSchema {
   return {
     ...options,
@@ -67,4 +68,4 @@ function getAppModulePath(normalizedOptions: NormalizedSchema): string {
   );
 }
 
-export default generateAddMongoDatabaseToBackend;
+export default generateMongoDatabaseToBackendCodeAddition;

@@ -33,9 +33,9 @@
       "schema": "./src/generators/postman-collection/schema.json",
       "description": "postman-collection generator"
     },
-    "add-mongo-database-to-backend": {
-      "factory": "./src/generators/add-mongo-database-to-backend/generator",
-      "schema": "./src/generators/add-mongo-database-to-backend/schema.json",
+    "mongo-database-to-backend-code-addition": {
+      "factory": "./src/generators/mongo-database-to-backend-code-addition/generator",
+      "schema": "./src/generators/mongo-database-to-backend-code-addition/schema.json",
       "description": "add-mongo-database-to-backend generator"
     },
     "cli-app-code": {
