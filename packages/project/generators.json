@@ -42,6 +42,11 @@
       "factory": "./src/generators/cli-app-code/generator",
       "schema": "./src/generators/cli-app-code/schema.json",
       "description": "cli-app-code generator"
+    },
+    "eslint-config-updates": {
+      "factory": "./src/generators/eslint-config-updates/generator",
+      "schema": "./src/generators/eslint-config-updates/schema.json",
+      "description": "eslint-config-updates generator"
     }
   }
 }

@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "EslintConfigUpdates",
+  "title": "",
+  "type": "object",
+  "properties": {
+  },
+  "required": [
+    "name"
+  ]
+}
