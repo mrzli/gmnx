@@ -6,8 +6,11 @@
 # create plugin
 nx g @nrwl/nx-plugin:plugin pluginname
 
-# create generator
+# create generator (old way)
 nx g @nrwl/nx-plugin:generator --project projectname generatorname
+
+# create generator (new way)
+nx g @gmnx/util:generator --project projectname generatorname
 
 # create executor
 nx g @nrwl/nx-plugin:executor --project projectname executorname
@@ -48,6 +51,18 @@ nx g @gmnx/util:util workspace
 Description:
 
 - Generates a bare-bones project that will contain some general-use executors.
+  
+`generator`
+
+Example usage:
+
+```zsh
+nx g @gmnx/util:generator --project projectname generatorname
+```
+
+Description:
+
+- Generates a generator.
 
 #### Executors
 
