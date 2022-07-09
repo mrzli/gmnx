@@ -12,6 +12,11 @@
       "factory": "./src/generators/generator/generator",
       "schema": "./src/generators/generator/schema.json",
       "description": "generator generator"
+    },
+    "gmnx-readme": {
+      "factory": "./src/generators/gmnx-readme/generator",
+      "schema": "./src/generators/gmnx-readme/schema.json",
+      "description": "gmnx-readme generator"
     }
   }
 }

@@ -1,6 +1,4 @@
 import { getWorkspaceLayout, names, readJson, Tree } from '@nrwl/devkit';
-import { PackageJson } from 'nx/src/utils/package-json';
-import path from 'path';
 import { AnyValue } from '@gmjs/util';
 
 export interface NameDirectoryGeneratorSchema {
@@ -95,34 +93,12 @@ export function getNpmScope(tree: Tree): string {
   return getWorkspaceLayout(tree).npmScope;
 }
 
-export function getPackageJson(
+export function getJsonIfExists<T extends object = AnyValue>(
   tree: Tree,
-  projectRoot: string
-): PackageJson | undefined {
-  const packageJsonPath = getPackageJsonPath(projectRoot);
-  if (!tree.exists(packageJsonPath)) {
-    return undefined;
-  }
-  return readJson<PackageJson>(tree, packageJsonPath);
-}
-
-function getPackageJsonPath(projectRoot: string): string {
-  return path.join(projectRoot, 'package.json');
-}
-
-export function getProjectRelativeJson<T extends object = AnyValue>(
-  tree: Tree,
-  projectRoot: string,
-  relativePath: string | undefined
+  filePath: string
 ): T | undefined {
-  if (!relativePath) {
+  if (!tree.exists(filePath)) {
     return undefined;
   }
-
-  const fullPath = path.join(projectRoot, relativePath);
-  if (!tree.exists(fullPath)) {
-    return undefined;
-  }
-
-  return readJson<T>(tree, fullPath);
+  return readJson<T>(tree, filePath);
 }
