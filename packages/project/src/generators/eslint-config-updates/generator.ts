@@ -1,5 +1,4 @@
 import { generateFiles, Tree, updateJson } from '@nrwl/devkit';
-import { EslintConfigUpdatesGeneratorSchema } from './schema';
 import path from 'path';
 import {
   AnyObject,
@@ -13,10 +12,7 @@ import {
 
 const ESLINT_CONFIG_FILE_PATH = '.eslintrc.json';
 
-export async function generateEslintConfigUpdates(
-  tree: Tree,
-  _options: EslintConfigUpdatesGeneratorSchema
-): Promise<void> {
+export async function generateEslintConfigUpdates(tree: Tree): Promise<void> {
   if (!tree.exists(ESLINT_CONFIG_FILE_PATH)) {
     generateFiles(tree, path.join(__dirname, 'files'), '', {});
   } else {

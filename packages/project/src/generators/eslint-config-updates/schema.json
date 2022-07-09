@@ -5,8 +5,5 @@
   "title": "",
   "type": "object",
   "properties": {
-  },
-  "required": [
-    "name"
-  ]
+  }
 }
