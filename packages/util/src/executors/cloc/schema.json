@@ -2,7 +2,21 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "title": "Cloc executor",
-  "description": "Counts lines of code in the workspace.",
+  "description": "- Utility that counts lines of code in the workspace.",
+  "examples": [
+    {
+      "command": "wcloc",
+      "description": "Recommended shortcut, to be set up in your shell rc file."
+    },
+    {
+      "command": "nx cloc workspace",
+      "description": "Short version."
+    },
+    {
+      "command": "nx run workspace:cloc",
+      "description": "Long version."
+    }
+  ],
   "type": "object",
   "properties": {
     "ignoreDirs": {

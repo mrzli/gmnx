@@ -2,7 +2,17 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "title": "PostgresStart executor",
-  "description": "",
+  "description": "- Starts (and creates if necessary) a Postgres docker container, with mongo on port `15432`.\n- Data is stored in `~/docker/postgres`",
+  "examples": [
+    {
+      "command": "nx postgres-start workspace",
+      "description": "Short version."
+    },
+    {
+      "command": "nx run workspace:postgres-start",
+      "description": "long version."
+    }
+  ],
   "type": "object",
   "properties": {},
   "required": []

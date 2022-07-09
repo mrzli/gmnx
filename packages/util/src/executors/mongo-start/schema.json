@@ -2,7 +2,17 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "title": "StartMongo executor",
-  "description": "",
+  "description": "- Starts (and creates if necessary) a Mongo docker container, with mongo on port `27017`.\n- Data is stored in `~/docker/mongo`.",
+  "examples": [
+    {
+      "command": "nx mongo-start workspace",
+      "description": "Short version."
+    },
+    {
+      "command": "nx run workspace:mongo-start",
+      "description": "long version."
+    }
+  ],
   "type": "object",
   "properties": {
     "containerName": {

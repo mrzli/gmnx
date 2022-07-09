@@ -2,7 +2,17 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "title": "PostgresStop executor",
-  "description": "",
+  "description": "- Stops Postgres docker container.",
+  "examples": [
+    {
+      "command": "nx postgres-stop workspace",
+      "description": "Short version."
+    },
+    {
+      "command": "nx run workspace:postgres-stop",
+      "description": "long version."
+    }
+  ],
   "type": "object",
   "properties": {},
   "required": []

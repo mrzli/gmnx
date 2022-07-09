@@ -2,7 +2,17 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "title": "StopMongo executor",
-  "description": "",
+  "description": "- Stops Mongo docker container.",
+  "examples": [
+    {
+      "command": "nx mongo-stop workspace",
+      "description": "Short version."
+    },
+    {
+      "command": "nx run workspace:mongo-stop",
+      "description": "long version."
+    }
+  ],
   "type": "object",
   "properties": {
     "containerName": {

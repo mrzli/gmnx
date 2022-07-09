@@ -2,7 +2,21 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "title": "PublishAll executor",
-  "description": "",
+  "description": "- Publishes all publishable projects in the workspace.\n- Publishable projects are those that are not 'application' type, and which have a `package.json`.\n- Before publish, all project versions are bumped (PATCH number is incremented). To be more precise, it works like this:\n  - Find all `package.json` files.\n  - Find the greatest version of in those `package.json` files.\n  - Increment the PATCH part of that version.\n  - Set that incremented version to EVERY `package.json` (every project will be published with the same version).\n- Build all publishable projects.\n- Publish all publishable projects.",
+  "examples": [
+    {
+      "command": "wpublish",
+      "description": "Recommended shortcut, to be set up in your shell rc file."
+    },
+    {
+      "command": "nx publish-all workspace",
+      "description": "Short version."
+    },
+    {
+      "command": "nx run workspace:publish-all",
+      "description": "Long version."
+    }
+  ],
   "type": "object",
   "properties": {},
   "required": []
