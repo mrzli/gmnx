@@ -7,6 +7,7 @@ import {
   offsetFromRoot,
   Tree,
 } from '@nrwl/devkit';
+import { AnyValue, ReadonlyRecord } from '@gmjs/util';
 import { getProjectValues, tagsToParsedTags } from '@gmnx/internal-util'
 import { <%= className %>GeneratorSchema } from './schema';
 
@@ -56,7 +57,7 @@ function normalizeOptions(tree: Tree,options: <%= className %>GeneratorSchema): 
 }
 
 function addFiles(tree: Tree, options: NormalizedSchema): void {
-  const templateOptions = {
+  const templateOptions: ReadonlyRecord<string, AnyValue> = {
     ...options,
     ...names(options.name),
     offsetFromRoot: offsetFromRoot(options.projectRoot),
