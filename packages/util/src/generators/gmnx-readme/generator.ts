@@ -9,7 +9,12 @@ import {
 } from '@gmjs/util';
 import { getNpmScope } from '@gmnx/internal-util';
 import { stringArrayToLines } from '@gmjs/lib-util';
-import { getWorkspaceTools } from './util/workspace-tools-util';
+import {
+  getWorkspaceTools,
+  hasAnyDocumentedExecutor,
+  hasAnyDocumentedGenerator,
+  hasAnyDocumentedTool,
+} from './util/workspace-tools-util';
 import { NameToolSchemaPair, ProjectData } from './util/workspace-tools';
 import { ToolSchemaExample } from './util/tool-schema';
 
@@ -37,8 +42,11 @@ function getUsingGmnxPluginsText(tree: Tree): string {
   const npmScope = getNpmScope(tree);
   const workspaceTools = getWorkspaceTools(tree);
 
+  const documentedProjects =
+    workspaceTools.projects.filter(hasAnyDocumentedTool);
+
   const pluginTexts = mapWithSeparators(
-    workspaceTools.projects,
+    documentedProjects,
     (p) => getGmnxPluginText(npmScope, p),
     () => ''
   );
@@ -55,11 +63,12 @@ function getGmnxPluginText(npmScope: string, project: ProjectData): string {
 }
 
 function getGmnxGeneratorsText(project: ProjectData): string | undefined {
-  const generators = project.generators;
-
-  if (!generators || generators.schemas.length === 0) {
+  if (!hasAnyDocumentedGenerator(project)) {
     return undefined;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const generators = project.generators!;
 
   return processTexts([
     '### Generators',
@@ -68,11 +77,12 @@ function getGmnxGeneratorsText(project: ProjectData): string | undefined {
 }
 
 function getGmnxExecutorsText(project: ProjectData): string | undefined {
-  const executors = project.executors;
-
-  if (!executors || executors.schemas.length === 0) {
+  if (!hasAnyDocumentedExecutor(project)) {
     return undefined;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const executors = project.executors!;
 
   return processTexts([
     '### Executors',

@@ -1,5 +1,6 @@
 export interface ToolSchema {
   readonly $schema: 'http://json-schema.org/schema';
+  readonly meta?: ToolSchemaMeta;
   readonly $id: string;
   readonly cli: 'nx';
   readonly type: 'object';
@@ -9,6 +10,10 @@ export interface ToolSchema {
   readonly properties: ToolSchemaProperties;
   readonly required?: readonly string[];
   readonly additionalProperties?: boolean;
+}
+
+export interface ToolSchemaMeta {
+  readonly noDocument?: boolean;
 }
 
 export interface ToolSchemaExample {

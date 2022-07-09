@@ -184,3 +184,32 @@ function getPathIfProvided(
     undefined
   );
 }
+
+export function hasAnyDocumentedTool(project: ProjectData): boolean {
+  return (
+    hasAnyDocumentedGenerator(project) || hasAnyDocumentedExecutor(project)
+  );
+}
+
+export function hasAnyDocumentedGenerator(project: ProjectData): boolean {
+  return hasAnyDocumentedSchema(project.generators?.schemas);
+}
+
+export function hasAnyDocumentedExecutor(project: ProjectData): boolean {
+  return hasAnyDocumentedSchema(project.executors?.schemas);
+}
+
+function hasAnyDocumentedSchema(
+  schemas: readonly NameToolSchemaPair[] | undefined
+): boolean {
+  if (!schemas) {
+    return false;
+  }
+
+  return schemas.some(isSchemaDocumented);
+}
+
+function isSchemaDocumented(schema: NameToolSchemaPair): boolean {
+  const noDocument = schema.schema.meta?.noDocument ?? false;
+  return !noDocument;
+}
