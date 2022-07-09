@@ -2,7 +2,14 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "$id": "ExamplePlugin",
-  "title": "",
+  "title": "Example plugin",
+  "description": "Example generator. Generates a stub project with a single file and a 'build' executor which does nothing.",
+  "examples": [
+    {
+      "command": "nx g @gmnx/example-plugin:example-plugin one-project",
+      "description": "Generate library called 'one-project'."
+    }
+  ],
   "type": "object",
   "properties": {
     "name": {
