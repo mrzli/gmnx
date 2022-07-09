@@ -34,126 +34,7 @@ npm run publish-all
 
 _It can happen that the `publish-all` executor does not work if you previously published a defective version and updated `package.json` to use that new version of `@gmnx/util`._
 
-## Using `gmnx` Plugins
-
-### `@gmnx/util`
-
-#### Generators
-
-`util`
-
-Example usage:
-
-```zsh
-nx g @gmnx/util:util workspace
-```
-
-Description:
-
-- Generates a bare-bones project that will contain some general-use executors.
-  
-`generator`
-
-Example usage:
-
-```zsh
-nx g @gmnx/util:generator --project projectname generatorname
-```
-
-Description:
-
-- Generates a generator.
-
-#### Executors
-
-`cloc`
-
-Example usage:
-
-```zsh
-wcloc
-nx cloc workspace
-nx run workspace:cloc
-```
-
-Description:
-
-- Utility that counts lines of code in the workspace.
-
-`mongo-start`
-
-Example usage:
-
-```zsh
-nx mongo-start:workspace
-nx run workspace:mongo-start
-```
-
-Description:
-
-- Starts (and creates if necessary) a Mongo docker container, with mongo on port `27017`.
-- Data is stored in `~/docker/mongo`.
-
-`mongo-stop`
-
-Example usage:
-
-```zsh
-nx mongo-stop:workspace
-nx run workspace:mongo-stop
-```
-
-Description:
-
-- Stops Mongo docker container.
-
-`postgres-start`
-
-Example usage:
-
-```zsh
-nx postgres-start:workspace
-nx run workspace:postgres-start
-```
-
-Description:
-
-- Starts (and creates if necessary) a Postgres docker container, with mongo on port `15432`.
-- Data is stored in `~/docker/postgres`.
-
-`postgres-stop`
-
-Example usage:
-
-```zsh
-nx postgres-stop:workspace
-nx run workspace:postgres-stop
-```
-
-Description:
-
-- Stops Postgres docker container.
-
-`publish-all`
-
-Example usage:
-
-```zsh
-nx publish-all:workspace
-nx run workspace:publish-all
-```
-
-Description:
-
-- Publishes all publishable projects in the workspace.
-- Publishable projects are those that are not 'application' type, and which have a `package.json`.
-- Before publish, all project versions are bumped (PATCH number is incremented). To be more precise, it works like this:
-  - Find all `package.json` files.
-  - Find the greatest version of in those `package.json` files.
-  - Increment the PATCH part of that version.
-  - Set that incremented version to EVERY `package.json` (every project will be published with the same version).
-- Build all publishable projects.
-- Publish all publishable projects.
+## Updating Package Versions
 
 `update-gmjs`
 
@@ -194,25 +75,187 @@ Description:
 
 - Install all packages from both `gmjs` and `gmnx` repositories.
 
+## Using `gmnx` Plugins
+
 ### `@gmnx/project`
 
-#### Generators
+### Generators
 
 `project`
 
 Example usage:
 
 ```zsh
+# Generate a list of projects with the base name &#39;project-name&#39;.
 nx g @gmnx/project:project project-name
 ```
 
 Description:
 
-- Generates a default project. More precisely, a list of projects: data model, shared library, cli, backend, web. Project is generated based on data model specified in `input/<project-name>-data-model.yaml`.
+- Generates a default project. More precisely, a list of projects: data model, shared library, cli, backend, web. Project is generated based on data model specified in `input/&lt;project-name&gt;-data-model.yaml`.
 
-## Example Usage
+### `@gmnx/util`
 
-- Example of generating a new monorepo from scratch, and the creating a project.
+### Generators
+
+`util`
+
+Example usage:
+
+```zsh
+# Generate project called &#39;workspace&#39; which will be used as a platform for utility executors.
+nx g @gmnx/util:util workspace
+```
+
+Description:
+
+- Generates a bare-bones project that will contain some general-use executors.
+
+`generator`
+
+Example usage:
+
+```zsh
+# Generate `libs/my-plugin/src/generators/my-generator`
+nx g generator my-generator --project=my-plugin
+```
+
+Description:
+
+Create a Generator for an Nx Plugin.
+
+`gmnx-readme`
+
+Example usage:
+
+```zsh
+# Generate readme.
+nx g @gmnx/util:gmnx-readme
+```
+
+Description:
+
+- Generates readme file.
+- Takes all generators and executors in the workspace (except those opted out by &#39;meta.noDocument&#39; flag) and documents description and examples for use.
+- Meant to be used exclusively inside @gmnx repository.
+
+### Executors
+
+`cloc`
+
+Example usage:
+
+```zsh
+# Recommended shortcut, to be set up in your shell rc file.
+wcloc
+
+# Short version.
+nx cloc workspace
+
+# Long version.
+nx run workspace:cloc
+```
+
+Description:
+
+- Utility that counts lines of code in the workspace.
+
+`mongo-start`
+
+Example usage:
+
+```zsh
+# Short version.
+nx mongo-start workspace
+
+# long version.
+nx run workspace:mongo-start
+```
+
+Description:
+
+- Starts (and creates if necessary) a Mongo docker container, with mongo on port `27017`.
+- Data is stored in `~/docker/mongo`.
+
+`mongo-stop`
+
+Example usage:
+
+```zsh
+# Short version.
+nx mongo-stop workspace
+
+# long version.
+nx run workspace:mongo-stop
+```
+
+Description:
+
+- Stops Mongo docker container.
+
+`publish-all`
+
+Example usage:
+
+```zsh
+# Recommended shortcut, to be set up in your shell rc file.
+wpublish
+
+# Short version.
+nx publish-all workspace
+
+# Long version.
+nx run workspace:publish-all
+```
+
+Description:
+
+- Publishes all publishable projects in the workspace.
+- Publishable projects are those that are not &#39;application&#39; type, and which have a `package.json`.
+- Before publish, all project versions are bumped (PATCH number is incremented). To be more precise, it works like this:
+  - Find all `package.json` files.
+  - Find the greatest version of in those `package.json` files.
+  - Increment the PATCH part of that version.
+  - Set that incremented version to EVERY `package.json` (every project will be published with the same version).
+- Build all publishable projects.
+- Publish all publishable projects.
+
+`postgres-start`
+
+Example usage:
+
+```zsh
+# Short version.
+nx postgres-start workspace
+
+# long version.
+nx run workspace:postgres-start
+```
+
+Description:
+
+- Starts (and creates if necessary) a Postgres docker container, with mongo on port `15432`.
+- Data is stored in `~/docker/postgres`
+
+`postgres-stop`
+
+Example usage:
+
+```zsh
+# Short version.
+nx postgres-stop workspace
+
+# long version.
+nx run workspace:postgres-stop
+```
+
+Description:
+
+- Stops Postgres docker container.
+
+## Example Usage of `gmnx` to Create a Workspace
+
+- Example of generating a new monorepo from scratch, and a creation of a project.
 
 - Generate monorepo.
   - Run `npx create-nx-workspace --preset=apps` inside the parent folder.
