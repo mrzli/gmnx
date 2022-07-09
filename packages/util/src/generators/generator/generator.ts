@@ -57,7 +57,7 @@ function normalizeOptions(
     className,
     description,
     projectRoot,
-    projectSourceRoot,
+    projectSourceRoot: projectSourceRoot ?? '',
     npmScope,
     npmPackageName: projectPackageJson.name,
   };

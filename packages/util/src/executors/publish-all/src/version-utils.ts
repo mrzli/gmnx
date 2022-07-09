@@ -19,9 +19,9 @@ function getPackageJsonVersion(packageJson: PackageJson): ProjectVersion {
   invariant(!!versionMatch, `Invalid package json: '${versionString}'`);
 
   return {
-    major: Number.parseInt(versionMatch[1]),
-    minor: Number.parseInt(versionMatch[2]),
-    patch: Number.parseInt(versionMatch[3]),
+    major: Number.parseInt(versionMatch[1] as string),
+    minor: Number.parseInt(versionMatch[2] as string),
+    patch: Number.parseInt(versionMatch[3] as string),
   };
 }
 
