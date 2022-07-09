@@ -34,6 +34,47 @@ npm run publish-all
 
 _It can happen that the `publish-all` executor does not work if you previously published a defective version and updated `package.json` to use that new version of `@gmnx/util`._
 
+## Updating Package Versions
+
+`update-gmjs`
+
+Example usage:
+
+```zsh
+nx update-gmjs:workspace
+nx run workspace:update-gmjs
+```
+
+Description:
+
+- Install or update all packages from `gmjs` repository (utility library).
+
+`update-gmnx`
+
+Example usage:
+
+```zsh
+nx update-gmnx:workspace
+nx run workspace:update-gmnx
+```
+
+Description:
+
+- Install or update all packages from `gmnx` repository (custom nx generators and executors).
+
+`update-gmall`
+
+Example usage:
+
+```zsh
+nx update-gmall:workspace
+nx run workspace:update-gmall
+```
+
+Description:
+
+- Install all packages from both `gmjs` and `gmnx` repositories.
+
 ## Using `gmnx` Plugins
 
 <%= usingGmnxPlugins %>
