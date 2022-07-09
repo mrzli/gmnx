@@ -209,7 +209,7 @@ function hasAnyDocumentedSchema(
   return schemas.some(isSchemaDocumented);
 }
 
-function isSchemaDocumented(schema: NameToolSchemaPair): boolean {
+export function isSchemaDocumented(schema: NameToolSchemaPair): boolean {
   const noDocument = schema.schema.meta?.noDocument ?? false;
   return !noDocument;
 }

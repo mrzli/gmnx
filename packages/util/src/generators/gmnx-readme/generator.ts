@@ -14,6 +14,7 @@ import {
   hasAnyDocumentedExecutor,
   hasAnyDocumentedGenerator,
   hasAnyDocumentedTool,
+  isSchemaDocumented,
 } from './util/workspace-tools-util';
 import { NameToolSchemaPair, ProjectData } from './util/workspace-tools';
 import { ToolSchemaExample } from './util/tool-schema';
@@ -90,7 +91,11 @@ function getGmnxExecutorsText(project: ProjectData): string | undefined {
   ]);
 }
 
-function getGmnxToolText(schemaPair: NameToolSchemaPair): string {
+function getGmnxToolText(schemaPair: NameToolSchemaPair): string | undefined {
+  if (!isSchemaDocumented(schemaPair)) {
+    return undefined;
+  }
+
   const name = schemaPair.name;
   const description = schemaPair.schema.description;
   if (!description) {
