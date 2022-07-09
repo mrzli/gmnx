@@ -17,7 +17,7 @@ describe('eslint-config-updates generator', () => {
   EXAMPLE_DIRS.forEach((exampleDir) => {
     it(path.basename(exampleDir.fullPath), async () => {
       const tree = createTestTree(exampleDir.fullPath);
-      await generator(tree, {});
+      await generator(tree);
       const resultEslintConfig = readText(tree, '.eslintrc.json');
       expect(resultEslintConfig).toEqual(EXPECTED_ESLINT_CONFIG);
     });
