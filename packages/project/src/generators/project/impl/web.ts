@@ -20,6 +20,7 @@ import {
   VERSION_POSTCSS,
   VERSION_TAILWINDCSS,
 } from './shared/package-versions';
+import { stringArrayToLines } from '@gmjs/lib-util';
 
 export async function generateWeb(
   tree: Tree,
@@ -82,12 +83,12 @@ async function setupTailwind(
   const stylesFilePath = path.join(projectRoot, 'src/styles.scss');
   const stylesFile = readText(tree, stylesFilePath);
   const updatedStylesFile = stylesFile.concat(
-    [
+    stringArrayToLines([
       '',
       '@tailwind components;',
       '@tailwind base;',
       '@tailwind utilities;',
-    ].join('\n')
+    ])
   );
 
   writeText(tree, stylesFilePath, updatedStylesFile);
