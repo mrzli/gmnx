@@ -1,0 +1,68 @@
+import path from 'path';
+import {
+  addProjectConfiguration,
+  formatFiles,
+  generateFiles,
+  names,
+  offsetFromRoot,
+  Tree,
+} from '@nrwl/devkit';
+import { getProjectValues, tagsToParsedTags } from '@gmnx/internal-util'
+import { <%= className %>GeneratorSchema } from './schema';
+
+interface NormalizedSchema extends <%= className %>GeneratorSchema {
+  readonly projectName: string;
+  readonly projectRoot: string;
+  readonly projectDirectory: string;
+  readonly parsedTags: string[];
+}
+
+export async function generate<%= className %>(tree: Tree, options: <%= className %>GeneratorSchema): Promise<void> {
+  const normalizedOptions = normalizeOptions(tree, options);
+  addProjectConfiguration(
+    tree,
+    normalizedOptions.projectName,
+    {
+      root: normalizedOptions.projectRoot,
+      projectType: 'library',
+      sourceRoot: `${normalizedOptions.projectRoot}/src`,
+      targets: {
+        build: {
+          executor: "<%= npmPackageName %>:build",
+        },
+      },
+      tags: normalizedOptions.parsedTags,
+    }
+  );
+  addFiles(tree, normalizedOptions);
+  await formatFiles(tree);
+}
+
+function normalizeOptions(tree: Tree,options: <%= className %>GeneratorSchema): NormalizedSchema {
+  const { directory, name, root } = getProjectValues(
+    tree,
+    options,
+    false,
+    undefined
+  );
+
+  return {
+    ...options,
+    projectName: name,
+    projectRoot: root,
+    projectDirectory: directory,
+    parsedTags: tagsToParsedTags(options.tags),
+  };
+}
+
+function addFiles(tree: Tree, options: NormalizedSchema): void {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: ''
+  };
+  generateFiles(tree, path.join(__dirname, 'files'), options.projectRoot, templateOptions);
+}
+
+export default generate<%= className %>;

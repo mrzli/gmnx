@@ -7,6 +7,11 @@
       "factory": "./src/generators/util/generator",
       "schema": "./src/generators/util/schema.json",
       "description": "util generator"
+    },
+    "generator": {
+      "factory": "./src/generators/generator/generator",
+      "schema": "./src/generators/generator/schema.json",
+      "description": "generator generator"
     }
   }
 }
