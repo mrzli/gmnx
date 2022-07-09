@@ -127,7 +127,7 @@ function getExamplesText(
     '```zsh',
     ...mapWithSeparators(
       examples,
-      (item) => stringArrayToLines([item.description, item.command]),
+      (item) => stringArrayToLines([`# ${item.description}`, item.command]),
       () => ''
     ),
     '```',
