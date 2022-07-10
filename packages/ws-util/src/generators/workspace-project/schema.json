@@ -1,12 +1,12 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "Util",
-  "title": "Util",
+  "$id": "WorkspaceProject",
+  "title": "WorkspaceProject",
   "description": "- Generates a bare-bones project that will contain some general-use executors.",
   "examples": [
     {
-      "command": "nx g @gmnx/util:util workspace",
+      "command": "nx g @gmnx/ws-util:workspace-project workspace",
       "description": "Generate project called 'workspace' which will be used as a platform for utility executors."
     }
   ],

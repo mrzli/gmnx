@@ -8,7 +8,9 @@
     "project-e2e": "e2e/project-e2e",
     "util": "packages/util",
     "util-e2e": "e2e/util-e2e",
-    "workspace": "packages/workspace"
+    "workspace": "packages/workspace",
+    "ws-util": "packages/ws-util",
+    "ws-util-e2e": "e2e/ws-util-e2e"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

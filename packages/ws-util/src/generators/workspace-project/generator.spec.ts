@@ -1,19 +1,19 @@
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
-import generator from './generator';
-import { UtilGeneratorSchema } from './schema';
+import { generateWorkspaceProject } from './generator';
+import { WorkspaceProjectGeneratorSchema } from './schema';
 
-describe('util generator', () => {
+describe('workspaceProject generator', () => {
   let appTree: Tree;
-  const options: UtilGeneratorSchema = { name: 'test' };
+  const options: WorkspaceProjectGeneratorSchema = { name: 'test' };
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
   });
 
   it('should run successfully', async () => {
-    await generator(appTree, options);
+    await generateWorkspaceProject(appTree, options);
     const config = readProjectConfiguration(appTree, 'test');
     expect(config).toBeDefined();
   });

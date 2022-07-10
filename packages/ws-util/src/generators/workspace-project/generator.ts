@@ -1,17 +1,17 @@
 import { addProjectConfiguration, Tree } from '@nrwl/devkit';
-import { UtilGeneratorSchema } from './schema';
+import { WorkspaceProjectGeneratorSchema } from './schema';
 import { getProjectConfiguration } from './src/project-configuration';
 import { getProjectValues } from '@gmnx/internal-util';
 
-export interface NormalizedSchema extends UtilGeneratorSchema {
+export interface NormalizedSchema extends WorkspaceProjectGeneratorSchema {
   readonly projectName: string;
   readonly projectRoot: string;
   readonly projectDirectory: string;
 }
 
-export default async function (
+export async function generateWorkspaceProject(
   tree: Tree,
-  options: UtilGeneratorSchema
+  options: WorkspaceProjectGeneratorSchema
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
 
@@ -29,7 +29,7 @@ export default async function (
 
 function normalizeOptions(
   tree: Tree,
-  options: UtilGeneratorSchema
+  options: WorkspaceProjectGeneratorSchema
 ): NormalizedSchema {
   const { directory, name, root } = getProjectValues(tree, options, false);
 
@@ -40,3 +40,5 @@ function normalizeOptions(
     projectDirectory: directory,
   };
 }
+
+export default generateWorkspaceProject;

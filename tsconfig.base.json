@@ -26,7 +26,8 @@
       "@gmnx/example-plugin": ["packages/example-plugin/src/index.ts"],
       "@gmnx/internal-util": ["packages/internal/util/src/index.ts"],
       "@gmnx/project": ["packages/project/src/index.ts"],
-      "@gmnx/util": ["packages/util/src/index.ts"]
+      "@gmnx/util": ["packages/util/src/index.ts"],
+      "@gmnx/ws-util": ["packages/ws-util/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

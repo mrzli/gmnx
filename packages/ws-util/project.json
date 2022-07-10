@@ -1,0 +1,60 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/ws-util/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/ws-util",
+        "main": "packages/ws-util/src/index.ts",
+        "tsConfig": "packages/ws-util/tsconfig.lib.json",
+        "assets": [
+          "packages/ws-util/*.md",
+          {
+            "input": "./packages/ws-util/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/ws-util/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/ws-util",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/ws-util",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/ws-util/**/*.ts",
+          "packages/ws-util/generators.json",
+          "packages/ws-util/executors.json",
+          "packages/ws-util/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/ws-util"],
+      "options": {
+        "jestConfig": "packages/ws-util/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

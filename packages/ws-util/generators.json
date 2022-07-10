@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "ws-util",
+  "version": "0.0.1",
+  "generators": {
+    "workspace-project": {
+      "factory": "./src/generators/workspace-project/generator",
+      "schema": "./src/generators/workspace-project/schema.json",
+      "description": "workspace-project generator"
+    }
+  }
+}
