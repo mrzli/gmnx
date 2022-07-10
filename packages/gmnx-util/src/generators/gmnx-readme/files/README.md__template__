@@ -10,9 +10,11 @@ nx g @nrwl/nx-plugin:plugin pluginname
 nx g @nrwl/nx-plugin:generator --project projectname generatorname
 
 # create generator (new way)
-nx g @gmnx/util:generator --project projectname generatorname
+gmnxgg # needs to be setup in your shell rc file
+nx g @gmnx/gmnx-util:generator --project projectname generatorname
 
 # create executor
+gmnxge # needs to be setup in your shell rc file
 nx g @nrwl/nx-plugin:executor --project projectname executorname
 ```
 
@@ -32,7 +34,7 @@ If the above does not work, just use:
 npm run publish-all
 ```
 
-_It can happen that the `publish-all` executor does not work if you previously published a defective version and updated `package.json` to use that new version of `@gmnx/util`._
+_It can happen that the `publish-all` executor does not work if you previously published a defective version and updated `package.json` to use that new version of `@gmnx/ws-util`._
 
 ## Updating Package Versions
 
@@ -87,10 +89,10 @@ Description:
   - Run `npx create-nx-workspace --preset=apps` inside the parent folder.
   - Enter monorepo name.
 - Install required dependencies.
-  - `npm install -D @gmnx/util @gmnx/project`.
+  - `npm install -D @gmnx/ws-util @gmnx/project`.
   - `npm install -D @nrwl/react @nrwl/nest`.
 - Setup `workspace` project.
-  - `nx g @gmnx/util:util workspace`.
+  - `nx g @gmnx/ws-util:workspace-project workspace`.
 - Setup project generation prerequisites.
   - Add `/input/` and `/output/` to `.gitignore`.
   - Install of my utility libraries and tools with `nx update-gmall workspace`.
