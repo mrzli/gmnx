@@ -1,12 +1,9 @@
-import child_process from 'child_process';
-import { promisify } from 'util';
 import { ClocExecutorSchema } from './schema';
 import {
+  execCommand,
   ExecutorReturnValue,
   processExecutorConsoleOutputs,
 } from '@gmnx/internal-util';
-
-const exec = promisify(child_process.exec);
 
 export default async function runExecutor(
   options: ClocExecutorSchema
@@ -25,7 +22,7 @@ export default async function runExecutor(
     .filter((part) => part !== undefined)
     .join(' ');
 
-  const outputs = await exec(command);
+  const outputs = await execCommand(command);
   processExecutorConsoleOutputs(outputs);
   return { success: !outputs.stderr };
 }
