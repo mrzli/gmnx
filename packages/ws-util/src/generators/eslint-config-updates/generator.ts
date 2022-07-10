@@ -14,7 +14,7 @@ const ESLINT_CONFIG_FILE_PATH = '.eslintrc.json';
 
 export async function generateEslintConfigUpdates(tree: Tree): Promise<void> {
   if (!tree.exists(ESLINT_CONFIG_FILE_PATH)) {
-    generateFiles(tree, path.join(__dirname, 'files'), '', {});
+    generateFiles(tree, path.join(__dirname, 'files'), '', { template: '' });
   } else {
     updateJson(tree, ESLINT_CONFIG_FILE_PATH, (eslintConfigJson) => {
       updateModuleBoundariesRule(eslintConfigJson);
