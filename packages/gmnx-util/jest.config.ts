@@ -1,5 +1,5 @@
 export default {
-  displayName: 'util',
+  displayName: 'gmnx-util',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -10,5 +10,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/packages/util',
+  coverageDirectory: '../../coverage/packages/gmnx-util',
 };

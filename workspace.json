@@ -2,11 +2,11 @@
   "version": 2,
   "projects": {
     "example-plugin": "packages/example-plugin",
+    "gmnx-util": "packages/gmnx-util",
     "internal-util": "packages/internal/util",
     "project": "packages/project",
-    "util": "packages/util",
-    "ws-util": "packages/ws-util",
-    "workspace": "packages/workspace"
+    "workspace": "packages/workspace",
+    "ws-util": "packages/ws-util"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
