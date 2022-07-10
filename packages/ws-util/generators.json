@@ -7,6 +7,11 @@
       "factory": "./src/generators/workspace-project/generator",
       "schema": "./src/generators/workspace-project/schema.json",
       "description": "workspace-project generator"
+    },
+    "eslint-config-updates": {
+      "factory": "./src/generators/eslint-config-updates/generator",
+      "schema": "./src/generators/eslint-config-updates/schema.json",
+      "description": "eslint-config-updates generator"
     }
   }
 }
