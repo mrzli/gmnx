@@ -1,4 +1,5 @@
 import {
+  formatFiles,
   GeneratorsJson,
   joinPathFragments,
   Tree,
@@ -32,6 +33,7 @@ export async function generatorGenerator(
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
   updateGeneratorJson(tree, normalizedOptions);
+  await formatFiles(tree);
 }
 
 function normalizeOptions(
