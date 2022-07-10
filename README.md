@@ -293,7 +293,9 @@ Description:
   - Create and fill in `/input/example-data-model.yaml` file.
   - Commit changes.
 - Create an example project.
-  - `nx g @gmnx/project:project example`.
+  - Run command.
+    - Short (if configured): `gmnxgp`.
+    - Or: `nx g @gmnx/project:project example`.
   - `npm install` to install any dependencies added by the project generator.
 - Running the project.
   - Run Mongo container: `nx mongo-start workspace`.
