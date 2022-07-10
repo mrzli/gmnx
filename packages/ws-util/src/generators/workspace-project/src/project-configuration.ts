@@ -18,7 +18,7 @@ const GMJS_RUNTIME_DEPENDENCIES: readonly string[] = [
 
 const GMJS_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['test-util'];
 
-const GMNX_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['util', 'project'];
+const GMNX_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['ws-util', 'project'];
 
 export function getProjectConfiguration(
   projectName: string,

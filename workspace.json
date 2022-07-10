@@ -5,8 +5,8 @@
     "internal-util": "packages/internal/util",
     "project": "packages/project",
     "util": "packages/util",
-    "workspace": "packages/workspace",
     "ws-util": "packages/ws-util",
+    "workspace": "packages/workspace"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
