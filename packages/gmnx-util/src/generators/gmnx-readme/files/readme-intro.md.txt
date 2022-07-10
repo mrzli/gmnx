@@ -10,11 +10,11 @@ nx g @nrwl/nx-plugin:plugin pluginname
 nx g @nrwl/nx-plugin:generator --project projectname generatorname
 
 # create generator (new way)
-gmnxgg # needs to be setup in your shell rc file
+gmnxgg projectname generatorname # needs to be setup in your shell rc file
 nx g @gmnx/gmnx-util:generator --project projectname generatorname
 
 # create executor
-gmnxge # needs to be setup in your shell rc file
+gmnxge projectname executorname # needs to be setup in your shell rc file
 nx g @nrwl/nx-plugin:executor --project projectname executorname
 ```
 
