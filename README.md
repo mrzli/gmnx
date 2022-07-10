@@ -289,8 +289,7 @@ Description:
     - Short (if configured): `gmnxgwis`.
     - Or: `nx g @gmnx/ws-util:workspace-initial-setup`.
 - Setup project generation prerequisites.
-  - Add `/input/` and `/output/` to `.gitignore`.
-  - Install of my utility libraries and tools with `nx update-gmall workspace`.
+  - Install all of my utility libraries and tools with `nx update-gmall workspace`.
   - Create and fill in `/input/example-data-model.yaml` file.
   - Commit changes.
 - Create an example project.
