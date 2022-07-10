@@ -1,8 +1,7 @@
-import { Tree, writeJson } from '@nrwl/devkit';
+import { readJson, Tree, writeJson } from '@nrwl/devkit';
 import { readText, writeText } from '@gmnx/internal-util';
 import { stringArrayToLines } from '@gmjs/lib-util';
 import { filterOutNullish } from '@gmjs/util';
-import { readTsConfig } from '@nrwl/workspace';
 import ts from 'typescript';
 import generateEslintConfigUpdates from '../eslint-config-updates/generator';
 
@@ -45,10 +44,14 @@ function updateGitignore(tree: Tree): void {
     return;
   }
 
+  const lastLineEmpty =
+    gitignoreLines.length > 0 &&
+    gitignoreLines[gitignoreLines.length - 1] === '';
+
   const updatedGitignore = stringArrayToLines(
     filterOutNullish([
       ...gitignoreLines,
-      '',
+      lastLineEmpty ? undefined : '',
       ...TO_IGNORE.map((l) => (!gitignoreLinesSet.has(l) ? l : undefined)),
     ])
   );
@@ -67,8 +70,8 @@ function updateReadme(tree: Tree): void {
 }
 
 function updateTsConfig(tree: Tree): void {
-  const tsConfig = readTsConfig(TSCONFIG_FILE_PATH);
-  const options = tsConfig.options;
+  const tsConfig = readJson(tree, TSCONFIG_FILE_PATH);
+  const options = tsConfig.compilerOptions;
   for (const optionKey of TSCONFIG_BOOLEAN_OPTIONS_TO_SET) {
     if (!options[optionKey]) {
       options[optionKey] = true;
