@@ -12,6 +12,11 @@
       "factory": "./src/generators/eslint-config-updates/generator",
       "schema": "./src/generators/eslint-config-updates/schema.json",
       "description": "eslint-config-updates generator"
+    },
+    "workspace-initial-setup": {
+      "factory": "./src/generators/workspace-initial-setup/generator",
+      "schema": "./src/generators/workspace-initial-setup/schema.json",
+      "description": "workspace-initial-setup generator"
     }
   }
 }
