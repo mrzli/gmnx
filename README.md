@@ -10,9 +10,11 @@ nx g @nrwl/nx-plugin:plugin pluginname
 nx g @nrwl/nx-plugin:generator --project projectname generatorname
 
 # create generator (new way)
-nx g @gmnx/util:generator --project projectname generatorname
+gmnxgg # needs to be setup in your shell rc file
+nx g @gmnx/gmnx-util:generator --project projectname generatorname
 
 # create executor
+gmnxge # needs to be setup in your shell rc file
 nx g @nrwl/nx-plugin:executor --project projectname executorname
 ```
 
@@ -32,7 +34,7 @@ If the above does not work, just use:
 npm run publish-all
 ```
 
-_It can happen that the `publish-all` executor does not work if you previously published a defective version and updated `package.json` to use that new version of `@gmnx/util`._
+_It can happen that the `publish-all` executor does not work if you previously published a defective version and updated `package.json` to use that new version of `@gmnx/ws-util`._
 
 ## Updating Package Versions
 
@@ -74,42 +76,11 @@ nx run workspace:update-gmall
 Description:
 
 - Install all packages from both `gmjs` and `gmnx` repositories.
-
 ## Using `gmnx` Plugins
 
-### `@gmnx/project`
+### `@gmnx/gmnx-util`
 
 ### Generators
-
-`project`
-
-Example usage:
-
-```zsh
-# Generate a list of projects with the base name &#39;project-name&#39;.
-nx g @gmnx/project:project project-name
-```
-
-Description:
-
-- Generates a default project. More precisely, a list of projects: data model, shared library, cli, backend, web. Project is generated based on data model specified in `input/&lt;project-name&gt;-data-model.yaml`.
-
-### `@gmnx/util`
-
-### Generators
-
-`util`
-
-Example usage:
-
-```zsh
-# Generate project called &#39;workspace&#39; which will be used as a platform for utility executors.
-nx g @gmnx/util:util workspace
-```
-
-Description:
-
-- Generates a bare-bones project that will contain some general-use executors.
 
 `generator`
 
@@ -136,8 +107,42 @@ nx g @gmnx/util:gmnx-readme
 Description:
 
 - Generates readme file.
-- Takes all generators and executors in the workspace (except those opted out by &#39;meta.noDocument&#39; flag) and documents description and examples for use.
+- Takes all generators and executors in the workspace (except those opted out by 'meta.noDocument' flag) and documents description and examples for use.
 - Meant to be used exclusively inside @gmnx repository.
+
+### `@gmnx/project`
+
+### Generators
+
+`project`
+
+Example usage:
+
+```zsh
+# Generate a list of projects with the base name 'project-name'.
+nx g @gmnx/project:project project-name
+```
+
+Description:
+
+- Generates a default project. More precisely, a list of projects: data model, shared library, cli, backend, web. Project is generated based on data model specified in `input/<project-name>-data-model.yaml`.
+
+### `@gmnx/ws-util`
+
+### Generators
+
+`workspace-project`
+
+Example usage:
+
+```zsh
+# Generate project called 'workspace' which will be used as a platform for utility executors.
+nx g @gmnx/ws-util:workspace-project workspace
+```
+
+Description:
+
+- Generates a bare-bones project that will contain some general-use executors.
 
 ### Executors
 
@@ -211,7 +216,7 @@ nx run workspace:publish-all
 Description:
 
 - Publishes all publishable projects in the workspace.
-- Publishable projects are those that are not &#39;application&#39; type, and which have a `package.json`.
+- Publishable projects are those that are not 'application' type, and which have a `package.json`.
 - Before publish, all project versions are bumped (PATCH number is incremented). To be more precise, it works like this:
   - Find all `package.json` files.
   - Find the greatest version of in those `package.json` files.
@@ -261,10 +266,10 @@ Description:
   - Run `npx create-nx-workspace --preset=apps` inside the parent folder.
   - Enter monorepo name.
 - Install required dependencies.
-  - `npm install -D @gmnx/util @gmnx/project`.
+  - `npm install -D @gmnx/ws-util @gmnx/project`.
   - `npm install -D @nrwl/react @nrwl/nest`.
 - Setup `workspace` project.
-  - `nx g @gmnx/util:util workspace`.
+  - `nx g @gmnx/ws-util:workspace-project workspace`.
 - Setup project generation prerequisites.
   - Add `/input/` and `/output/` to `.gitignore`.
   - Install of my utility libraries and tools with `nx update-gmall workspace`.
