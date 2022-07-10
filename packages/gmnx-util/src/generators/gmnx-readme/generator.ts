@@ -1,13 +1,7 @@
 import path from 'path';
-import { generateFiles, logger, Tree } from '@nrwl/devkit';
-import {
-  AnyValue,
-  filterOutNullish,
-  identifyFn,
-  mapWithSeparators,
-  ReadonlyRecord,
-} from '@gmjs/util';
-import { getNpmScope } from '@gmnx/internal-util';
+import { logger, Tree } from '@nrwl/devkit';
+import { filterOutNullish, identifyFn, mapWithSeparators } from '@gmjs/util';
+import { getNpmScope, writeText } from '@gmnx/internal-util';
 import { stringArrayToLines } from '@gmjs/lib-util';
 import {
   getWorkspaceTools,
@@ -18,25 +12,32 @@ import {
 } from './util/workspace-tools-util';
 import { NameToolSchemaPair, ProjectData } from './util/workspace-tools';
 import { ToolSchemaExample } from './util/tool-schema';
+import { readTextSync } from '@gmjs/fs-util';
 
 interface ReadmeContent {
+  readonly intro: string;
   readonly usingGmnxPlugins: string;
+  readonly exampleUsage: string;
 }
 
 export async function generateGmnxReadme(tree: Tree): Promise<void> {
   const readmeContent: ReadmeContent = {
+    intro: readTextSync(path.join(__dirname, 'files', 'readme-intro.md.txt')),
     usingGmnxPlugins: getUsingGmnxPluginsText(tree),
+    exampleUsage: readTextSync(
+      path.join(__dirname, 'files', 'readme-example-usage.md.txt')
+    ),
   };
 
-  addFiles(tree, readmeContent);
+  createReadme(tree, readmeContent);
 }
 
-function addFiles(tree: Tree, readmeContent: ReadmeContent): void {
-  const templateOptions: ReadonlyRecord<string, AnyValue> = {
-    ...readmeContent,
-    template: '',
-  };
-  generateFiles(tree, path.join(__dirname, 'files'), '', templateOptions);
+function createReadme(tree: Tree, readmeContent: ReadmeContent): void {
+  const content =
+    readmeContent.intro +
+    readmeContent.usingGmnxPlugins +
+    readmeContent.exampleUsage;
+  writeText(tree, 'README.md', content);
 }
 
 function getUsingGmnxPluginsText(tree: Tree): string {
@@ -52,7 +53,13 @@ function getUsingGmnxPluginsText(tree: Tree): string {
     () => ''
   );
 
-  return stringArrayToLines(pluginTexts);
+  return stringArrayToLines([
+    '## Using `gmnx` Plugins',
+    '',
+    ...pluginTexts,
+    '',
+    '',
+  ]);
 }
 
 function getGmnxPluginText(npmScope: string, project: ProjectData): string {
