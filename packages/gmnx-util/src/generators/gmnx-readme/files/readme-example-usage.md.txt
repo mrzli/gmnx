@@ -8,8 +8,13 @@
 - Install required dependencies.
   - `npm install -D @gmnx/ws-util @gmnx/project`.
   - `npm install -D @nrwl/react @nrwl/nest`.
-- Setup `workspace` project.
-  - `nx g @gmnx/ws-util:workspace-project workspace`.
+- Setup workspace.
+  - Create `workspace` project.
+    - Short (if configured): `gmnxgw`.
+    - Or: `nx g @gmnx/ws-util:workspace-project workspace`.
+  - Setup various workspace files.
+    - Short (if configured): `gmnxgwis`.
+    - Or: `nx g @gmnx/ws-util:workspace-initial-setup`.
 - Setup project generation prerequisites.
   - Add `/input/` and `/output/` to `.gitignore`.
   - Install of my utility libraries and tools with `nx update-gmall workspace`.
