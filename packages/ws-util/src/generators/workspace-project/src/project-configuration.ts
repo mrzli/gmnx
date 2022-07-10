@@ -84,27 +84,27 @@ export function getProjectConfiguration(
     sourceRoot: `${projectRoot}/src`,
     targets: {
       cloc: {
-        executor: '@gmnx/util:cloc',
+        executor: '@gmnx/ws-util:cloc',
         options: clocOptions,
       },
       'mongo-start': {
-        executor: '@gmnx/util:mongo-start',
+        executor: '@gmnx/ws-util:mongo-start',
         options: mongoStartOptions,
       },
       'mongo-stop': {
-        executor: '@gmnx/util:mongo-stop',
+        executor: '@gmnx/ws-util:mongo-stop',
         options: mongoStopOptions,
       },
       'postgres-start': {
-        executor: '@gmnx/util:postgres-start',
+        executor: '@gmnx/ws-util:postgres-start',
         options: postgresStartOptions,
       },
       'postgres-stop': {
-        executor: '@gmnx/util:postgres-stop',
+        executor: '@gmnx/ws-util:postgres-stop',
         options: postgresStopOptions,
       },
       'publish-all': {
-        executor: '@gmnx/util:publish-all',
+        executor: '@gmnx/ws-util:publish-all',
         options: publishAllOptions,
       },
       'update-gmjs': {
