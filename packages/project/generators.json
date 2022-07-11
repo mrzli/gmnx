@@ -42,6 +42,11 @@
       "factory": "./src/generators/cli-app-code/generator",
       "schema": "./src/generators/cli-app-code/schema.json",
       "description": "cli-app-code generator"
+    },
+    "remove": {
+      "factory": "./src/generators/remove/generator",
+      "schema": "./src/generators/remove/schema.json",
+      "description": "remove generator"
     }
   }
 }
