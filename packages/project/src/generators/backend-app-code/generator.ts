@@ -87,6 +87,7 @@ function createSchemaToBackendAppInput(
       libsMonorepo: {
         npmScope: 'gmjs',
         utilProjectName: 'util',
+        mongoUtilProjectName: 'mongo-util',
         nestUtilProjectName: 'nest-util',
       },
       appsMonorepo: {
