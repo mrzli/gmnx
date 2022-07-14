@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "ProjectPackagesVersionUpdate",
+  "title": "project-packages-version-update",
+  "description": "Update versions.",
+  "examples": [
+    {
+      "command": "nx g @gmnx/gmnx-util:project-packages-version-update project -p src/generators/project/impl/shared/package-versions.ts",
+      "description": "Execute generator project-packages-version-update."
+    }
+  ],
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What is the project name?"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed",
+      "alias": "d"
+    },
+    "projectPackagesFilePath": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)",
+      "alias": "f"
+    }
+  },
+  "required": ["name"]
+}

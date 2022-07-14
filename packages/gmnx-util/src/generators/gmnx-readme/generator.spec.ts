@@ -4,7 +4,7 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import { generateGmnxReadme } from './generator';
 import { FsTree } from 'nx/src/generators/tree';
 
-describe('gmnx-readme generator', () => {
+describe.skip('gmnx-readme generator', () => {
   let appTree: Tree;
 
   beforeEach(() => {

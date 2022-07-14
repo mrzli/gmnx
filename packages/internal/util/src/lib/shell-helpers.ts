@@ -1,4 +1,19 @@
-import child_process from 'child_process';
-import { promisify } from 'util';
+import { exec } from 'child_process';
 
-export const execCommand = promisify(child_process.exec);
+export interface ExecResult {
+  readonly stdout: string;
+  readonly stderr: string;
+}
+
+export function execCommand(command: string): Promise<ExecResult> {
+  return new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      resolve({ stdout, stderr });
+    });
+  });
+}

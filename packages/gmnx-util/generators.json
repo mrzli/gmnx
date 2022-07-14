@@ -12,6 +12,11 @@
       "factory": "./src/generators/gmnx-readme/generator",
       "schema": "./src/generators/gmnx-readme/schema.json",
       "description": "gmnx-readme generator"
+    },
+    "project-packages-version-update": {
+      "factory": "./src/generators/project-packages-version-update/generator",
+      "schema": "./src/generators/project-packages-version-update/schema.json",
+      "description": "project-packages-version-update generator"
     }
   }
 }
