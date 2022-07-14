@@ -4,6 +4,7 @@ import { RemoveGeneratorSchema } from './schema';
 import { Schema as RemoveSchema } from '@nrwl/workspace/src/generators/remove/schema';
 import { ALL_PROJECT_SUFFIXES } from '../../shared/constants';
 import { removeGenerator } from '@nrwl/workspace';
+import { cleanWorkspace } from './impl/workspace';
 
 export async function generateRemove(
   tree: Tree,
@@ -13,6 +14,7 @@ export async function generateRemove(
     const removeOptions = createRemoveOptions(tree, options, projectSuffix);
     await removeGenerator(tree, removeOptions);
   }
+  await cleanWorkspace(tree, options);
 }
 
 function createRemoveOptions(
