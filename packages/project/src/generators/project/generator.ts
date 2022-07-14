@@ -6,7 +6,7 @@ import { generateBackend } from './impl/backend';
 import { generateCli } from './impl/cli';
 import { generateDataModel } from './impl/data-model';
 import { generatePostmanCollection } from './impl/postman';
-import { installPackages } from './impl/packages';
+import { setupWorkspace } from './impl/workspace';
 import { finalization } from './impl/finalization';
 
 export async function generateProject(
@@ -15,7 +15,7 @@ export async function generateProject(
 ): Promise<void> {
   // const dryRun = process.argv.includes('--dry-run');
 
-  await installPackages(tree);
+  await setupWorkspace(tree, options);
   await generateDataModel(tree, options);
   await generateSharedLib(tree, options);
   await generateWeb(tree, options);

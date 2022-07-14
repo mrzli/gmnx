@@ -1,14 +1,15 @@
 import { generateFiles, Tree, updateJson } from '@nrwl/devkit';
 import path from 'path';
 import {
-  AnyObject,
-  AnyValue,
-  isArray,
-  isArrayWithPrimitivesEqual,
-  isObject,
-  ReadonlyRecord,
-  sortArrayByStringAsc,
-} from '@gmjs/util';
+  EslintConfig,
+  EslintDepConstraint,
+  EslintOverride,
+  EslintRule,
+  ESLINT_OVERRIDE_FILES_JSX,
+  configToOverridesMap,
+  getModuleBoundariesOptions,
+  RULE_KEY_ENFORCE_MODULE_BOUNDARIES,
+} from '@gmnx/internal-util';
 
 const ESLINT_CONFIG_FILE_PATH = '.eslintrc.json';
 
@@ -16,89 +17,62 @@ export async function generateEslintConfigUpdates(tree: Tree): Promise<void> {
   if (!tree.exists(ESLINT_CONFIG_FILE_PATH)) {
     generateFiles(tree, path.join(__dirname, 'files'), '', { template: '' });
   } else {
-    updateJson(tree, ESLINT_CONFIG_FILE_PATH, (eslintConfigJson) => {
-      updateModuleBoundariesRule(eslintConfigJson);
-      return eslintConfigJson;
-    });
-  }
-}
-
-function updateModuleBoundariesRule(eslintConfigJson: AnyValue): void {
-  const overrides = eslintConfigJson.overrides ?? [];
-  let foundOverrideX = false;
-
-  for (const override of overrides) {
-    override.rules ??= {};
-    const rules = override.rules;
-
-    if (isOverrideFilesEqual(override, OVERRIDE_FILES_ALL)) {
-      const enforceModuleBoundariesRule =
-        rules[RULE_KEY_ENFORCE_MODULE_BOUNDARIES];
-      if (
-        enforceModuleBoundariesRule &&
-        isArray(enforceModuleBoundariesRule) &&
-        enforceModuleBoundariesRule.length >= 2 &&
-        isObject(enforceModuleBoundariesRule[1])
-      ) {
-        if (enforceModuleBoundariesRule[1].depConstraints.length <= 1) {
-          enforceModuleBoundariesRule[1].depConstraints = DEP_CONSTRAINTS;
-        }
-      } else {
-        rules[RULE_KEY_ENFORCE_MODULE_BOUNDARIES] =
-          RULE_ENFORCE_MODULE_BOUNDARIES_RULE;
+    updateJson(
+      tree,
+      ESLINT_CONFIG_FILE_PATH,
+      (eslintConfigJson: EslintConfig) => {
+        updateEslintConfig(eslintConfigJson);
+        return eslintConfigJson;
       }
-    } else if (isOverrideFilesEqual(override, OVERRIDE_FILES_TS)) {
-      rules[RULE_KEY_EXPLICIT_FUNCTION_RETURN_TYPE] ??=
-        RULE_EXPLICIT_FUNCTION_RETURN_TYPE;
-      rules[RULE_KEY_EXPLICIT_MEMBER_ACCESSIBILITY] ??=
-        RULE_EXPLICIT_MEMBER_ACCESSIBILITY;
-      rules[RULE_KEY_NO_UNUSED_VARS] ??= RULE_NO_UNUSED_VARS;
-    } else if (isOverrideFilesEqual(override, OVERRIDE_FILES_X)) {
-      foundOverrideX = true;
-      rules[RULE_KEY_JSX_BOOLEAN_VALUE] ??= RULE_JSX_BOOLEAN_VALUE;
-      rules[RULE_KEY_JSX_CURLY_BRACE_PRESENCE] ??=
-        RULE_JSX_CURLY_BRACE_PRESENCE;
+    );
+  }
+}
+
+function updateEslintConfig(eslintConfigJson: EslintConfig): void {
+  const overridesMap = configToOverridesMap(eslintConfigJson);
+  setInitialModuleBoundariesRule(overridesMap.getOrThrow('all'));
+  setInitialTsRules(overridesMap.getOrThrow('ts'));
+  setInitialJsxRules(eslintConfigJson.overrides, overridesMap.get('jsx'));
+}
+
+function setInitialModuleBoundariesRule(overrideAll: EslintOverride): void {
+  const moduleBoundariesOptions = getModuleBoundariesOptions(overrideAll);
+  if (moduleBoundariesOptions) {
+    if (moduleBoundariesOptions.depConstraints.length <= 1) {
+      moduleBoundariesOptions.depConstraints = DEP_CONSTRAINTS;
     }
+  } else {
+    overrideAll.rules[RULE_KEY_ENFORCE_MODULE_BOUNDARIES] =
+      RULE_ENFORCE_MODULE_BOUNDARIES;
+  }
+}
+
+function setInitialTsRules(overrideTs: EslintOverride): void {
+  const rules = overrideTs.rules;
+
+  rules[RULE_KEY_EXPLICIT_FUNCTION_RETURN_TYPE] ??=
+    RULE_EXPLICIT_FUNCTION_RETURN_TYPE;
+  rules[RULE_KEY_EXPLICIT_MEMBER_ACCESSIBILITY] ??=
+    RULE_EXPLICIT_MEMBER_ACCESSIBILITY;
+  rules[RULE_KEY_NO_UNUSED_VARS] ??= RULE_NO_UNUSED_VARS;
+}
+
+function setInitialJsxRules(
+  overrides: EslintOverride[],
+  overrideJsx: EslintOverride | undefined
+): void {
+  if (!overrideJsx) {
+    overrides.push(OVERRIDE_JSX);
+    return;
   }
 
-  if (!foundOverrideX) {
-    overrides.push(OVERRIDE_X);
-  }
+  const rules = overrideJsx.rules;
+
+  rules[RULE_KEY_JSX_BOOLEAN_VALUE] ??= RULE_JSX_BOOLEAN_VALUE;
+  rules[RULE_KEY_JSX_CURLY_BRACE_PRESENCE] ??= RULE_JSX_CURLY_BRACE_PRESENCE;
 }
 
-function isOverrideFilesEqual(
-  override: AnyValue,
-  compareTo: readonly string[]
-): boolean {
-  return (
-    override.files &&
-    isArray(override.files) &&
-    isArrayWithPrimitivesEqual(
-      sortArrayByStringAsc(override.files),
-      sortArrayByStringAsc(compareTo)
-    )
-  );
-}
-
-const OVERRIDE_FILES_ALL: readonly string[] = [
-  '*.ts',
-  '*.tsx',
-  '*.js',
-  '*.jsx',
-];
-
-const OVERRIDE_FILES_TS: readonly string[] = ['*.ts', '*.tsx'];
-
-// const OVERRIDE_FILES_JS: readonly string[] = ['*.js', '*.jsx'];
-
-const OVERRIDE_FILES_X: readonly string[] = ['*.tsx', '*.jsx'];
-
-interface DepConstraint {
-  readonly sourceTag: string;
-  readonly onlyDependOnLibsWithTags: readonly string[];
-}
-
-const DEP_CONSTRAINTS: readonly DepConstraint[] = [
+const DEP_CONSTRAINTS: EslintDepConstraint[] = [
   {
     sourceTag: 'app:shared',
     onlyDependOnLibsWithTags: ['app:shared'],
@@ -151,7 +125,6 @@ const DEP_CONSTRAINTS: readonly DepConstraint[] = [
   },
 ];
 
-const RULE_KEY_ENFORCE_MODULE_BOUNDARIES = '@nrwl/nx/enforce-module-boundaries';
 const RULE_KEY_EXPLICIT_FUNCTION_RETURN_TYPE =
   '@typescript-eslint/explicit-function-return-type';
 const RULE_KEY_EXPLICIT_MEMBER_ACCESSIBILITY =
@@ -160,9 +133,7 @@ const RULE_KEY_NO_UNUSED_VARS = '@typescript-eslint/no-unused-vars';
 const RULE_KEY_JSX_BOOLEAN_VALUE = 'react/jsx-boolean-value';
 const RULE_KEY_JSX_CURLY_BRACE_PRESENCE = 'react/jsx-curly-brace-presence';
 
-type Rule = readonly [string, (string | AnyObject)?];
-
-const RULE_ENFORCE_MODULE_BOUNDARIES_RULE: Rule = [
+const RULE_ENFORCE_MODULE_BOUNDARIES: EslintRule = [
   'error',
   {
     enforceBuildableLibDependency: true,
@@ -171,16 +142,16 @@ const RULE_ENFORCE_MODULE_BOUNDARIES_RULE: Rule = [
   },
 ];
 
-const RULE_EXPLICIT_FUNCTION_RETURN_TYPE: Rule = [
+const RULE_EXPLICIT_FUNCTION_RETURN_TYPE: EslintRule = [
   'error',
   {
     allowExpressions: true,
   },
 ];
 
-const RULE_EXPLICIT_MEMBER_ACCESSIBILITY: Rule = ['error'];
+const RULE_EXPLICIT_MEMBER_ACCESSIBILITY: EslintRule = ['error'];
 
-const RULE_NO_UNUSED_VARS: Rule = [
+const RULE_NO_UNUSED_VARS: EslintRule = [
   'warn',
   {
     argsIgnorePattern: '^_',
@@ -189,9 +160,9 @@ const RULE_NO_UNUSED_VARS: Rule = [
   },
 ];
 
-const RULE_JSX_BOOLEAN_VALUE: Rule = ['error', 'always'];
+const RULE_JSX_BOOLEAN_VALUE: EslintRule = ['error', 'always'];
 
-const RULE_JSX_CURLY_BRACE_PRESENCE: Rule = [
+const RULE_JSX_CURLY_BRACE_PRESENCE: EslintRule = [
   'error',
   {
     props: 'always',
@@ -199,14 +170,8 @@ const RULE_JSX_CURLY_BRACE_PRESENCE: Rule = [
   },
 ];
 
-interface Override {
-  readonly files: readonly string[];
-  readonly extends: readonly string[];
-  readonly rules: ReadonlyRecord<string, Rule>;
-}
-
-const OVERRIDE_X: Override = {
-  files: OVERRIDE_FILES_X,
+const OVERRIDE_JSX: EslintOverride = {
+  files: [...ESLINT_OVERRIDE_FILES_JSX],
   extends: [],
   rules: {
     [RULE_KEY_JSX_BOOLEAN_VALUE]: RULE_JSX_BOOLEAN_VALUE,
