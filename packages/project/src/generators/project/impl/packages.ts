@@ -1,14 +1,11 @@
 import { addDependenciesToPackageJson, Tree } from '@nrwl/devkit';
-import { VERSION_MONGODB, VERSION_TYPE_FEST } from './shared/package-versions';
+import { PROJECT_PACKAGES } from './shared/package-versions';
+import { objectPickFields } from '@gmjs/util';
 
 export async function installPackages(tree: Tree): Promise<void> {
   await addDependenciesToPackageJson(
     tree,
-    {
-      mongodb: VERSION_MONGODB,
-    },
-    {
-      'type-fest': VERSION_TYPE_FEST,
-    }
+    objectPickFields(PROJECT_PACKAGES, ['axios', 'mongodb']),
+    objectPickFields(PROJECT_PACKAGES, ['type-fest'])
   );
 }

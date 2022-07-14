@@ -15,12 +15,9 @@ import {
   writeText,
 } from '@gmnx/internal-util';
 import path from 'path';
-import {
-  VERSION_AUTOPREFIXER,
-  VERSION_POSTCSS,
-  VERSION_TAILWINDCSS,
-} from './shared/package-versions';
+import { PROJECT_PACKAGES } from './shared/package-versions';
 import { stringArrayToLines } from '@gmjs/lib-util';
+import { objectPickFields } from '@gmjs/util';
 
 export async function generateWeb(
   tree: Tree,
@@ -96,10 +93,10 @@ async function setupTailwind(
   await addDependenciesToPackageJson(
     tree,
     {},
-    {
-      tailwindcss: VERSION_TAILWINDCSS,
-      postcss: VERSION_POSTCSS,
-      autoprefixer: VERSION_AUTOPREFIXER,
-    }
+    objectPickFields(PROJECT_PACKAGES, [
+      'tailwindcss',
+      'postcss',
+      'autoprefixer',
+    ])
   );
 }
