@@ -20,6 +20,7 @@ type TsConfigOptionKey = keyof ts.CompilerOptions;
 const TSCONFIG_BOOLEAN_OPTIONS_TO_SET: TsConfigOptionKey[] = [
   'strict',
   'esModuleInterop',
+  'allowSyntheticDefaultImports',
   'resolveJsonModule',
   'noFallthroughCasesInSwitch',
   'noImplicitOverride',

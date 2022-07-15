@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "strict": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
