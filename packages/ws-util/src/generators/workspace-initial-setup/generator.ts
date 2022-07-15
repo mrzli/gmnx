@@ -25,7 +25,6 @@ const TSCONFIG_BOOLEAN_OPTIONS_TO_SET: TsConfigOptionKey[] = [
   'noFallthroughCasesInSwitch',
   'noImplicitOverride',
   'noImplicitReturns',
-  'noUncheckedIndexedAccess',
   'forceConsistentCasingInFileNames',
 ];
 
