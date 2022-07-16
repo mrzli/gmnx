@@ -77,14 +77,9 @@ function createSchemaToSharedLibraryInput(
     schemas,
     initialFiles,
     options: {
-      mongoInterfacesDir: 'lib/mongo',
-      dbInterfaceOptions: {
-        dir: 'db',
-        prefix: 'db',
-      },
-      appInterfaceOptions: {
-        dir: 'app',
-        prefix: '',
+      interfacePrefixes: {
+        db: 'db',
+        app: '',
       },
     },
   };

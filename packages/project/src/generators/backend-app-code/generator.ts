@@ -1,7 +1,6 @@
-import { Tree } from '@nrwl/devkit';
+import { getWorkspaceLayout, Tree } from '@nrwl/devkit';
 import path from 'path';
 import {
-  getNpmScope,
   getProjectRoot,
   readSchemas,
   readText,
@@ -10,7 +9,6 @@ import {
 import {
   PROJECT_SUFFIX_APP_BACKEND,
   PROJECT_SUFFIX_LIB_DATA_MODEL,
-  PROJECT_SUFFIX_LIB_SHARED,
 } from '../../shared/constants';
 import { BackendAppCodeGeneratorSchema } from './schema';
 import {
@@ -21,6 +19,7 @@ import {
 
 interface NormalizedSchema extends BackendAppCodeGeneratorSchema {
   readonly npmScope: string;
+  readonly libsDir: string;
   readonly dataModelProjectRoot: string;
   readonly backendAppProjectRoot: string;
 }
@@ -45,7 +44,7 @@ function normalizeOptions(
 ): NormalizedSchema {
   return {
     ...options,
-    npmScope: getNpmScope(tree),
+    ...getWorkspaceLayout(tree),
     dataModelProjectRoot: getProjectRoot(
       tree,
       options,
@@ -84,18 +83,15 @@ function createSchemaToBackendAppInput(
     schemas,
     initialFiles,
     options: {
-      libsMonorepo: {
-        npmScope: 'gmjs',
-        utilProjectName: 'util',
-        mongoUtilProjectName: 'mongo-util',
-        nestUtilProjectName: 'nest-util',
-      },
       appsMonorepo: {
         npmScope: normalizedOptions.npmScope,
-        sharedProjectName: normalizedOptions.name + PROJECT_SUFFIX_LIB_SHARED,
+        libsDir: normalizedOptions.libsDir,
+        baseProjectName: normalizedOptions.name,
       },
-      dbPrefix: 'db',
-      appPrefix: '',
+      interfacePrefixes: {
+        db: 'db',
+        app: '',
+      },
     },
   };
 }

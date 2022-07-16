@@ -20,7 +20,6 @@ import {
 import {
   PROJECT_SUFFIX_APP_CLI,
   PROJECT_SUFFIX_LIB_DATA_MODEL,
-  PROJECT_SUFFIX_LIB_SHARED,
 } from '../../shared/constants';
 
 interface NormalizedSchema extends CliAppCodeGeneratorSchema {
@@ -87,18 +86,10 @@ function createSchemaToCliAppInput(
   return {
     schemas,
     options: {
-      libsMonorepo: {
-        npmScope: 'gmjs',
-        utilProjectName: 'util',
-        libUtilProjectName: 'lib-util',
-        mongoUtilProjectName: 'mongo-util',
-      },
       appsMonorepo: {
         npmScope: normalizedOptions.npmScope,
         libsDir: normalizedOptions.libsDir,
-        projectName: normalizedOptions.baseName,
-        sharedLibProjectName:
-          normalizedOptions.name + PROJECT_SUFFIX_LIB_SHARED,
+        baseProjectName: normalizedOptions.baseName,
       },
     },
   };
