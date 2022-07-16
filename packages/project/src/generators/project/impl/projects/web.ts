@@ -25,6 +25,7 @@ import {
   SchemaToWebBackendApiCodeInput,
 } from '@gmjs/data-manipulation';
 import { SchemasGeneratorSchema } from '../../../schemas/schema';
+import { pathRelativeToFiles } from '../shared/util';
 
 interface NormalizedSchema extends SchemasGeneratorSchema {
   readonly projectName: string;
@@ -86,7 +87,7 @@ function cleanProject(tree: Tree, options: ProjectGeneratorSchema): void {
     ['src/main.tsx', 'src/app'].map((p) => path.join(projectRoot, p))
   );
 
-  generateFiles(tree, path.join(__dirname, '../files/web/clean'), projectRoot, {
+  generateFiles(tree, pathRelativeToFiles('web/clean'), projectRoot, {
     template: '',
   });
 }
@@ -101,14 +102,9 @@ async function setupTailwind(
 ): Promise<void> {
   const projectRoot = getProjectRoot(tree, options);
 
-  generateFiles(
-    tree,
-    path.join(__dirname, '../files/web/tailwind'),
-    projectRoot,
-    {
-      template: '',
-    }
-  );
+  generateFiles(tree, pathRelativeToFiles('web/tailwind'), projectRoot, {
+    template: '',
+  });
 
   const stylesFilePath = path.join(projectRoot, 'src/styles.scss');
   const stylesFile = readText(tree, stylesFilePath);
