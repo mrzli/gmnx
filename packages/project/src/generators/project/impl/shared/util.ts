@@ -5,6 +5,7 @@ import {
   getProjectNameWithoutDir,
   getProjectValues,
   ProjectValues,
+  readSchemas,
 } from '@gmnx/internal-util';
 import {
   PROJECT_SUFFIX_APP_BACKEND,
@@ -13,6 +14,8 @@ import {
   PROJECT_SUFFIX_LIB_DATA_MODEL,
   PROJECT_SUFFIX_LIB_SHARED,
 } from '../../../../shared/constants';
+import { SchemaToCodeInterfacePrefixes } from '@gmjs/data-manipulation';
+import { MongoJsonSchemaTypeObject } from '@gmjs/mongo-util';
 
 export function pathRelativeToFiles(
   ...pathSegments: readonly string[]
@@ -23,8 +26,10 @@ export function pathRelativeToFiles(
 export interface NormalizedSchema extends ProjectGeneratorSchema {
   readonly npmScope: string;
   readonly libsDir: string;
+  readonly appsDir: string;
   readonly baseProjectName: string;
   readonly projects: AllProjectValues;
+  readonly interfacePrefixes: SchemaToCodeInterfacePrefixes;
 }
 
 export interface AllProjectValues {
@@ -65,5 +70,19 @@ export function normalizeOptions(
       ),
       web: getProjectValues(tree, options, true, PROJECT_SUFFIX_APP_WEB),
     },
+    interfacePrefixes: {
+      db: 'db',
+      app: '',
+    },
   };
+}
+
+export function readProjectJsonSchemas(
+  tree: Tree,
+  options: NormalizedSchema
+): readonly MongoJsonSchemaTypeObject[] {
+  return readSchemas(
+    tree,
+    path.join(options.projects.dataModel.projectRoot, 'assets/schemas')
+  );
 }

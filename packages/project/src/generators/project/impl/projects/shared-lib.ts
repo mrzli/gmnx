@@ -1,6 +1,5 @@
 import { Tree } from '@nrwl/devkit';
 import { LibraryGeneratorSchema as JsLibSchema } from '@nrwl/js/src/utils/schema';
-import { PROJECT_SUFFIX_LIB_SHARED } from '../../../../shared/constants';
 import { libraryGenerator as generateJsLib } from '@nrwl/js/src/generators/library/library';
 import { getProjectRoot } from '@gmnx/internal-util';
 import path from 'path';
@@ -14,7 +13,7 @@ export async function generateSharedLib(
 ): Promise<void> {
   // @nrwl/js:library
   const jsLibSchema: JsLibSchema = {
-    name: options.name + PROJECT_SUFFIX_LIB_SHARED,
+    name: options.projects.sharedLib.projectBaseName,
     directory: options.directory,
     tags: `app:${options.name},scope:shared,type:util`,
   };
