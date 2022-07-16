@@ -1,9 +1,9 @@
 import { Tree } from '@nrwl/devkit';
-import { ProjectGeneratorSchema } from '../schema';
-import { DataModelGeneratorSchema } from '../../data-model/schema';
-import { SchemasGeneratorSchema } from '../../schemas/schema';
-import { generateSchemas } from '../../schemas/generator';
-import { generateDataModel as generateDataModelInternal } from '../../data-model/generator';
+import { ProjectGeneratorSchema } from '../../schema';
+import { DataModelGeneratorSchema } from '../../../data-model/schema';
+import { SchemasGeneratorSchema } from '../../../schemas/schema';
+import { generateSchemas } from '../../../schemas/generator';
+import { generateDataModel as generateDataModelInternal } from '../../../data-model/generator';
 
 export async function generateDataModel(
   tree: Tree,

@@ -3,9 +3,9 @@ import {
   generateFiles,
   Tree,
 } from '@nrwl/devkit';
-import { ProjectGeneratorSchema } from '../schema';
+import { ProjectGeneratorSchema } from '../../schema';
 import { Schema as ReactAppSchema } from '@nrwl/react/src/generators/application/schema';
-import { PROJECT_SUFFIX_APP_WEB } from '../../../shared/constants';
+import { PROJECT_SUFFIX_APP_WEB } from '../../../../shared/constants';
 import { Linter } from '@nrwl/linter';
 import { applicationGenerator as generateReactAppInternal } from '@nrwl/react/src/generators/application/application';
 import {
@@ -16,7 +16,7 @@ import {
   writeText,
 } from '@gmnx/internal-util';
 import path from 'path';
-import { PROJECT_PACKAGES } from './shared/package-versions';
+import { PROJECT_PACKAGES } from '../shared/package-versions';
 import { stringArrayToLines } from '@gmjs/lib-util';
 import { objectPickFields } from '@gmjs/util';
 import {
@@ -24,7 +24,7 @@ import {
   schemaToSharedLibraryCode,
   SchemaToWebBackendApiCodeInput,
 } from '@gmjs/data-manipulation';
-import { SchemasGeneratorSchema } from '../../schemas/schema';
+import { SchemasGeneratorSchema } from '../../../schemas/schema';
 
 interface NormalizedSchema extends SchemasGeneratorSchema {
   readonly projectName: string;

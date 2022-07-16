@@ -1,7 +1,7 @@
 import { Tree } from '@nrwl/devkit';
-import { ProjectGeneratorSchema } from '../schema';
-import { PostmanCollectionGeneratorSchema } from '../../postman-collection/schema';
-import { generatePostmanCollection as generatePostmanCollectionInternal } from '../../postman-collection/generator';
+import { ProjectGeneratorSchema } from '../../schema';
+import { PostmanCollectionGeneratorSchema } from '../../../postman-collection/schema';
+import { generatePostmanCollection as generatePostmanCollectionInternal } from '../../../postman-collection/generator';
 
 export async function generatePostmanCollection(
   tree: Tree,

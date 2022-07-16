@@ -1,13 +1,13 @@
 import { Tree } from '@nrwl/devkit';
-import { ProjectGeneratorSchema } from '../schema';
+import { ProjectGeneratorSchema } from '../../schema';
 import { Schema as NodeAppSchema } from '@nrwl/node/src/generators/application/schema';
 import {
   PROJECT_SUFFIX_APP_CLI,
   PROJECT_SUFFIX_APP_WEB,
-} from '../../../shared/constants';
+} from '../../../../shared/constants';
 import { applicationGenerator as generateNodeApp } from '@nrwl/node/src/generators/application/application';
-import { CliAppCodeGeneratorSchema } from '../../cli-app-code/schema';
-import { generateCliAppCode } from '../../cli-app-code/generator';
+import { CliAppCodeGeneratorSchema } from '../../../cli-app-code/schema';
+import { generateCliAppCode } from '../../../cli-app-code/generator';
 
 export async function generateCli(
   tree: Tree,

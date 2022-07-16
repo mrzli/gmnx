@@ -1,12 +1,12 @@
 import { addDependenciesToPackageJson, Tree, updateJson } from '@nrwl/devkit';
-import { PROJECT_PACKAGES } from './shared/package-versions';
+import { PROJECT_PACKAGES } from '../shared/package-versions';
 import { invariant, objectPickFields } from '@gmjs/util';
 import {
   configToOverridesMap,
   EslintConfig,
   getModuleBoundariesOptions,
 } from '@gmnx/internal-util';
-import { ProjectGeneratorSchema } from '../schema';
+import { ProjectGeneratorSchema } from '../../schema';
 import { kebabCase } from '@gmjs/lib-util';
 
 const ESLINT_CONFIG_FILE_PATH = '.eslintrc.json';

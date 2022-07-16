@@ -1,15 +1,15 @@
 import { Tree } from '@nrwl/devkit';
-import { ProjectGeneratorSchema } from '../schema';
+import { ProjectGeneratorSchema } from '../../schema';
 import { ApplicationGeneratorOptions as NestAppSchema } from '@nrwl/nest/src/generators/application/schema';
 import {
   PROJECT_SUFFIX_APP_BACKEND,
   PROJECT_SUFFIX_APP_WEB,
-} from '../../../shared/constants';
+} from '../../../../shared/constants';
 import { applicationGenerator as generateNestApp } from '@nrwl/nest/src/generators/application/application';
-import { MongoDatabaseToBackendCodeAdditionGeneratorSchema } from '../../mongo-database-to-backend-code-addition/schema';
-import generateMongoDatabaseToBackendCodeAddition from '../../mongo-database-to-backend-code-addition/generator';
-import { BackendAppCodeGeneratorSchema } from '../../backend-app-code/schema';
-import { generateBackendAppCode } from '../../backend-app-code/generator';
+import { MongoDatabaseToBackendCodeAdditionGeneratorSchema } from '../../../mongo-database-to-backend-code-addition/schema';
+import generateMongoDatabaseToBackendCodeAddition from '../../../mongo-database-to-backend-code-addition/generator';
+import { BackendAppCodeGeneratorSchema } from '../../../backend-app-code/schema';
+import { generateBackendAppCode } from '../../../backend-app-code/generator';
 
 export async function generateBackend(
   tree: Tree,

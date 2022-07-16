@@ -1,13 +1,13 @@
 import { Tree } from '@nrwl/devkit';
 import { ProjectGeneratorSchema } from './schema';
-import { generateWeb } from './impl/web';
-import { generateSharedLib } from './impl/shared-lib';
-import { generateBackend } from './impl/backend';
-import { generateCli } from './impl/cli';
-import { generateDataModel } from './impl/data-model';
-import { generatePostmanCollection } from './impl/postman';
-import { setupWorkspace } from './impl/workspace';
-import { finalization } from './impl/finalization';
+import { generateWeb } from './impl/projects/web';
+import { generateSharedLib } from './impl/projects/shared-lib';
+import { generateBackend } from './impl/projects/backend';
+import { generateCli } from './impl/projects/cli';
+import { generateDataModel } from './impl/projects/data-model';
+import { generatePostmanCollection } from './impl/other/postman';
+import { setupWorkspace } from './impl/other/workspace';
+import { finalization } from './impl/other/finalization';
 
 export async function generateProject(
   tree: Tree,
