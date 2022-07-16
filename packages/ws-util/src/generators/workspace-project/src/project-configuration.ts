@@ -13,7 +13,8 @@ const GMJS_RUNTIME_DEPENDENCIES: readonly string[] = [
   'lib-util',
   'mongo-util',
   'nest-util',
-  'gmnx-util',
+  'browser-util',
+  'react-util',
   'util',
 ];
 
