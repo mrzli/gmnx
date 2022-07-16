@@ -1,15 +1,33 @@
 import { Tree } from '@nrwl/devkit';
-import { generateBackendAppCode } from '../../../../backend-app-code/generator';
-import { BackendAppCodeGeneratorSchema } from '../../../../backend-app-code/schema';
-import { NormalizedSchema } from '../../shared/util';
+import { NormalizedSchema, readProjectJsonSchemas } from '../../shared/util';
+import {
+  schemaToBackendAppCode,
+  SchemaToBackendAppCodeInput,
+} from '@gmjs/data-manipulation';
+import { readText, writeTexts } from '@gmnx/internal-util';
+import path from 'path';
 
 export async function generateModules(
   tree: Tree,
   options: NormalizedSchema
 ): Promise<void> {
-  const backendAppCodeSchema: BackendAppCodeGeneratorSchema = {
-    name: options.name,
-    directory: options.directory,
+  const input: SchemaToBackendAppCodeInput = {
+    schemas: readProjectJsonSchemas(tree, options),
+    initialFiles: {
+      appModule: readText(
+        tree,
+        path.join(options.projects.backend.projectRoot, 'src/app/app.module.ts')
+      ),
+    },
+    options: {
+      appsMonorepo: options,
+      interfacePrefixes: options.interfacePrefixes,
+    },
   };
-  await generateBackendAppCode(tree, backendAppCodeSchema);
+  const backendAppCode = schemaToBackendAppCode(input);
+  writeTexts(
+    tree,
+    path.join(options.projects.backend.projectRoot, 'src'),
+    backendAppCode
+  );
 }

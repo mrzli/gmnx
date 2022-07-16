@@ -23,11 +23,6 @@
       "schema": "./src/generators/schemas/schema.json",
       "description": "schemas generator"
     },
-    "backend-app-code": {
-      "factory": "./src/generators/backend-app-code/generator",
-      "schema": "./src/generators/backend-app-code/schema.json",
-      "description": "backend-app-code generator"
-    },
     "postman-collection": {
       "factory": "./src/generators/postman-collection/generator",
       "schema": "./src/generators/postman-collection/schema.json",
