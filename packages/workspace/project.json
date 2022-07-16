@@ -65,7 +65,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npm install @gmjs/data-manipulation@latest @gmjs/fs-util@latest @gmjs/lib-util@latest @gmjs/mongo-util@latest @gmjs/nest-util@latest @gmjs/util@latest -f",
+          "npm install @gmjs/data-manipulation@latest @gmjs/fs-util@latest @gmjs/lib-util@latest @gmjs/mongo-util@latest @gmjs/nest-util@latest @gmjs/browser-util@latest @gmjs/react-util@latest @gmjs/util@latest -f",
           "npm install -D @gmjs/test-util@latest -f"
         ],
         "parallel": false
