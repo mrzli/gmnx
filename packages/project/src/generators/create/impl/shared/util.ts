@@ -1,6 +1,6 @@
 import { getWorkspaceLayout, Tree } from '@nrwl/devkit';
 import path from 'path';
-import { ProjectGeneratorSchema } from '../../schema';
+import { CreateGeneratorSchema } from '../../schema';
 import {
   getProjectNameWithoutDir,
   getProjectValues,
@@ -23,7 +23,7 @@ export function pathRelativeToFiles(
   return path.join(__dirname, '../../files', ...pathSegments);
 }
 
-export interface NormalizedSchema extends ProjectGeneratorSchema {
+export interface NormalizedSchema extends CreateGeneratorSchema {
   readonly npmScope: string;
   readonly libsDir: string;
   readonly appsDir: string;
@@ -42,7 +42,7 @@ export interface AllProjectValues {
 
 export function normalizeOptions(
   tree: Tree,
-  options: ProjectGeneratorSchema
+  options: CreateGeneratorSchema
 ): NormalizedSchema {
   return {
     ...options,

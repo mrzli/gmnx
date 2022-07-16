@@ -6,7 +6,7 @@
   "description": "- Generates a default project. More precisely, a list of projects: data model, shared library, cli, backend, web. Project is generated based on data model specified in `input/<project-name>-data-model.yaml`.",
   "examples": [
     {
-      "command": "nx g @gmnx/project:project project-name",
+      "command": "nx g @gmnx/project:create project-name",
       "description": "Generate a list of projects with the base name 'project-name'."
     }
   ],

@@ -1,5 +1,5 @@
 import { Tree } from '@nrwl/devkit';
-import { ProjectGeneratorSchema } from './schema';
+import { CreateGeneratorSchema } from './schema';
 import { generateWeb } from './impl/projects/web/web';
 import { generateSharedLib } from './impl/projects/shared-lib/shared-lib';
 import { generateBackend } from './impl/projects/backend/backend';
@@ -12,7 +12,7 @@ import { normalizeOptions } from './impl/shared/util';
 
 export async function generateProject(
   tree: Tree,
-  options: ProjectGeneratorSchema
+  options: CreateGeneratorSchema
 ): Promise<void> {
   // const dryRun = process.argv.includes('--dry-run');
 

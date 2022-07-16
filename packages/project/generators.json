@@ -3,15 +3,15 @@
   "name": "project",
   "version": "0.0.1",
   "generators": {
-    "project": {
-      "factory": "./src/generators/project/generator",
-      "schema": "./src/generators/project/schema.json",
-      "description": "project generator"
+    "create": {
+      "factory": "./src/generators/create/generator",
+      "schema": "./src/generators/create/schema.json",
+      "description": "create project"
     },
     "remove": {
       "factory": "./src/generators/remove/generator",
       "schema": "./src/generators/remove/schema.json",
-      "description": "remove generator"
+      "description": "remove project"
     },
     "data-model": {
       "factory": "./src/generators/data-model/generator",
