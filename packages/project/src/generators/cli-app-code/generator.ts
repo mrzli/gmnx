@@ -51,12 +51,8 @@ function normalizeOptions(
   options: CliAppCodeGeneratorSchema
 ): NormalizedSchema {
   const workspaceLayout = getWorkspaceLayout(tree);
-  const { name: cliAppProjectName, root: cliAppProjectRoot } = getProjectValues(
-    tree,
-    options,
-    true,
-    PROJECT_SUFFIX_APP_CLI
-  );
+  const { projectName: cliAppProjectName, projectRoot: cliAppProjectRoot } =
+    getProjectValues(tree, options, true, PROJECT_SUFFIX_APP_CLI);
 
   return {
     ...options,

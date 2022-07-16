@@ -11,6 +11,7 @@ import { applicationGenerator as generateReactAppInternal } from '@nrwl/react/sr
 import {
   deleteFiles,
   getProjectRoot as getProjectRootInternal,
+  getProjectValues,
   readText,
   writeText,
 } from '@gmnx/internal-util';
@@ -18,14 +19,46 @@ import path from 'path';
 import { PROJECT_PACKAGES } from './shared/package-versions';
 import { stringArrayToLines } from '@gmjs/lib-util';
 import { objectPickFields } from '@gmjs/util';
+import {
+  AddMongoDatabaseToBackendInput,
+  schemaToSharedLibraryCode,
+  SchemaToWebBackendApiCodeInput,
+} from '@gmjs/data-manipulation';
+import { SchemasGeneratorSchema } from '../../schemas/schema';
+
+interface NormalizedSchema extends SchemasGeneratorSchema {
+  readonly projectName: string;
+  readonly projectRoot: string;
+  readonly projectDirectory: string;
+}
 
 export async function generateWeb(
   tree: Tree,
   options: ProjectGeneratorSchema
 ): Promise<void> {
+  const normalizedOptions = normalizeOptions(tree, options);
+
   await generateReactApp(tree, options);
   cleanProject(tree, options);
   await setupTailwind(tree, options);
+  // setupBackendApi(tree, options);
+}
+
+function normalizeOptions(
+  tree: Tree,
+  options: ProjectGeneratorSchema
+): NormalizedSchema {
+  const projectValues = getProjectValues(
+    tree,
+    options,
+    true,
+    PROJECT_SUFFIX_APP_WEB
+  );
+
+  return {
+    ...options,
+    ...projectValues,
+  };
 }
 
 async function generateReactApp(
@@ -100,3 +133,38 @@ async function setupTailwind(
     ])
   );
 }
+
+// function setupBackendApi(tree: Tree, options: ProjectGeneratorSchema): void {
+//   const input = createSchemaToSharedLibraryInput(tree, normalizedOptions);
+//   const sharedLibraryCode = schemaToSharedLibraryCode(input);
+//   writeTexts(
+//     tree,
+//     path.join(normalizedOptions.sharedLibraryProjectRoot, 'src'),
+//     sharedLibraryCode
+//   );
+// }
+//
+// function createSchemaToWebBackendApiInput(
+//   tree: Tree,
+//   normalizedOptions: NormalizedSchema
+// ): SchemaToWebBackendApiCodeInput {
+//   const schemas = readSchemas(
+//     tree,
+//     path.join(normalizedOptions.dataModelProjectRoot, 'assets/schemas')
+//   );
+//
+//   return {
+//     schemas,
+//     options: {
+//       appsMonorepo: {
+//         npmScope: '',
+//         libsDir: '',
+//         baseProjectName: ''
+//       },
+//       interfacePrefixes: {
+//         db: 'db',
+//         app: '',
+//       },
+//     },
+//   };
+// }

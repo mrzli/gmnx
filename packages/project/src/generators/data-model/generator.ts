@@ -55,7 +55,7 @@ function normalizeOptions(
   tree: Tree,
   options: DataModelGeneratorSchema
 ): NormalizedSchema {
-  const { directory, name, root } = getProjectValues(
+  const projectValues = getProjectValues(
     tree,
     options,
     false,
@@ -65,9 +65,7 @@ function normalizeOptions(
   return {
     ...options,
     baseName: getProjectNameWithoutDir(options.name),
-    projectName: name,
-    projectRoot: root,
-    projectDirectory: directory,
+    ...projectValues,
     parsedTags: tagsToParsedTags(options.tags),
   };
 }

@@ -43,7 +43,7 @@ function normalizeOptions(
   tree: Tree,
   options: SchemasGeneratorSchema
 ): NormalizedSchema {
-  const { directory, name, root } = getProjectValues(
+  const projectValues = getProjectValues(
     tree,
     options,
     false,
@@ -52,9 +52,7 @@ function normalizeOptions(
 
   return {
     ...options,
-    projectName: name,
-    projectRoot: root,
-    projectDirectory: directory,
+    ...projectValues,
   };
 }
 

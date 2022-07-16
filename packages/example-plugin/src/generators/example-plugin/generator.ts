@@ -41,13 +41,9 @@ function normalizeOptions(
   tree: Tree,
   options: ExamplePluginGeneratorSchema
 ): NormalizedSchema {
-  const { directory, name, root } = getProjectValues(tree, options, false);
-
   return {
     ...options,
-    projectName: name,
-    projectRoot: root,
-    projectDirectory: directory,
+    ...getProjectValues(tree, options, false),
     parsedTags: tagsToParsedTags(options.tags),
   };
 }

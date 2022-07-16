@@ -31,13 +31,11 @@ function normalizeOptions(
   tree: Tree,
   options: WorkspaceProjectGeneratorSchema
 ): NormalizedSchema {
-  const { directory, name, root } = getProjectValues(tree, options, false);
+  const projectValues = getProjectValues(tree, options, false);
 
   return {
     ...options,
-    projectName: name,
-    projectRoot: root,
-    projectDirectory: directory,
+    ...projectValues,
   };
 }
 

@@ -1,5 +1,6 @@
 import { getWorkspaceLayout, names, readJson, Tree } from '@nrwl/devkit';
 import { AnyValue } from '@gmjs/util';
+import { kebabCase } from '@gmjs/lib-util';
 
 export interface NameDirectoryGeneratorSchema {
   readonly name: string;
@@ -7,9 +8,9 @@ export interface NameDirectoryGeneratorSchema {
 }
 
 export interface ProjectValues {
-  readonly directory: string;
-  readonly name: string;
-  readonly root: string;
+  readonly projectDirectory: string;
+  readonly projectName: string;
+  readonly projectRoot: string;
 }
 
 export function getProjectValues(
@@ -22,9 +23,9 @@ export function getProjectValues(
   const projectDirectory = getProjectDirectory(options, projectSuffix);
 
   return {
-    directory: projectDirectory,
-    name: projectDirectoryToProjectName(projectDirectory),
-    root: packagesDirAndProjectDirectoryToProjectRoot(
+    projectDirectory,
+    projectName: projectDirectoryToProjectName(projectDirectory),
+    projectRoot: packagesDirAndProjectDirectoryToProjectRoot(
       packagesDir,
       projectDirectory
     ),
@@ -58,8 +59,9 @@ export function getProjectDirectory(
   options: NameDirectoryGeneratorSchema,
   projectSuffix?: string
 ): string {
-  projectSuffix ??= '';
-  const nameWithoutDir = getProjectNameWithoutDir(options.name + projectSuffix);
+  const nameWithoutDir = getProjectNameWithoutDir(
+    joinNameAndSuffix(options.name, projectSuffix)
+  );
   return options.directory
     ? `${names(options.directory).fileName}/${nameWithoutDir}`
     : nameWithoutDir;
@@ -83,6 +85,11 @@ function packagesDirAndProjectDirectoryToProjectRoot(
   projectDirectory: string
 ): string {
   return `${packagesDir}/${projectDirectory}`;
+}
+
+function joinNameAndSuffix(name: string, projectSuffix?: string): string {
+  const fullSuffix = projectSuffix ? `-${projectSuffix}` : '';
+  return kebabCase(name + fullSuffix);
 }
 
 export function tagsToParsedTags(tags: string | undefined): string[] {
