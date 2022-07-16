@@ -110,22 +110,48 @@ Description:
 - Takes all generators and executors in the workspace (except those opted out by 'meta.noDocument' flag) and documents description and examples for use.
 - Meant to be used exclusively inside @gmnx repository.
 
+`project-packages-version-update`
+
+Example usage:
+
+```zsh
+# Execute generator project-packages-version-update.
+nx g @gmnx/gmnx-util:project-packages-version-update project -p src/generators/project/impl/shared/package-versions.ts
+```
+
+Description:
+
+Update versions.
+
 ### `@gmnx/project`
 
 ### Generators
 
-`project`
+`create`
 
 Example usage:
 
 ```zsh
 # Generate a list of projects with the base name 'project-name'.
-nx g @gmnx/project:project project-name
+nx g @gmnx/project:create project-name
 ```
 
 Description:
 
 - Generates a default project. More precisely, a list of projects: data model, shared library, cli, backend, web. Project is generated based on data model specified in `input/<project-name>-data-model.yaml`.
+
+`remove`
+
+Example usage:
+
+```zsh
+# Removes project 'projectname'.
+nx g @gmnx/project:remove projectname
+```
+
+Description:
+
+Remove project (that is a full-stack project set).
 
 ### `@gmnx/ws-util`
 
