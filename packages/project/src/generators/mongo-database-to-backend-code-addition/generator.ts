@@ -1,4 +1,4 @@
-import { Tree } from '@nrwl/devkit';
+import { getWorkspaceLayout, Tree } from '@nrwl/devkit';
 import { MongoDatabaseToBackendCodeAdditionGeneratorSchema } from './schema';
 import {
   getProjectNameWithoutDir,
@@ -15,6 +15,8 @@ import {
 
 interface NormalizedSchema
   extends MongoDatabaseToBackendCodeAdditionGeneratorSchema {
+  readonly npmScope: string;
+  readonly libsDir: string;
   readonly baseName: string;
   readonly backendAppProjectRoot: string;
 }
@@ -35,6 +37,7 @@ function normalizeOptions(
 ): NormalizedSchema {
   return {
     ...options,
+    ...getWorkspaceLayout(tree),
     baseName: getProjectNameWithoutDir(options.name),
     backendAppProjectRoot: getProjectRoot(
       tree,
@@ -54,9 +57,9 @@ function createAddMongoDatabaseToBackendInput(
   return {
     appModuleFile: appModule,
     options: {
-      projectName: normalizedOptions.baseName,
-      libsMonorepoNpmScope: 'gmjs',
-      nestUtilProjectName: 'nest-util',
+      baseProjectName: normalizedOptions.baseName,
+      libsDir: normalizedOptions.libsDir,
+      npmScope: normalizedOptions.npmScope,
     },
   };
 }
