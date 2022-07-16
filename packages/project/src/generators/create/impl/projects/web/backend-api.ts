@@ -21,7 +21,7 @@ export async function generateBackendApi(
   const backendCode = schemaToWebBackendApiCode(input);
   writeTexts(
     tree,
-    path.join(options.projects.backend.projectRoot, 'src'),
+    path.join(options.projects.web.projectRoot, 'src'),
     backendCode
   );
 }
