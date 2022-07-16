@@ -8,6 +8,11 @@
       "schema": "./src/generators/project/schema.json",
       "description": "project generator"
     },
+    "remove": {
+      "factory": "./src/generators/remove/generator",
+      "schema": "./src/generators/remove/schema.json",
+      "description": "remove generator"
+    },
     "data-model": {
       "factory": "./src/generators/data-model/generator",
       "schema": "./src/generators/data-model/schema.json",
@@ -27,16 +32,6 @@
       "factory": "./src/generators/postman-collection/generator",
       "schema": "./src/generators/postman-collection/schema.json",
       "description": "postman-collection generator"
-    },
-    "cli-app-code": {
-      "factory": "./src/generators/cli-app-code/generator",
-      "schema": "./src/generators/cli-app-code/schema.json",
-      "description": "cli-app-code generator"
-    },
-    "remove": {
-      "factory": "./src/generators/remove/generator",
-      "schema": "./src/generators/remove/schema.json",
-      "description": "remove generator"
     }
   }
 }
