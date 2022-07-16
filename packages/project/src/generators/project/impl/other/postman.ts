@@ -1,11 +1,11 @@
 import { Tree } from '@nrwl/devkit';
-import { ProjectGeneratorSchema } from '../../schema';
 import { PostmanCollectionGeneratorSchema } from '../../../postman-collection/schema';
 import { generatePostmanCollection as generatePostmanCollectionInternal } from '../../../postman-collection/generator';
+import { NormalizedSchema } from '../shared/util';
 
 export async function generatePostmanCollection(
   tree: Tree,
-  options: ProjectGeneratorSchema
+  options: NormalizedSchema
 ): Promise<void> {
   const postmanCollectionSchema: PostmanCollectionGeneratorSchema = {
     name: options.name,

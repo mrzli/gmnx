@@ -1,13 +1,13 @@
 import { Tree } from '@nrwl/devkit';
-import { ProjectGeneratorSchema } from '../../schema';
 import { DataModelGeneratorSchema } from '../../../data-model/schema';
 import { SchemasGeneratorSchema } from '../../../schemas/schema';
 import { generateSchemas } from '../../../schemas/generator';
 import { generateDataModel as generateDataModelInternal } from '../../../data-model/generator';
+import { NormalizedSchema } from '../shared/util';
 
 export async function generateDataModel(
   tree: Tree,
-  options: ProjectGeneratorSchema
+  options: NormalizedSchema
 ): Promise<void> {
   const dataModelSchema: DataModelGeneratorSchema = {
     name: options.name,

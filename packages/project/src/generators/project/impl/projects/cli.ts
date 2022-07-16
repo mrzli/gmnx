@@ -1,5 +1,4 @@
 import { Tree } from '@nrwl/devkit';
-import { ProjectGeneratorSchema } from '../../schema';
 import { Schema as NodeAppSchema } from '@nrwl/node/src/generators/application/schema';
 import {
   PROJECT_SUFFIX_APP_CLI,
@@ -8,10 +7,11 @@ import {
 import { applicationGenerator as generateNodeApp } from '@nrwl/node/src/generators/application/application';
 import { CliAppCodeGeneratorSchema } from '../../../cli-app-code/schema';
 import { generateCliAppCode } from '../../../cli-app-code/generator';
+import { NormalizedSchema } from '../shared/util';
 
 export async function generateCli(
   tree: Tree,
-  options: ProjectGeneratorSchema
+  options: NormalizedSchema
 ): Promise<void> {
   // @nrwl/node:application
   const nodeAppSchema: NodeAppSchema = {

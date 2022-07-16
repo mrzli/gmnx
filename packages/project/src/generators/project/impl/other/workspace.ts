@@ -6,14 +6,14 @@ import {
   EslintConfig,
   getModuleBoundariesOptions,
 } from '@gmnx/internal-util';
-import { ProjectGeneratorSchema } from '../../schema';
 import { kebabCase } from '@gmjs/lib-util';
+import { NormalizedSchema } from '../shared/util';
 
 const ESLINT_CONFIG_FILE_PATH = '.eslintrc.json';
 
 export async function setupWorkspace(
   tree: Tree,
-  options: ProjectGeneratorSchema
+  options: NormalizedSchema
 ): Promise<void> {
   await installPackages(tree);
   updateEslint(tree, options);
@@ -27,7 +27,7 @@ async function installPackages(tree: Tree): Promise<void> {
   );
 }
 
-function updateEslint(tree: Tree, options: ProjectGeneratorSchema): void {
+function updateEslint(tree: Tree, options: NormalizedSchema): void {
   updateJson(tree, ESLINT_CONFIG_FILE_PATH, (eslintConfigJson) => {
     updateEslintConfig(eslintConfigJson, options);
     return eslintConfigJson;
@@ -36,7 +36,7 @@ function updateEslint(tree: Tree, options: ProjectGeneratorSchema): void {
 
 function updateEslintConfig(
   eslintConfigJson: EslintConfig,
-  options: ProjectGeneratorSchema
+  options: NormalizedSchema
 ): void {
   const overridesMap = configToOverridesMap(eslintConfigJson);
   const overrideAll = overridesMap.getOrThrow('all');
