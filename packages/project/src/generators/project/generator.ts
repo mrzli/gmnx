@@ -1,10 +1,10 @@
 import { Tree } from '@nrwl/devkit';
 import { ProjectGeneratorSchema } from './schema';
 import { generateWeb } from './impl/projects/web/web';
-import { generateSharedLib } from './impl/projects/shared-lib';
+import { generateSharedLib } from './impl/projects/shared-lib/shared-lib';
 import { generateBackend } from './impl/projects/backend/backend';
 import { generateCli } from './impl/projects/cli/cli';
-import { generateDataModel } from './impl/projects/data-model';
+import { generateDataModel } from './impl/projects/data-model/data-model';
 import { generatePostmanCollection } from './impl/other/postman';
 import { setupWorkspace } from './impl/other/workspace';
 import { finalization } from './impl/other/finalization';
