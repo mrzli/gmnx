@@ -1,9 +1,6 @@
 import { Tree } from '@nrwl/devkit';
 import { Schema as NodeAppSchema } from '@nrwl/node/src/generators/application/schema';
-import {
-  PROJECT_SUFFIX_APP_CLI,
-  PROJECT_SUFFIX_APP_WEB,
-} from '../../../../shared/constants';
+import { PROJECT_SUFFIX_APP_CLI } from '../../../../shared/constants';
 import { applicationGenerator as generateNodeApp } from '@nrwl/node/src/generators/application/application';
 import { CliAppCodeGeneratorSchema } from '../../../cli-app-code/schema';
 import { generateCliAppCode } from '../../../cli-app-code/generator';
@@ -18,7 +15,6 @@ export async function generateCli(
     name: options.name + PROJECT_SUFFIX_APP_CLI,
     directory: options.directory,
     tags: `app:${options.name},scope:backend,type:app`,
-    frontendProject: options.name + PROJECT_SUFFIX_APP_WEB,
   };
   await generateNodeApp(tree, nodeAppSchema);
 

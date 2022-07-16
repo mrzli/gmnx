@@ -1,7 +1,7 @@
 import path from 'path';
-import { logger, Tree } from '@nrwl/devkit';
+import { getWorkspaceLayout, logger, Tree } from '@nrwl/devkit';
 import { filterOutNullish, identifyFn, mapWithSeparators } from '@gmjs/util';
-import { getNpmScope, writeText } from '@gmnx/internal-util';
+import { writeText } from '@gmnx/internal-util';
 import { stringArrayToLines } from '@gmjs/lib-util';
 import {
   getWorkspaceTools,
@@ -41,7 +41,7 @@ function createReadme(tree: Tree, readmeContent: ReadmeContent): void {
 }
 
 function getUsingGmnxPluginsText(tree: Tree): string {
-  const npmScope = getNpmScope(tree);
+  const npmScope = getWorkspaceLayout(tree).npmScope;
   const workspaceTools = getWorkspaceTools(tree);
 
   const documentedProjects =

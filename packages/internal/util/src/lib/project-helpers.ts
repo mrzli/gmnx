@@ -8,6 +8,7 @@ export interface NameDirectoryGeneratorSchema {
 }
 
 export interface ProjectValues {
+  readonly projectBaseName: string;
   readonly projectDirectory: string;
   readonly projectName: string;
   readonly projectRoot: string;
@@ -24,6 +25,7 @@ export function getProjectValues(
 
   return {
     projectDirectory,
+    projectBaseName: joinNameAndSuffix(options.name, projectSuffix),
     projectName: projectDirectoryToProjectName(projectDirectory),
     projectRoot: packagesDirAndProjectDirectoryToProjectRoot(
       packagesDir,
@@ -59,9 +61,7 @@ export function getProjectDirectory(
   options: NameDirectoryGeneratorSchema,
   projectSuffix?: string
 ): string {
-  const nameWithoutDir = getProjectNameWithoutDir(
-    joinNameAndSuffix(options.name, projectSuffix)
-  );
+  const nameWithoutDir = joinNameAndSuffix(options.name, projectSuffix);
   return options.directory
     ? `${names(options.directory).fileName}/${nameWithoutDir}`
     : nameWithoutDir;
@@ -94,10 +94,6 @@ function joinNameAndSuffix(name: string, projectSuffix?: string): string {
 
 export function tagsToParsedTags(tags: string | undefined): string[] {
   return tags ? tags.split(',').map((s) => s.trim()) : [];
-}
-
-export function getNpmScope(tree: Tree): string {
-  return getWorkspaceLayout(tree).npmScope;
 }
 
 export function getJsonIfExists<T extends object = AnyValue>(
