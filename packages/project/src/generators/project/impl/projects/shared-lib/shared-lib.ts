@@ -10,5 +10,5 @@ export async function generateSharedLib(
 ): Promise<void> {
   await generateLibrary(tree, options);
   await cleanProject(tree, options);
-  await generateSharedLibCode(options, tree);
+  await generateSharedLibCode(tree, options);
 }
