@@ -1,19 +1,26 @@
 import { Tree } from '@nrwl/devkit';
-import { MongoDatabaseToBackendCodeAdditionGeneratorSchema } from '../../../../mongo-database-to-backend-code-addition/schema';
-import generateMongoDatabaseToBackendCodeAddition from '../../../../mongo-database-to-backend-code-addition/generator';
 import { NormalizedSchema } from '../../shared/util';
+import {
+  addMongoDatabaseToBackend,
+  AddMongoDatabaseToBackendInput,
+} from '@gmjs/data-manipulation';
+import { readText, writeText } from '@gmnx/internal-util';
+import path from 'path';
 
 export async function generateMongoDatabase(
   tree: Tree,
   options: NormalizedSchema
 ): Promise<void> {
-  const addMongoDatabaseToBackendSchema: MongoDatabaseToBackendCodeAdditionGeneratorSchema =
-    {
-      name: options.name,
-      directory: options.directory,
-    };
-  await generateMongoDatabaseToBackendCodeAddition(
-    tree,
-    addMongoDatabaseToBackendSchema
+  const appModulePath = path.join(
+    options.projects.backend.projectRoot,
+    'src/app/app.module.ts'
   );
+
+  const input: AddMongoDatabaseToBackendInput = {
+    appModuleFile: readText(tree, appModulePath),
+    options,
+  };
+
+  const appModuleFile = addMongoDatabaseToBackend(input);
+  writeText(tree, appModulePath, appModuleFile);
 }

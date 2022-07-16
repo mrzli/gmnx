@@ -33,11 +33,6 @@
       "schema": "./src/generators/postman-collection/schema.json",
       "description": "postman-collection generator"
     },
-    "mongo-database-to-backend-code-addition": {
-      "factory": "./src/generators/mongo-database-to-backend-code-addition/generator",
-      "schema": "./src/generators/mongo-database-to-backend-code-addition/schema.json",
-      "description": "add-mongo-database-to-backend generator"
-    },
     "cli-app-code": {
       "factory": "./src/generators/cli-app-code/generator",
       "schema": "./src/generators/cli-app-code/schema.json",
