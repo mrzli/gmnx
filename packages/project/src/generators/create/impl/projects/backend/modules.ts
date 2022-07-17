@@ -19,10 +19,7 @@ export async function generateModules(
         path.join(options.projects.backend.projectRoot, 'src/app/app.module.ts')
       ),
     },
-    options: {
-      appsMonorepo: options,
-      interfacePrefixes: options.interfacePrefixes,
-    },
+    options,
   };
   const backendAppCode = schemaToBackendAppCode(input);
   writeTexts(

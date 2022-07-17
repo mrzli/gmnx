@@ -14,7 +14,12 @@ import {
   PROJECT_SUFFIX_LIB_DATA_MODEL,
   PROJECT_SUFFIX_LIB_SHARED,
 } from '../../../../shared/constants';
-import { SchemaToCodeInterfacePrefixes } from '@gmjs/data-manipulation';
+import {
+  CodeGenerationInterfacePrefixes,
+  CodeGenerationLibModuleNames,
+  DEFAULT_CODE_GENERATION_INTERFACE_PREFIXES,
+  DEFAULT_CODE_GENERATION_LIB_MODULE_NAMES,
+} from '@gmjs/data-manipulation';
 import { MongoJsonSchemaTypeObject } from '@gmjs/mongo-util';
 
 export function pathRelativeToFiles(
@@ -24,12 +29,17 @@ export function pathRelativeToFiles(
 }
 
 export interface NormalizedSchema extends CreateGeneratorSchema {
+  readonly projects: AllProjectValues;
+  readonly appsMonorepo: AppsMonorepoOptions;
+  readonly interfacePrefixes: CodeGenerationInterfacePrefixes;
+  readonly libModuleNames: CodeGenerationLibModuleNames;
+}
+
+export interface AppsMonorepoOptions {
   readonly npmScope: string;
   readonly libsDir: string;
   readonly appsDir: string;
   readonly baseProjectName: string;
-  readonly projects: AllProjectValues;
-  readonly interfacePrefixes: SchemaToCodeInterfacePrefixes;
 }
 
 export interface AllProjectValues {
@@ -46,8 +56,10 @@ export function normalizeOptions(
 ): NormalizedSchema {
   return {
     ...options,
-    ...getWorkspaceLayout(tree),
-    baseProjectName: getProjectNameWithoutDir(options.name),
+    appsMonorepo: {
+      ...getWorkspaceLayout(tree),
+      baseProjectName: getProjectNameWithoutDir(options.name),
+    },
     projects: {
       dataModel: getProjectValues(
         tree,
@@ -70,10 +82,8 @@ export function normalizeOptions(
       ),
       web: getProjectValues(tree, options, true, PROJECT_SUFFIX_APP_WEB),
     },
-    interfacePrefixes: {
-      db: 'db',
-      app: '',
-    },
+    interfacePrefixes: DEFAULT_CODE_GENERATION_INTERFACE_PREFIXES,
+    libModuleNames: DEFAULT_CODE_GENERATION_LIB_MODULE_NAMES,
   };
 }
 

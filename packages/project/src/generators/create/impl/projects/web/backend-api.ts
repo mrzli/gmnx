@@ -13,10 +13,7 @@ export async function generateBackendApi(
 ): Promise<void> {
   const input: SchemaToWebBackendApiCodeInput = {
     schemas: readProjectJsonSchemas(tree, options),
-    options: {
-      appsMonorepo: options,
-      interfacePrefixes: options.interfacePrefixes,
-    },
+    options,
   };
   const backendCode = schemaToWebBackendApiCode(input);
   writeTexts(
