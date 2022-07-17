@@ -5,4 +5,5 @@ export const PROJECT_PACKAGES = {
   postcss: '8.4.14',
   tailwindcss: '3.1.6',
   'type-fest': '2.16.0',
+  util: '0.12.4',
 } as const;
