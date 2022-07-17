@@ -1,8 +1,8 @@
 import { Tree } from '@nrwl/devkit';
 import { NormalizedSchema } from '../../shared/util';
 import {
-  addMongoDatabaseToBackend,
-  AddMongoDatabaseToBackendInput,
+  backendMongoDatabase,
+  BackendMongoDatabaseInput,
 } from '@gmjs/data-manipulation';
 import { readText, writeText } from '@gmnx/internal-util';
 import path from 'path';
@@ -16,11 +16,11 @@ export async function generateMongoDatabase(
     'src/app/app.module.ts'
   );
 
-  const input: AddMongoDatabaseToBackendInput = {
+  const input: BackendMongoDatabaseInput = {
     appModuleFile: readText(tree, appModulePath),
     options,
   };
 
-  const appModuleFile = addMongoDatabaseToBackend(input);
+  const appModuleFile = backendMongoDatabase(input);
   writeText(tree, appModulePath, appModuleFile);
 }
