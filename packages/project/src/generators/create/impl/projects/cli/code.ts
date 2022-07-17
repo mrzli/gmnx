@@ -14,9 +14,7 @@ export async function generateCliCode(
 ): Promise<void> {
   const input: SchemaToCliAppCodeInput = {
     schemas: readProjectJsonSchemas(tree, options),
-    options: {
-      appsMonorepo: options,
-    },
+    options,
   };
   const cliAppCode = schemaToCliAppCode(input);
   writeTexts(
