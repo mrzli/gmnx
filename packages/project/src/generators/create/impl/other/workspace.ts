@@ -22,8 +22,20 @@ export async function setupWorkspace(
 async function installPackages(tree: Tree): Promise<void> {
   await addDependenciesToPackageJson(
     tree,
-    objectPickFields(PROJECT_PACKAGES, ['axios', 'mongodb']),
-    objectPickFields(PROJECT_PACKAGES, ['type-fest'])
+    objectPickFields(PROJECT_PACKAGES, [
+      'axios',
+      'immer',
+      'mongodb',
+      'react-redux',
+      'redux',
+      'util',
+    ]),
+    objectPickFields(PROJECT_PACKAGES, [
+      'autoprefixer',
+      'postcss',
+      'tailwindcss',
+      'type-fest',
+    ])
   );
 }
 
