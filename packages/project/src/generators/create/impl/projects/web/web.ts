@@ -5,6 +5,7 @@ import { cleanProject } from './clean-project';
 import { setupTailwind } from './tailwind';
 import { generateBackendApi } from './backend-api';
 import { generateAppSetup } from './app-setup';
+import { generateActionsReducers } from './actions-reducers';
 
 export async function generateWeb(
   tree: Tree,
@@ -14,5 +15,6 @@ export async function generateWeb(
   await cleanProject(tree, options);
   await setupTailwind(tree, options);
   await generateBackendApi(tree, options);
+  await generateActionsReducers(tree, options);
   await generateAppSetup(tree, options);
 }

@@ -15,10 +15,10 @@ export async function generateBackendApi(
     schemas: readProjectJsonSchemas(tree, options),
     options,
   };
-  const backendCode = schemaToWebBackendApiCode(input);
+  const backendApiCode = schemaToWebBackendApiCode(input);
   writeTexts(
     tree,
     path.join(options.projects.web.projectRoot, 'src'),
-    backendCode
+    backendApiCode
   );
 }
