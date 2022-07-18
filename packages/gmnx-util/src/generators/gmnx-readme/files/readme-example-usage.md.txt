@@ -21,8 +21,8 @@
   - Commit changes.
 - Create an example project.
   - Run command.
-    - Short (if configured): `gmnxgp`.
-    - Or: `nx g @gmnx/project:project example`.
+    - Short (if configured): `gmnxgpcreate`.
+    - Or: `nx g @gmnx/project:create example`.
   - `npm install` to install any dependencies added by the project generator.
 - Running the project.
   - Run Mongo container: `nx mongo-start workspace`.
