@@ -1,6 +1,6 @@
 {
   "name": "@gmnx/ws-util",
-  "version": "0.0.60",
+  "version": "0.0.61",
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json"
