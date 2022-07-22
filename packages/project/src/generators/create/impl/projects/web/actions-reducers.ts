@@ -1,9 +1,11 @@
 import { Tree } from '@nrwl/devkit';
 import { NormalizedSchema, readProjectJsonSchemas } from '../../shared/util';
-import { schemaToWebActionReducerCode } from '@gmjs/data-manipulation/src/lib/schema/to-web-action-reducer-code/schema-to-web-action-reducer-code';
-import { SchemaToWebActionReducerCodeInput } from '@gmjs/data-manipulation/src/lib/schema/to-web-action-reducer-code/schema-to-web-action-reducer-code-input';
 import { writeTexts } from '@gmnx/internal-util';
 import path from 'path';
+import {
+  schemaToWebActionReducerCode,
+  SchemaToWebActionReducerCodeInput,
+} from '@gmjs/data-manipulation';
 
 export async function generateActionsReducers(
   tree: Tree,

@@ -4,7 +4,7 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import path from 'path';
-import { NormalizedSchema, pathRelativeToFiles } from '../../shared/util';
+import { NormalizedSchema, pathRelativeToFilesDir } from '../../shared/util';
 import { readText, writeText } from '@gmnx/internal-util';
 import { stringArrayToLines } from '@gmjs/lib-util';
 import { objectPickFields } from '@gmjs/util';
@@ -16,7 +16,7 @@ export async function setupTailwind(
 ): Promise<void> {
   const projectRoot = options.projects.web.projectRoot;
 
-  generateFiles(tree, pathRelativeToFiles('web/tailwind'), projectRoot, {
+  generateFiles(tree, pathRelativeToFilesDir('web/tailwind'), projectRoot, {
     template: '',
   });
 

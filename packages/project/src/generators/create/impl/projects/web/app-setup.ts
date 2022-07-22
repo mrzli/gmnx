@@ -1,14 +1,20 @@
-import { NormalizedSchema, pathRelativeToFiles } from '../../shared/util';
-import { generateFiles, Tree } from '@nrwl/devkit';
+import { NormalizedSchema } from '../../shared/util';
+import { Tree } from '@nrwl/devkit';
+import { webAppSetup, WebAppSetupInput } from '@gmjs/data-manipulation';
+import { writeTexts } from '@gmnx/internal-util';
+import path from 'path';
 
 export async function generateAppSetup(
   tree: Tree,
   options: NormalizedSchema
 ): Promise<void> {
-  const projectRoot = options.projects.web.projectRoot;
-
-  generateFiles(tree, pathRelativeToFiles('web/app-setup'), projectRoot, {
-    template: '',
-    moduleNameReactUtil: options.libModuleNames.reactUtil,
-  });
+  const input: WebAppSetupInput = {
+    options,
+  };
+  const appSetupCode = webAppSetup(input);
+  writeTexts(
+    tree,
+    path.join(options.projects.web.projectRoot, 'src'),
+    appSetupCode
+  );
 }

@@ -22,7 +22,7 @@ import {
 } from '@gmjs/data-manipulation';
 import { MongoJsonSchemaTypeObject } from '@gmjs/mongo-util';
 
-export function pathRelativeToFiles(
+export function pathRelativeToFilesDir(
   ...pathSegments: readonly string[]
 ): string {
   return path.join(__dirname, '../../files', ...pathSegments);
