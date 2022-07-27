@@ -10,7 +10,7 @@
   - `npm install -D @nrwl/react @nrwl/nest`.
 - Setup workspace.
   - Create `workspace` project.
-    - Short (if configured): `gmnxgw`.
+    - Short (if configured): `gmnxgwspcreate`.
     - Or: `nx g @gmnx/ws-util:workspace-project workspace`.
   - Setup various workspace files.
     - Short (if configured): `gmnxgwis`.
