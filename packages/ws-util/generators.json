@@ -17,6 +17,11 @@
       "factory": "./src/generators/workspace-initial-setup/generator",
       "schema": "./src/generators/workspace-initial-setup/schema.json",
       "description": "workspace-initial-setup generator"
+    },
+    "empty-project": {
+      "factory": "./src/generators/empty-project/generator",
+      "schema": "./src/generators/empty-project/schema.json",
+      "description": "empty-project generator"
     }
   }
 }
