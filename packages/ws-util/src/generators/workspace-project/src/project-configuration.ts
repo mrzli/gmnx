@@ -8,12 +8,13 @@ import { PublishAllExecutorSchema } from '../../../executors/publish-all/schema'
 import { isNotNullish } from '@gmjs/util';
 
 const GMJS_RUNTIME_DEPENDENCIES: readonly string[] = [
+  'browser-util',
   'data-manipulation',
+  'db-util',
   'fs-util',
   'lib-util',
   'mongo-util',
   'nest-util',
-  'browser-util',
   'react-util',
   'util',
 ];
