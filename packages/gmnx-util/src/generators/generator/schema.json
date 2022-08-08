@@ -7,7 +7,7 @@
   "type": "object",
   "examples": [
     {
-      "command": "nx g generator my-generator --project=my-plugin",
+      "command": "nx g @gmnx/gmnx-util:generator my-generator --project=my-plugin",
       "description": "Generate `libs/my-plugin/src/generators/my-generator`"
     }
   ],
