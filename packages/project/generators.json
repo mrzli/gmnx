@@ -27,6 +27,11 @@
       "factory": "./src/generators/postman-collection/generator",
       "schema": "./src/generators/postman-collection/schema.json",
       "description": "postman-collection generator"
+    },
+    "node-executor": {
+      "factory": "./src/generators/node-executor/generator",
+      "schema": "./src/generators/node-executor/schema.json",
+      "description": "node-executor generator"
     }
   }
 }
