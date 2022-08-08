@@ -10,7 +10,7 @@
     },
     {
       "command": "nx run workspace:postgres-start",
-      "description": "long version."
+      "description": "Long version."
     }
   ],
   "type": "object",

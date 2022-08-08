@@ -10,7 +10,7 @@
     },
     {
       "command": "nx run workspace:mongo-stop",
-      "description": "long version."
+      "description": "Long version."
     }
   ],
   "type": "object",
