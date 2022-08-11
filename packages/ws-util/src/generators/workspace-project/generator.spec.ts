@@ -6,7 +6,10 @@ import { WorkspaceProjectGeneratorSchema } from './schema';
 
 describe('workspaceProject generator', () => {
   let appTree: Tree;
-  const options: WorkspaceProjectGeneratorSchema = { name: 'test' };
+  const options: WorkspaceProjectGeneratorSchema = {
+    name: 'test',
+    dbName: 'test',
+  };
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
