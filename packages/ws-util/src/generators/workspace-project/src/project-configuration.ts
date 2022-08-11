@@ -6,6 +6,7 @@ import { PostgresStartExecutorSchema } from '../../../executors/postgres-start/s
 import { PostgresStopExecutorSchema } from '../../../executors/postgres-stop/schema';
 import { PublishAllExecutorSchema } from '../../../executors/publish-all/schema';
 import { isNotNullish } from '@gmjs/util';
+import { stringToNonRandomInteger } from '@gmjs/lib-util';
 
 const GMJS_RUNTIME_DEPENDENCIES: readonly string[] = [
   'browser-util',
@@ -25,7 +26,8 @@ const GMNX_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['ws-util', 'project'];
 
 export function getProjectConfiguration(
   projectName: string,
-  projectRoot: string
+  projectRoot: string,
+  dbName: string
 ): ProjectConfiguration {
   const clocOptions: ClocExecutorSchema = {
     ignoreDirs: ['.idea', '.vscode', 'node_modules', 'dist'],
@@ -54,10 +56,11 @@ export function getProjectConfiguration(
 
   const postgresOptions: PostgresStartExecutorSchema &
     PostgresStopExecutorSchema = {
-    containerName: 'postgres',
+    containerName: `postgres-${dbName}`,
     postgresVersion: '14.2',
-    port: 15432,
-    dataDir: '~/docker/postgres',
+    port: stringToNonRandomInteger(dbName, 14000, 17999),
+    dataDir: `~/docker/postgres/${dbName}`,
+    dbName,
     username: 'postgres',
     password: 'password',
   };
@@ -67,6 +70,7 @@ export function getProjectConfiguration(
     postgresVersion: postgresOptions.postgresVersion,
     port: postgresOptions.port,
     dataDir: postgresOptions.dataDir,
+    dbName: postgresOptions.dbName,
     username: postgresOptions.username,
     password: postgresOptions.password,
   };
@@ -75,6 +79,7 @@ export function getProjectConfiguration(
     postgresVersion: postgresOptions.postgresVersion,
     port: postgresOptions.port,
     dataDir: postgresOptions.dataDir,
+    dbName: postgresOptions.dbName,
     username: postgresOptions.username,
     password: postgresOptions.password,
   };

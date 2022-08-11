@@ -17,7 +17,8 @@ export async function generateWorkspaceProject(
 
   const projectConfiguration = getProjectConfiguration(
     normalizedOptions.projectName,
-    normalizedOptions.projectRoot
+    normalizedOptions.projectRoot,
+    normalizedOptions.dbName
   );
 
   addProjectConfiguration(

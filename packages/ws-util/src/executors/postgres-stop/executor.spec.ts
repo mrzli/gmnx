@@ -6,6 +6,7 @@ const options: PostgresStopExecutorSchema = {
   postgresVersion: '14.2',
   port: 15432,
   dataDir: '~/docker/postgres',
+  dbName: 'postgres',
   username: 'postgres',
   password: 'password',
 };

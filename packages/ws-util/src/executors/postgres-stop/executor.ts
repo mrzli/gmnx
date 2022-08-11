@@ -10,8 +10,15 @@ import { logger } from 'nx/src/utils/logger';
 export default async function runExecutor(
   options: PostgresStopExecutorSchema
 ): Promise<ExecutorReturnValue> {
-  const { containerName, postgresVersion, port, dataDir, username, password } =
-    options;
+  const {
+    containerName,
+    postgresVersion,
+    port,
+    dataDir,
+    dbName,
+    username,
+    password,
+  } = options;
 
   const dockerComposePath = getPostgresDockerComposePath();
 
@@ -19,6 +26,7 @@ export default async function runExecutor(
     `POSTGRES_VERSION=${postgresVersion}`,
     `POSTGRES_PORT=${port}`,
     `POSTGRES_DATA_DIR=${dataDir}`,
+    `POSTGRES_DB=${dbName}`,
     `POSTGRES_USERNAME=${username}`,
     `POSTGRES_PASSWORD=${password}`,
     'docker compose',

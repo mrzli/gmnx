@@ -21,16 +21,16 @@
       },
       "x-prompt": "What name would you like to use?"
     },
-    "tags": {
-      "type": "string",
-      "description": "Add tags to the project (used for linting)",
-      "alias": "t"
-    },
     "directory": {
       "type": "string",
-      "description": "A directory where the project is placed",
+      "description": "A directory where the project is placed.",
       "alias": "d"
+    },
+    "dbName": {
+      "type": "string",
+      "description": "Name of the database to be run by postgres executor.",
+      "default": "postgres"
     }
   },
-  "required": ["name"]
+  "required": ["name", "dbName"]
 }
