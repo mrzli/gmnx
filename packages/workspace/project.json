@@ -38,10 +38,11 @@
     "postgres-start": {
       "executor": "@gmnx/ws-util:postgres-start",
       "options": {
-        "containerName": "postgres",
+        "containerName": "postgres-postgres",
         "postgresVersion": "14.2",
-        "port": 15432,
-        "dataDir": "~/docker/postgres",
+        "port": 14626,
+        "dataDir": "~/docker/postgres/postgres",
+        "dbName": "postgres",
         "username": "postgres",
         "password": "password"
       }
@@ -49,10 +50,11 @@
     "postgres-stop": {
       "executor": "@gmnx/ws-util:postgres-stop",
       "options": {
-        "containerName": "postgres",
+        "containerName": "postgres-postgres",
         "postgresVersion": "14.2",
-        "port": 15432,
-        "dataDir": "~/docker/postgres",
+        "port": 14626,
+        "dataDir": "~/docker/postgres/postgres",
+        "dbName": "postgres",
         "username": "postgres",
         "password": "password"
       }
@@ -65,7 +67,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npm install @gmjs/data-manipulation@latest @gmjs/fs-util@latest @gmjs/lib-util@latest @gmjs/mongo-util@latest @gmjs/nest-util@latest @gmjs/browser-util@latest @gmjs/react-util@latest @gmjs/util@latest -f",
+          "npm install @gmjs/browser-util@latest @gmjs/data-manipulation@latest @gmjs/db-util@latest @gmjs/fs-util@latest @gmjs/lib-util@latest @gmjs/mongo-util@latest @gmjs/nest-util@latest @gmjs/react-util@latest @gmjs/util@latest -f",
           "npm install -D @gmjs/test-util@latest -f"
         ],
         "parallel": false
