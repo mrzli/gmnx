@@ -31,7 +31,6 @@ export function getProjectConfiguration(
   projectName: string,
   projectRoot: string,
   dbName: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   dbType: WorkspaceProjectGeneratorDbType
 ): ProjectConfiguration {
   const clocOptions: ClocExecutorSchema = {
@@ -43,8 +42,8 @@ export function getProjectConfiguration(
 
   const GMJS_RUNTIME_DEPENDENCIES: readonly string[] = [
     ...GMJS_BASE_RUNTIME_DEPENDENCIES,
-    ...GMJS_MONGO_DEPENDENCIES, // ...(dbType === 'mongo' ? GMJS_MONGO_DEPENDENCIES : []),
-    ...GMJS_POSTGRES_DEPENDENCIES, // ...(dbType === 'postgres' ? GMJS_POSTGRES_DEPENDENCIES : []),
+    ...(isMongo(dbType) ? GMJS_MONGO_DEPENDENCIES : []),
+    ...(isPostgres(dbType) ? GMJS_POSTGRES_DEPENDENCIES : []),
   ];
 
   return {
@@ -56,8 +55,8 @@ export function getProjectConfiguration(
         executor: '@gmnx/ws-util:cloc',
         options: clocOptions,
       },
-      ...getMongoTargets(/* dbType */),
-      ...getPostgresTargets(dbName, /* dbType */),
+      ...getMongoTargets(dbType),
+      ...getPostgresTargets(dbName, dbType),
       'publish-all': {
         executor: '@gmnx/ws-util:publish-all',
         options: publishAllOptions,
@@ -107,12 +106,10 @@ export function getProjectConfiguration(
   };
 }
 
-function getMongoTargets(
-  // dbType: WorkspaceProjectGeneratorDbType
-): ProjectConfiguration['targets'] {
-  // if (dbType !== 'mongo') {
-  //   return {};
-  // }
+function getMongoTargets(dbType: WorkspaceProjectGeneratorDbType): ProjectConfiguration['targets'] {
+  if (!isMongo(dbType)) {
+    return {};
+  }
 
   const mongoOptions: MongoStartExecutorSchema & MongoStopExecutorSchema = {
     containerName: 'mongo',
@@ -147,12 +144,12 @@ function getMongoTargets(
 }
 
 function getPostgresTargets(
-  dbName: string
-  // dbType: WorkspaceProjectGeneratorDbType
+  dbName: string,
+  dbType: WorkspaceProjectGeneratorDbType
 ): ProjectConfiguration['targets'] {
-  // if (dbType !== 'postgres') {
-  //   return {};
-  // }
+  if (!isPostgres(dbType)) {
+    return {};
+  }
 
   const postgresOptions: PostgresStartExecutorSchema &
     PostgresStopExecutorSchema = {
@@ -194,6 +191,21 @@ function getPostgresTargets(
       options: postgresStopOptions,
     },
   };
+}
+
+function isMongo(dbType: WorkspaceProjectGeneratorDbType): boolean {
+  return shouldInstallDb('mongo', dbType);
+}
+
+function isPostgres(dbType: WorkspaceProjectGeneratorDbType): boolean {
+  return shouldInstallDb('postgres', dbType);
+}
+
+function shouldInstallDb(
+  queriedDbType: Exclude<WorkspaceProjectGeneratorDbType, 'any'>,
+  configDbType: WorkspaceProjectGeneratorDbType
+): boolean {
+  return configDbType === 'any' || queriedDbType === configDbType;
 }
 
 function getInstallDependenciesCommand(

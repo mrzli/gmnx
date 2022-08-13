@@ -9,7 +9,7 @@ describe('workspaceProject generator', () => {
   const options: WorkspaceProjectGeneratorSchema = {
     name: 'test',
     dbName: 'test',
-    dbType: 'mongo',
+    dbType: 'any',
   };
 
   beforeEach(() => {

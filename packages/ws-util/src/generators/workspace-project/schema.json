@@ -33,9 +33,9 @@
     },
     "dbType": {
       "type": "string",
-      "enum": ["mongo", "postgres"],
-      "description": "Database type to use by the project ('mongo' or 'postgres').",
-      "default": "mongo"
+      "enum": ["any", "mongo", "postgres"],
+      "description": "Database type to use by the project ('any', 'mongo', 'postgres').",
+      "default": "any"
     }
   },
   "required": ["name", "dbName", "dbType"]

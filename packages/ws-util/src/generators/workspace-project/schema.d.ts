@@ -1,4 +1,4 @@
-export type WorkspaceProjectGeneratorDbType = 'mongo' | 'postgres';
+export type WorkspaceProjectGeneratorDbType = 'any' | 'mongo' | 'postgres';
 
 export interface WorkspaceProjectGeneratorSchema {
   readonly name: string;
