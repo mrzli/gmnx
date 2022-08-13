@@ -30,7 +30,13 @@
       "type": "string",
       "description": "Name of the database to be run by postgres executor.",
       "default": "postgres"
+    },
+    "dbType": {
+      "type": "string",
+      "enum": ["mongo", "postgres"],
+      "description": "Database type to use by the project ('mongo' or 'postgres').",
+      "default": "mongo"
     }
   },
-  "required": ["name", "dbName"]
+  "required": ["name", "dbName", "dbType"]
 }

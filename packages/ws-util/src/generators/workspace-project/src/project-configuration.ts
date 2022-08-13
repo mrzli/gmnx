@@ -7,18 +7,21 @@ import { PostgresStopExecutorSchema } from '../../../executors/postgres-stop/sch
 import { PublishAllExecutorSchema } from '../../../executors/publish-all/schema';
 import { isNotNullish } from '@gmjs/util';
 import { stringToNonRandomInteger } from '@gmjs/lib-util';
+import { WorkspaceProjectGeneratorDbType } from '../schema';
 
-const GMJS_RUNTIME_DEPENDENCIES: readonly string[] = [
+const GMJS_BASE_RUNTIME_DEPENDENCIES: readonly string[] = [
   'browser-util',
   'data-manipulation',
   'db-util',
   'fs-util',
   'lib-util',
-  'mongo-util',
   'nest-util',
   'react-util',
   'util',
 ];
+
+const GMJS_MONGO_DEPENDENCIES: readonly string[] = ['mongo-util'];
+const GMJS_POSTGRES_DEPENDENCIES: readonly string[] = ['postgres-util'];
 
 const GMJS_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['test-util'];
 
@@ -27,64 +30,22 @@ const GMNX_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['ws-util', 'project'];
 export function getProjectConfiguration(
   projectName: string,
   projectRoot: string,
-  dbName: string
+  dbName: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  dbType: WorkspaceProjectGeneratorDbType
 ): ProjectConfiguration {
   const clocOptions: ClocExecutorSchema = {
     ignoreDirs: ['.idea', '.vscode', 'node_modules', 'dist'],
     ignoreFiles: ['package-lock.json'],
   };
 
-  const mongoOptions: MongoStartExecutorSchema & MongoStopExecutorSchema = {
-    containerName: 'mongo',
-    mongoVersion: '5.0.8',
-    port: 27017,
-    dataDir: '~/docker/mongo',
-  };
-
-  const mongoStartOptions: MongoStartExecutorSchema = {
-    containerName: mongoOptions.containerName,
-    mongoVersion: mongoOptions.mongoVersion,
-    port: mongoOptions.port,
-    dataDir: mongoOptions.dataDir,
-  };
-  const mongoStopOptions: MongoStopExecutorSchema = {
-    containerName: mongoOptions.containerName,
-    mongoVersion: mongoOptions.mongoVersion,
-    port: mongoOptions.port,
-    dataDir: mongoOptions.dataDir,
-  };
-
-  const postgresOptions: PostgresStartExecutorSchema &
-    PostgresStopExecutorSchema = {
-    containerName: `postgres-${dbName}`,
-    postgresVersion: '14.2',
-    port: stringToNonRandomInteger(dbName, 14000, 17999),
-    dataDir: `~/docker/postgres/${dbName}`,
-    dbName,
-    username: 'postgres',
-    password: 'password',
-  };
-
-  const postgresStartOptions: PostgresStartExecutorSchema = {
-    containerName: postgresOptions.containerName,
-    postgresVersion: postgresOptions.postgresVersion,
-    port: postgresOptions.port,
-    dataDir: postgresOptions.dataDir,
-    dbName: postgresOptions.dbName,
-    username: postgresOptions.username,
-    password: postgresOptions.password,
-  };
-  const postgresStopOptions: PostgresStopExecutorSchema = {
-    containerName: postgresOptions.containerName,
-    postgresVersion: postgresOptions.postgresVersion,
-    port: postgresOptions.port,
-    dataDir: postgresOptions.dataDir,
-    dbName: postgresOptions.dbName,
-    username: postgresOptions.username,
-    password: postgresOptions.password,
-  };
-
   const publishAllOptions: PublishAllExecutorSchema = {};
+
+  const GMJS_RUNTIME_DEPENDENCIES: readonly string[] = [
+    ...GMJS_BASE_RUNTIME_DEPENDENCIES,
+    ...GMJS_MONGO_DEPENDENCIES, // ...(dbType === 'mongo' ? GMJS_MONGO_DEPENDENCIES : []),
+    ...GMJS_POSTGRES_DEPENDENCIES, // ...(dbType === 'postgres' ? GMJS_POSTGRES_DEPENDENCIES : []),
+  ];
 
   return {
     root: projectRoot,
@@ -95,22 +56,8 @@ export function getProjectConfiguration(
         executor: '@gmnx/ws-util:cloc',
         options: clocOptions,
       },
-      'mongo-start': {
-        executor: '@gmnx/ws-util:mongo-start',
-        options: mongoStartOptions,
-      },
-      'mongo-stop': {
-        executor: '@gmnx/ws-util:mongo-stop',
-        options: mongoStopOptions,
-      },
-      'postgres-start': {
-        executor: '@gmnx/ws-util:postgres-start',
-        options: postgresStartOptions,
-      },
-      'postgres-stop': {
-        executor: '@gmnx/ws-util:postgres-stop',
-        options: postgresStopOptions,
-      },
+      ...getMongoTargets(/* dbType */),
+      ...getPostgresTargets(dbName, /* dbType */),
       'publish-all': {
         executor: '@gmnx/ws-util:publish-all',
         options: publishAllOptions,
@@ -156,6 +103,95 @@ export function getProjectConfiguration(
           parallel: false,
         },
       },
+    },
+  };
+}
+
+function getMongoTargets(
+  // dbType: WorkspaceProjectGeneratorDbType
+): ProjectConfiguration['targets'] {
+  // if (dbType !== 'mongo') {
+  //   return {};
+  // }
+
+  const mongoOptions: MongoStartExecutorSchema & MongoStopExecutorSchema = {
+    containerName: 'mongo',
+    mongoVersion: '5.0.8',
+    port: 27017,
+    dataDir: '~/docker/mongo',
+  };
+
+  const mongoStartOptions: MongoStartExecutorSchema = {
+    containerName: mongoOptions.containerName,
+    mongoVersion: mongoOptions.mongoVersion,
+    port: mongoOptions.port,
+    dataDir: mongoOptions.dataDir,
+  };
+  const mongoStopOptions: MongoStopExecutorSchema = {
+    containerName: mongoOptions.containerName,
+    mongoVersion: mongoOptions.mongoVersion,
+    port: mongoOptions.port,
+    dataDir: mongoOptions.dataDir,
+  };
+
+  return {
+    'mongo-start': {
+      executor: '@gmnx/ws-util:mongo-start',
+      options: mongoStartOptions,
+    },
+    'mongo-stop': {
+      executor: '@gmnx/ws-util:mongo-stop',
+      options: mongoStopOptions,
+    },
+  };
+}
+
+function getPostgresTargets(
+  dbName: string
+  // dbType: WorkspaceProjectGeneratorDbType
+): ProjectConfiguration['targets'] {
+  // if (dbType !== 'postgres') {
+  //   return {};
+  // }
+
+  const postgresOptions: PostgresStartExecutorSchema &
+    PostgresStopExecutorSchema = {
+    containerName: `postgres-${dbName}`,
+    postgresVersion: '14.2',
+    port: stringToNonRandomInteger(dbName, 14000, 17999),
+    dataDir: `~/docker/postgres/${dbName}`,
+    dbName,
+    username: 'postgres',
+    password: 'password',
+  };
+
+  const postgresStartOptions: PostgresStartExecutorSchema = {
+    containerName: postgresOptions.containerName,
+    postgresVersion: postgresOptions.postgresVersion,
+    port: postgresOptions.port,
+    dataDir: postgresOptions.dataDir,
+    dbName: postgresOptions.dbName,
+    username: postgresOptions.username,
+    password: postgresOptions.password,
+  };
+  const postgresStopOptions: PostgresStopExecutorSchema = {
+    containerName: postgresOptions.containerName,
+    postgresVersion: postgresOptions.postgresVersion,
+    port: postgresOptions.port,
+    dataDir: postgresOptions.dataDir,
+    dbName: postgresOptions.dbName,
+    username: postgresOptions.username,
+    password: postgresOptions.password,
+  };
+
+  return {
+    'postgres-start': {
+      executor: '@gmnx/ws-util:postgres-start',
+      options: postgresStartOptions,
+    },
+    'postgres-stop': {
+      executor: '@gmnx/ws-util:postgres-stop',
+      options: postgresStopOptions,
     },
   };
 }
