@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   displayName: 'gmnx-util',
   preset: '../../jest.preset.js',
