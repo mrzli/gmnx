@@ -4,14 +4,14 @@ import {
   ExecutorReturnValue,
   processExecutorConsoleOutputs,
 } from '@gmnx/internal-util';
-import { filterOutNullish } from '@gmjs/util';
+import { arrayFilterOutNullish } from '@gmjs/util';
 
 export default async function runExecutor(
   options: ClocExecutorSchema
 ): Promise<ExecutorReturnValue> {
   const { ignoreDirs, ignoreFiles } = options;
 
-  const command: string = filterOutNullish([
+  const command: string = arrayFilterOutNullish([
     'npx',
     'cloc',
     ignoreDirs.length > 0 ? `--exclude-dir=${ignoreDirs.join(',')}` : undefined,

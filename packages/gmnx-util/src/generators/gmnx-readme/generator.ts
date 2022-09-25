@@ -1,6 +1,10 @@
 import path from 'path';
 import { getWorkspaceLayout, logger, Tree } from '@nrwl/devkit';
-import { filterOutNullish, identifyFn, mapWithSeparators } from '@gmjs/util';
+import {
+  arrayFilterOutNullish,
+  identityFn,
+  mapWithSeparators,
+} from '@gmjs/util';
 import { writeText } from '@gmnx/internal-util';
 import { stringArrayToLines } from '@gmjs/lib-util';
 import {
@@ -152,10 +156,10 @@ function getDescriptionText(
 }
 
 function processTexts(texts: readonly (string | undefined)[]): string {
-  const filteredTexts = filterOutNullish(texts);
+  const filteredTexts = arrayFilterOutNullish(texts);
   const textsWithSeparators = mapWithSeparators(
     filteredTexts,
-    identifyFn,
+    identityFn,
     () => ''
   );
   return stringArrayToLines(textsWithSeparators);
