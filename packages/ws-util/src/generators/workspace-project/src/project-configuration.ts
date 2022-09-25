@@ -11,7 +11,6 @@ import { WorkspaceProjectGeneratorDbType } from '../schema';
 
 const GMJS_BASE_RUNTIME_DEPENDENCIES: readonly string[] = [
   'browser-util',
-  'data-manipulation',
   'db-util',
   'fs-util',
   'lib-util',
