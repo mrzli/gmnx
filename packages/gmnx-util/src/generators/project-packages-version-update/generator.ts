@@ -7,8 +7,8 @@ import {
   writeText,
 } from '@gmnx/internal-util';
 import { ProjectPackagesVersionUpdateGeneratorSchema } from './schema';
-import { createTsSourceFileAsync } from '@gmjs/data-manipulation';
 import {
+  Project,
   PropertyAssignment,
   SourceFile,
   SyntaxKind,
@@ -31,11 +31,10 @@ export async function generateProjectPackagesVersionUpdate(
     normalizedOptions.projectPackagesFilePath
   );
   const packagesFile = readText(tree, packagesFilePath);
-  const updatedPackagesFile = await createTsSourceFileAsync(
-    updatePackages,
-    packagesFile
-  );
-  writeText(tree, packagesFilePath, updatedPackagesFile);
+  const project = new Project();
+  const newPackagesFile = project.createSourceFile('arbitrary.ts', packagesFile);
+  await updatePackages(newPackagesFile);
+  writeText(tree, packagesFilePath, newPackagesFile.getText());
 }
 
 function normalizeOptions(
