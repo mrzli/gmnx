@@ -12,22 +12,22 @@
   },
   "private": true,
   "dependencies": {
-    "@gmjs/browser-util": "0.0.124",
-    "@gmjs/data-manipulation": "0.0.124",
-    "@gmjs/db-util": "0.0.124",
-    "@gmjs/fs-util": "0.0.124",
-    "@gmjs/lib-util": "0.0.124",
-    "@gmjs/mongo-util": "0.0.124",
-    "@gmjs/nest-util": "0.0.124",
-    "@gmjs/react-util": "0.0.124",
-    "@gmjs/util": "0.0.124",
+    "@gmjs/browser-util": "0.0.143",
+    "@gmjs/data-manipulation": "0.0.143",
+    "@gmjs/db-util": "0.0.143",
+    "@gmjs/fs-util": "0.0.143",
+    "@gmjs/lib-util": "0.0.143",
+    "@gmjs/mongo-util": "0.0.143",
+    "@gmjs/nest-util": "0.0.143",
+    "@gmjs/react-util": "0.0.143",
+    "@gmjs/util": "0.0.143",
     "@swc/helpers": "~0.3.3",
     "fs-extra": "10.1.0",
     "ts-morph": "15.1.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@gmjs/test-util": "0.0.124",
+    "@gmjs/test-util": "0.0.143",
     "@nrwl/cli": "14.5.7",
     "@nrwl/devkit": "14.5.7",
     "@nrwl/eslint-plugin-nx": "14.5.7",
@@ -61,4 +61,3 @@
     "typescript": "4.7.4"
   }
 }
-

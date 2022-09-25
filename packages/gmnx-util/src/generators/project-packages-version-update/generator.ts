@@ -15,7 +15,7 @@ import {
   VariableDeclaration,
 } from 'ts-morph';
 import { textToJson } from '@gmjs/lib-util';
-import { ImmutableMap, invariant, trim } from '@gmjs/util';
+import { invariant, mapGetOrThrow, trim } from '@gmjs/util';
 
 interface NormalizedSchema extends ProjectPackagesVersionUpdateGeneratorSchema {
   readonly projectRoot: string;
@@ -119,17 +119,14 @@ function updatePackagesDeclaration(
   currentPackages: readonly PackageVersionPair[],
   latestVersions: readonly PackageVersionPair[]
 ): void {
-  const packagesWithLatestVersionMap =
-    ImmutableMap.fromArrayWithKeyValueMapping(
-      latestVersions,
-      (item) => item.name,
-      (item) => item.version
-    );
+  const packagesWithLatestVersionMap: ReadonlyMap<string, string> = new Map(
+    latestVersions.map((lv) => [lv.name, lv.version])
+  );
 
   let hasUpdates = false;
 
   for (const { name, version } of currentPackages) {
-    const latestVersion = packagesWithLatestVersionMap.getOrThrow(name);
+    const latestVersion = mapGetOrThrow(packagesWithLatestVersionMap, name);
     if (version !== latestVersion) {
       hasUpdates = true;
       logger.info(
