@@ -14,11 +14,15 @@ import {
 } from './workspace-tools';
 import { getJsonIfExists } from '@gmnx/internal-util';
 import {
-  asChainable,
+  applyFn,
   compareFnStringAsc,
+  filter,
   invariant,
+  map,
   sortArray,
+  toArray,
   transformIfExists,
+  transformPipe,
 } from '@gmjs/util';
 import { PackageJson } from 'nx/src/utils/package-json';
 import path from 'path';
@@ -31,16 +35,17 @@ import { ToolSchema } from './tool-schema';
 
 export function getWorkspaceTools(tree: Tree): WorkspaceTools {
   const projectMap: Map<string, ProjectConfiguration> = getProjects(tree);
-  const projects: readonly ProjectData[] = asChainable(
-    Array.from(projectMap.entries())
-  )
-    .filter((p) => p[1].projectType !== 'application')
-    .apply((items) =>
-      sortArray(items, (item1, item2) => compareFnStringAsc(item1[0], item2[0]))
+  const projects: readonly ProjectData[] = applyFn(
+    projectMap,
+    transformPipe(
+      filter((p) => p[1].projectType !== 'application'),
+      map((p) => toProjectData(tree, p[0], p[1])),
+      filter((p) => p.generators !== undefined || p.executors !== undefined),
+      toArray(),
+      (projects) =>
+        sortArray(projects, (p1, p2) => compareFnStringAsc(p1.name, p2.name))
     )
-    .map((p) => toProjectData(tree, p[0], p[1]))
-    .filter((p) => p.generators !== undefined || p.executors !== undefined)
-    .getValue();
+  );
 
   return { projects };
 }
