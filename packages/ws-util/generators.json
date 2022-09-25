@@ -8,16 +8,6 @@
       "schema": "./src/generators/workspace-project/schema.json",
       "description": "workspace-project generator"
     },
-    "eslint-config-updates": {
-      "factory": "./src/generators/eslint-config-updates/generator",
-      "schema": "./src/generators/eslint-config-updates/schema.json",
-      "description": "eslint-config-updates generator"
-    },
-    "workspace-initial-setup": {
-      "factory": "./src/generators/workspace-initial-setup/generator",
-      "schema": "./src/generators/workspace-initial-setup/schema.json",
-      "description": "workspace-initial-setup generator"
-    },
     "empty-project": {
       "factory": "./src/generators/empty-project/generator",
       "schema": "./src/generators/empty-project/schema.json",

@@ -3,31 +3,6 @@
   "name": "project",
   "version": "0.0.1",
   "generators": {
-    "create": {
-      "factory": "./src/generators/create/generator",
-      "schema": "./src/generators/create/schema.json",
-      "description": "create project"
-    },
-    "remove": {
-      "factory": "./src/generators/remove/generator",
-      "schema": "./src/generators/remove/schema.json",
-      "description": "remove project"
-    },
-    "data-model": {
-      "factory": "./src/generators/data-model/generator",
-      "schema": "./src/generators/data-model/schema.json",
-      "description": "data-model generator"
-    },
-    "schemas": {
-      "factory": "./src/generators/schemas/generator",
-      "schema": "./src/generators/schemas/schema.json",
-      "description": "schemas generator"
-    },
-    "postman-collection": {
-      "factory": "./src/generators/postman-collection/generator",
-      "schema": "./src/generators/postman-collection/schema.json",
-      "description": "postman-collection generator"
-    },
     "node-executor": {
       "factory": "./src/generators/node-executor/generator",
       "schema": "./src/generators/node-executor/schema.json",
