@@ -1,6 +1,6 @@
 {
   "name": "@gmnx/gmnx-util",
-  "version": "0.0.79",
+  "version": "0.0.80",
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json"
