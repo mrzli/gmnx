@@ -24,7 +24,7 @@ const GMJS_POSTGRES_DEPENDENCIES: readonly string[] = ['postgres-util'];
 
 const GMJS_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['test-util'];
 
-const GMNX_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['ws-util', 'project'];
+const GMNX_DEVELOPMENT_DEPENDENCIES: readonly string[] = ['ws-util'];
 
 export function getProjectConfiguration(
   projectName: string,
