@@ -76,7 +76,7 @@
     "update-gmnx": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npm install -D @gmnx/ws-util@latest @gmnx/project@latest -f"
+        "command": "npm install -D @gmnx/ws-util@latest -f"
       }
     },
     "update-gmall": {

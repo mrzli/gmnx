@@ -4,7 +4,6 @@
     "example-plugin": "packages/example-plugin",
     "gmnx-util": "packages/gmnx-util",
     "internal-util": "packages/internal/util",
-    "project": "packages/project",
     "workspace": "packages/workspace",
     "ws-util": "packages/ws-util"
   },
