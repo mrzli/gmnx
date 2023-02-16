@@ -1,5 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "workspace",
   "projectType": "library",
   "sourceRoot": "packages/workspace/src",
   "targets": {
@@ -67,7 +68,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npm install @gmjs/browser-util@latest @gmjs/db-util@latest @gmjs/fs-util@latest @gmjs/lib-util@latest @gmjs/mongo-util@latest @gmjs/nest-util@latest @gmjs/react-util@latest @gmjs/util@latest -f",
+          "npm install @gmjs/browser-util@latest @gmjs/db-util@latest @gmjs/fs-util@latest @gmjs/lib-be-util@latest @gmjs/lib-util@latest @gmjs/nest-util@latest @gmjs/react-util@latest @gmjs/util@latest @gmjs/mongo-util@latest @gmjs/postgres-util@latest -f",
           "npm install -D @gmjs/test-util@latest -f"
         ],
         "parallel": false

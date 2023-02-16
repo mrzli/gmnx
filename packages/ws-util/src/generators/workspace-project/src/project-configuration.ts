@@ -13,6 +13,7 @@ const GMJS_BASE_RUNTIME_DEPENDENCIES: readonly string[] = [
   'browser-util',
   'db-util',
   'fs-util',
+  'lib-be-util',
   'lib-util',
   'nest-util',
   'react-util',
