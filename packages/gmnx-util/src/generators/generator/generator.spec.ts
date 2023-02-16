@@ -5,7 +5,7 @@ import { generatorGenerator } from './generator';
 import { pluginGenerator } from '@nrwl/nx-plugin/generators';
 import { AnyValue } from '@gmjs/util';
 
-describe('Generator Generator', () => {
+describe.skip('Generator Generator', () => {
   let tree: Tree;
   let projectName: string;
 

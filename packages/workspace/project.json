@@ -1,21 +1,14 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "workspace",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "packages/workspace/src",
   "targets": {
     "cloc": {
       "executor": "@gmnx/ws-util:cloc",
       "options": {
-        "ignoreDirs": [
-          ".idea",
-          ".vscode",
-          "node_modules",
-          "dist"
-        ],
-        "ignoreFiles": [
-          "package-lock.json"
-        ]
+        "ignoreDirs": [".idea", ".vscode", "node_modules", "dist"],
+        "ignoreFiles": ["package-lock.json"]
       }
     },
     "mongo-start": {

@@ -1,4 +1,5 @@
 {
+  "name": "ws-util",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/ws-util/src",
   "projectType": "library",
@@ -49,7 +50,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/ws-util"],
+      "outputs": ["{workspaceRoot}/coverage/packages/ws-util"],
       "options": {
         "jestConfig": "packages/ws-util/jest.config.ts",
         "passWithNoTests": true
