@@ -32,7 +32,10 @@ export async function generateProjectPackagesVersionUpdate(
   );
   const packagesFile = readText(tree, packagesFilePath);
   const project = new Project();
-  const newPackagesFile = project.createSourceFile('arbitrary.ts', packagesFile);
+  const newPackagesFile = project.createSourceFile(
+    'arbitrary.ts',
+    packagesFile
+  );
   await updatePackages(newPackagesFile);
   writeText(tree, packagesFilePath, newPackagesFile.getText());
 }

@@ -106,7 +106,9 @@ export function getProjectConfiguration(
   };
 }
 
-function getMongoTargets(dbType: WorkspaceProjectGeneratorDbType): ProjectConfiguration['targets'] {
+function getMongoTargets(
+  dbType: WorkspaceProjectGeneratorDbType
+): ProjectConfiguration['targets'] {
   if (!isMongo(dbType)) {
     return {};
   }
